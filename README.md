@@ -31,7 +31,7 @@ You can import unsorted text from browser bookmarks files (bot will parse youtub
 For me on windows the current path was inside of the Puppeteer folder inside of the node_modules folder thats why I went 5 folder back with ../../../../../
 You may have to change this depend on your OS
 
-- YouTube must be displayed in english because the Bot is parsing text on website like "Video unavailable"! For default we already use **'--lang=en'**
+- YouTube must be displayed in english because the Bot is scrap text like "Video unavailable"! For default we already use **'--lang=en'**
 
 # Features
 - Randomise YouTube URL´s for fresh music feeling each new start!
