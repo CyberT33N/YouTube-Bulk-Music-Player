@@ -1,5 +1,7 @@
 # YouTube Bulk Music Player
-This Bot is based on Puppeteer and will autoplay a list of imported YouTube Links! Works with default URL´s (https://www.youtube.com/watch?v=GvEMP8pvxJs) or playlist URL´s (https://www.youtube.com/watch?v=qycAC_6Bbto&list=PLazJAbbVspIhZp5nRaij_FjS7aIy7PqHF&index=2)
+This Bot is based on Puppeteer and will autoplay a list of imported YouTube Links!
+
+Works with default URL´s (https://www.youtube.com/watch?v=GvEMP8pvxJs) or playlist URL´s (https://www.youtube.com/watch?v=qycAC_6Bbto&list=PLazJAbbVspIhZp5nRaij_FjS7aIy7PqHF&index=2)
 
 ![alt tag](https://i.imgur.com/UOYleZU.jpg)
 
