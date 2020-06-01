@@ -19,7 +19,15 @@ You can import unsorted text from browser bookmarks files (bot will parse youtub
 
 
 # Important
-You must use any Ad blocking extension like ScriptSafe or Adblock Plus to block all video ads! The Bot is currently only written for this case!
+You must use any Ad blocking extension like ScriptSafe or Adblock Plus to block all video ads! The Bot is currently only written for this case! Extensions must be inserted at **./lib/chromeextension** and included in your **app.js** like this:
+
+```   
+'--disable-extensions-except=../../../../../lib/chromeextension/webrtc_anti_leak_prevent/eiadekoaikejlgdbkbdfeijglgfdalml/1.0.14_0,../../../../../lib/chromeextension/script_safe/oiigbmnaadbkfbmpbfijlflahbdbdgdf/1.0.9.3_0',
+
+'--load-extension=../../../../../lib/chromeextension/webrtc_anti_leak_prevent/eiadekoaikejlgdbkbdfeijglgfdalml/1.0.14_0',
+'--load-extension=../../../../../lib/chromeextension/script_safe/oiigbmnaadbkfbmpbfijlflahbdbdgdf/1.0.9.3_0',
+
+```  
 
 # Features
 - Randomise YouTube URL´s for fresh music feeling each new start!
