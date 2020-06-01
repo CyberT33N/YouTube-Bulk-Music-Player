@@ -467,15 +467,17 @@ fs.readFile('./bookmarks.txt', 'utf-8', function read(e, data) {
 
 
 
-  function countdown(count){
-    log( 'countdown: ' + count );
-    count = count - 10000;
+function countdown(count){
 
-    if(count > 0){
-    setTimeout(countdown, 10000, count);
-  } //   if(count > 0){
+              let countdownInterval = setInterval(() => {
+              log( 'countdown: ' + count );
 
-  } //   function countdown(count){
+                                count = count - 20000;
+                                if(count <= 0) clearInterval(countdownInterval);
+
+              }, 10000);
+
+} //   function countdown(count){
 
 
 
