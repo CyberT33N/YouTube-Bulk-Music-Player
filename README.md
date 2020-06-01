@@ -45,7 +45,7 @@ Here you can control your Bot and define some settings (**./admin/config.json**)
 - **headless**
 true or false (**Currently only works with false**)
 
-- **windowWidth & windowHeight** Define your window widht and height
+- **windowWidth & windowHeight** Define your window width and height
 
 
 
