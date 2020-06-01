@@ -28,6 +28,8 @@ You must use any Ad blocking extension like ScriptSafe or Adblock Plus to block 
 '--load-extension=../../../../../lib/chromeextension/script_safe/oiigbmnaadbkfbmpbfijlflahbdbdgdf/1.0.9.3_0',
 
 ```  
+For me on windows the current path was inside of the Puppeteer folder inside of the node_modules folder thats why I went 5 folder back with ../../../../../
+You may have to change this depend on your OS
 
 # Features
 - Randomise YouTube URL´s for fresh music feeling each new start!
