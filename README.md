@@ -19,7 +19,7 @@ You can import unsorted text from browser bookmarks files (bot will parse youtub
 
 
 # Important
-You must use any Ad blocking extension like ScriptSafe or Adblock Plus to block all video ads! The Bot is currently only written for this case! Extensions must be inserted at **./lib/chromeextension** and included in your **app.js** like this:
+- You must use any Ad blocking extension like ScriptSafe or Adblock Plus to block all video ads! The Bot is currently only written for this case! Extensions must be inserted at **./lib/chromeextension** and included in your **app.js** like this:
 
 ```   
 '--disable-extensions-except=../../../../../lib/chromeextension/webrtc_anti_leak_prevent/eiadekoaikejlgdbkbdfeijglgfdalml/1.0.14_0,../../../../../lib/chromeextension/script_safe/oiigbmnaadbkfbmpbfijlflahbdbdgdf/1.0.9.3_0',
@@ -30,6 +30,8 @@ You must use any Ad blocking extension like ScriptSafe or Adblock Plus to block 
 ```  
 For me on windows the current path was inside of the Puppeteer folder inside of the node_modules folder thats why I went 5 folder back with ../../../../../
 You may have to change this depend on your OS
+
+- YouTube must be displayed in english because the Bot is parsing text on website like "Video unavailable"! For default we already use **'--lang=en'**
 
 # Features
 - Randomise YouTube URL´s for fresh music feeling each new start!
