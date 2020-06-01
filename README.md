@@ -48,5 +48,4 @@ true or false (**Currently only works with false**)
 
 
 ## License  
-MIT
-Do what you ever you want with this code :) Greets
+MIT - Do what you ever you want with this code :) Greets CyberT33N
