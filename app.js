@@ -592,11 +592,11 @@ fs.readFile('./bookmarks.txt', 'utf-8', function read(e, data) {
                               let videoDuration = $(css).find('.ytp-time-duration').text();
                               log( 'videoDuration:' + videoDuration + '\n\n' );
 
-                              let ageRestriction = $(css).find('.ytp-error-content-wrap-reason > span').text();
-                              log( 'ageRestriction:' + ageRestriction + '\n\n' );
+                              let errorMessage = $(css).find('.ytp-error-content-wrap-reason > span').text();
+                              log( 'errorMessage:' + errorMessage + '\n\n' );
 
-                              let ageRestrictiontwo = $(css).find('.reason style-scope.yt-player-error-message-renderer').text();
-                              log( 'ageRestrictiontwo:' + ageRestrictiontwo + '\n\n' );
+                              let errorMessagetwo = $(css).find('.reason style-scope.yt-player-error-message-renderer').text();
+                              log( 'errorMessagetwo:' + errorMessagetwo + '\n\n' );
 
 
 
@@ -609,7 +609,7 @@ fs.readFile('./bookmarks.txt', 'utf-8', function read(e, data) {
                                   return;
                               } // if( !videoDuration ){
 
-                                if( ageRestriction == 'Sign in to confirm your age' || ageRestrictiontwo == 'Sign in to confirm your age' ){
+                                if( errorMessage == 'Video unavailable' || errorMessage == 'Sign in to confirm your age' || errorMessagetwo == 'Sign in to confirm your age' ){
                                     log( 'This video is only for users over 18.. You may sign-in to not get this message in future for other videos.. We go to next video now..' );
                                     ytLinks_AR.shift();
                                     process.nextTick(startYoutTube);
