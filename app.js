@@ -18,16 +18,14 @@ YouTube Ads block extension like scriptsafe or adblock plus must be used
 
 
 
-//puppeter
-var client;
+//puppeter
+
+var client;
+
 var page;
 var ytLinks_AR = [];
 var t33n = {};
 
-
-
-//  THIS SCRIPT CAN BE USED FOR PERSONAL OR COMMERCIAL USE (CC0). You can edit this srcipt or use it on your projects. You don´t need to backlink. If you write your own
-//  srcipts with this srcipt then please make a backlink to the producerytLinks_A page www.hornyfamily.online by placing this url anywhere in the srcipt file. Thank you
 
 //  ASCII GENERATOR BY - www.patorjk.com
 
