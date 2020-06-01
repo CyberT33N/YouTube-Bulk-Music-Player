@@ -468,9 +468,9 @@ function countdown(count){
              count = count - 10000;
 
               let countdownInterval = setInterval(() => {
-              log( 'countdown: ' + count );
 
                                 count = count - 10000;
+                                log( 'countdown: ' + count );
                                 if(count <= 0) clearInterval(countdownInterval);
 
               }, 10000);
