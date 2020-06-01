@@ -18,10 +18,8 @@ YouTube Ads block extension like scriptsafe or adblock plus must be used
 
 
 
-//puppeter
-
-var client;
-
+//puppeter
+var client;
 var page;
 var ytLinks_AR = [];
 var t33n = {};
@@ -467,10 +465,12 @@ fs.readFile('./bookmarks.txt', 'utf-8', function read(e, data) {
 
 function countdown(count){
 
+             count = count - 10000;
+
               let countdownInterval = setInterval(() => {
               log( 'countdown: ' + count );
 
-                                count = count - 20000;
+                                count = count - 10000;
                                 if(count <= 0) clearInterval(countdownInterval);
 
               }, 10000);
