@@ -176,7 +176,7 @@ log( 'We will start now your Browser please wait..' );
                                                            windowSizeComplete,
 
 
-                                                      '--disable-extensions-except=../../../../../lib/chromeextension/webrtc_anti_leak_prevent/eiadekoaikejlgdbkbdfeijglgfdalml/1.0.14_0,../../../../../lib/chromeextension/ipfuck/bjgmbpodpcgmnpfjmigcckcjfldcicnd/1.3_0,../../../../../lib/chromeextension/script_safe/oiigbmnaadbkfbmpbfijlflahbdbdgdf/1.0.9.3_0,../../../../../lib/chromeextension/modheader/idgpnmonknjnojddfkpgkljpfnnfcklj/3.0.7_0,../../../../../lib/chromeextension/policycontrol/eekommagmgepaafaaegimeldlnnnolgn/0.3.5_0,../../../../../lib/chromeextension/alertblocker/ofjjanaennfbgpccfpbghnmblpdblbef/1.3_0,../../../../../lib/chromeextension/letmeout/hnfdibcbmlppjlkefinedeffoiomlecc/1.3_0,../../../../../lib/chromeextension/showmyip/pdnildedfbigagjbaigbalnfdfpijhaf/1.2.1_0,../../../../../lib/chromeextension/violentmonkey/jinjaccalgkegednnccohejagnlnfdag/2.12.7_0',
+                                                      '--disable-extensions-except=../../../../../lib/chromeextension/webrtc_anti_leak_prevent/eiadekoaikejlgdbkbdfeijglgfdalml/1.0.14_0,../../../../../lib/chromeextension/ipfuck/bjgmbpodpcgmnpfjmigcckcjfldcicnd/1.3_0,../../../../../lib/chromeextension/script_safe/oiigbmnaadbkfbmpbfijlflahbdbdgdf/1.0.9.3_0,../../../../../lib/chromeextension/modheader/idgpnmonknjnojddfkpgkljpfnnfcklj/3.0.7_0,../../../../../lib/chromeextension/policycontrol/eekommagmgepaafaaegimeldlnnnolgn/0.3.5_0,../../../../../lib/chromeextension/alertblocker/ofjjanaennfbgpccfpbghnmblpdblbef/1.3_0,../../../../../lib/chromeextension/letmeout/hnfdibcbmlppjlkefinedeffoiomlecc/1.3_0,../../../../../lib/chromeextension/showmyip/pdnildedfbigagjbaigbalnfdfpijhaf/1.2.1_0,../../../../../lib/chromeextension/violentmonkey/jinjaccalgkegednnccohejagnlnfdag/2.12.7_0,../../../../../lib/chromeextension/touchvpn/bihmplhobchoageeokmgbdihknkjbknd/3.1.5_0',
                                                       '--load-extension=../../../../../lib/chromeextension/webrtc_anti_leak_prevent/eiadekoaikejlgdbkbdfeijglgfdalml/1.0.14_0',
                                                       '--load-extension=../../../../../lib/chromeextension/ipfuck/bjgmbpodpcgmnpfjmigcckcjfldcicnd/1.3_0',
                                                       '--load-extension=../../../../../lib/chromeextension/script_safe/oiigbmnaadbkfbmpbfijlflahbdbdgdf/1.0.9.3_0',
@@ -186,6 +186,7 @@ log( 'We will start now your Browser please wait..' );
                                                       '--load-extension=../../../../../lib/chromeextension/letmeout/hnfdibcbmlppjlkefinedeffoiomlecc/1.3_0',
                                                       '--load-extension=../../../../../lib/chromeextension/showmyip/pdnildedfbigagjbaigbalnfdfpijhaf/1.2.1_0',
                                                       '--load-extension=../../../../../lib/chromeextension/violentmonkey/jinjaccalgkegednnccohejagnlnfdag/2.12.7_0',
+                                                       '--load-extension=../../../../../lib/chromeextension/touchvpn/bihmplhobchoageeokmgbdihknkjbknd/3.1.5_0',
 
 
 
@@ -604,10 +605,27 @@ function countdown(count){
 
                               if( !videoDuration ){
                                   log( 'Cant find video duration.. Maybe video not found? We go to next video..' );
-                                  ytLinks_AR.shift();
-                                  process.nextTick(startYoutTube);
+
+                                  css = await page.evaluate(() => document.querySelector('body').outerHTML);
+                                  //log( 'body css: ' + css );
+                                  $ = cheerio.load(css);
+
+                                  let googleCaptcha = $(css).find('#captcha-form').html();
+                                  log( 'googleCaptcha:' + googleCaptcha + '\n\n' );
+
+                                  if( googleCaptcha ) {
+                                    log( 'Google Captcha was found.. solve it or change ip.. We wait now 60 second and after this we restart bot..' );
+                                    setTimeout(() => { process.nextTick(startYoutTube); }, 60000);
+                                  } //   if( googleCaptcha ) {
+                                  else{
+                                              ytLinks_AR.shift();
+                                              process.nextTick(startYoutTube);
+                                  } // else from   if( googleCaptcha ) {
                                   return;
                               } // if( !videoDuration ){
+
+
+
 
                                 if( errorMessage == 'Video unavailable' || errorMessage == 'Sign in to confirm your age' || errorMessagetwo == 'Sign in to confirm your age' ){
                                     log( 'This video is only for users over 18.. You may sign-in to not get this message in future for other videos.. We go to next video now..' );
