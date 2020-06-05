@@ -1,7 +1,7 @@
 # YouTube Bulk Music Player
 This Bot is based on Puppeteer and will autoplay a list of imported YouTube Links!
 
-Works with default URL´s (https://www.youtube.com/watch?v=GvEMP8pvxJs) or playlist URL´s (https://www.youtube.com/watch?v=qycAC_6Bbto&list=PLazJAbbVspIhZp5nRaij_FjS7aIy7PqHF&index=2)
+Works with default links (https://www.youtube.com/watch?v=GvEMP8pvxJs) or playlist links (https://www.youtube.com/watch?v=qycAC_6Bbto&list=PLazJAbbVspIhZp5nRaij_FjS7aIy7PqHF&index=2)
 
 ![alt tag](https://i.imgur.com/UOYleZU.jpg)
 
@@ -14,7 +14,7 @@ install_module.bat/.sh
 ```  
 
 
-You can import unsorted text from browser bookmarks files (bot will parse youtube links which ends with " or ') or directly paste YouTube URL´s seperated with a new line at this file:
+You can import unsorted text from browser bookmarks files (bot will parse youtube links which ends with " or ') or directly paste YouTube links seperated with a new line at this file:
 **bookmarks.txt**
 
 
