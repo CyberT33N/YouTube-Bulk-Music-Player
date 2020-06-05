@@ -269,7 +269,7 @@ youtube.com/watch?v=5ww2JSZftfg
 youtube.com/watch?v=79IY53ujI7o
 youtube.com/watch?v=yscIwyDGw7s
 youtube.com/watch?v=BNzc6hG3yN4
-youtube.com/watch?v=k1KCcuCQNog
+
 youtube.com/watch?v=xUtrNJHND5I
 youtube.com/watch?v=AR6w7eLQqXM
 youtube.com/watch?v=onbC6N-QGPc
@@ -380,7 +380,7 @@ youtube.com/watch?v=_W8KRHek1sI
 youtube.com/watch?v=4kuiLDvNKes&list=RDxXP9xBgTFv8&index=8
 youtube.com/watch?v=qySIH7T9Qrc
 youtube.com/watch?v=b9vqECSZtC0
-youtube.com/watch?v=IXUpFCmKUwo
+
 youtube.com/watch?v=lO1z25u8IoQ
 youtube.com/watch?v=tLyI0a6B_0M
 youtube.com/watch?v=ARU8DIyX8uQ
@@ -791,7 +791,7 @@ youtube.com/watch?v=5ww2JSZftfg
 youtube.com/watch?v=79IY53ujI7o
 youtube.com/watch?v=yscIwyDGw7s
 youtube.com/watch?v=BNzc6hG3yN4
-youtube.com/watch?v=k1KCcuCQNog
+
 youtube.com/watch?v=xUtrNJHND5I
 youtube.com/watch?v=AR6w7eLQqXM
 youtube.com/watch?v=onbC6N-QGPc
@@ -902,7 +902,7 @@ youtube.com/watch?v=_W8KRHek1sI
 youtube.com/watch?v=4kuiLDvNKes&list=RDxXP9xBgTFv8&index=8
 youtube.com/watch?v=qySIH7T9Qrc
 youtube.com/watch?v=b9vqECSZtC0
-youtube.com/watch?v=IXUpFCmKUwo
+
 youtube.com/watch?v=lO1z25u8IoQ
 youtube.com/watch?v=tLyI0a6B_0M
 youtube.com/watch?v=ARU8DIyX8uQ
