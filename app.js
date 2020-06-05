@@ -630,15 +630,15 @@ log( 'Time left:' );
 
              count = count - 1000;
 
-              setInterval(() => {
+              let countdownInterval = setInterval(() => {
 
                                 count = count - 1000;
 
                                 if( count <= 0 ) {
                                   rainbow.stop();
                                   log( 'countdown done!' );
-                                  return;
-                                }
+                                  clearInterval( countdownInterval );
+                                } //   if( count <= 0 ) {
 
                                 if( count > 1000 ) var countS = count / 1000;
                                 if( countS ) rainbow.replace( str = countS.toString() );
