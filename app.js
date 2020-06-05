@@ -447,6 +447,96 @@ fs.readFile('./bookmarks.txt', 'utf-8', function read(e, data) {
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+function deleteOfflineVideos(){
+log( 'deleteOfflineVideos() - Current video: ' + ytLinks_AR[0] );
+
+
+  fs.readFile('./bookmarks.txt', 'utf-8', function read(e, data) {
+    if (e) {
+       log('#2 - Error while reading bookmarks file: ' + e);
+       return;
+    }
+
+     // replace offline video..
+     data.split(   ytLinks_AR[0].replace('https://', '').replace('http://', '')   ).join('');
+
+
+                                                     fs.writeFile("./bookmarks.txt", data, function(e) {
+                                                         if(e) {
+                                                           log('Error while saving bookmarks file: ' + e);
+                                                           return;
+                                                         }
+
+                                                                            log('Successfully deleted offline video.. We go now back to the script..');
+                                                                            ytLinks_AR.shift();
+                                                                            process.nextTick(startYoutTube);
+
+                                                      }); // fs.writeFile("/tmp/test", "Hey there!", function(e) {
+
+
+
+
+
+
+
+  }); // fs.readFile('./bookmarks.txt', 'utf-8', function read(e, data) {
+
+} // function deleteOfflineVideos(){
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
   function shuffle(array) {
     var currentIndex = array.length, temporaryValue, randomIndex;
 
@@ -533,16 +623,31 @@ fs.readFile('./bookmarks.txt', 'utf-8', function read(e, data) {
 
 
 function countdown(count){
+log( 'Time left:' );
 
-             count = count - 10000;
+            let str = ''
+            let rainbow = chalkAnimation.rainbow( str );
 
-              let countdownInterval = setInterval(() => {
+             count = count - 1000;
 
-                                count = count - 10000;
-                                log( 'countdown: ' + count );
-                                if(count <= 0) clearInterval(countdownInterval);
+              setInterval(() => {
 
-              }, 10000);
+                                count = count - 1000;
+
+                                if( count <= 0 ) {
+                                  log( 'countdown done!' );
+                                  rainbow.stop();
+                                  return;
+                                }
+
+                                if( count > 1000 ) var countS = count / 1000;
+                                rainbow.replace( str = countS.toString() );
+
+
+              }, 1000);
+
+
+
 
 } //   function countdown(count){
 
@@ -695,12 +800,57 @@ function countdown(count){
 
 
 
-                                if( errorMessage == 'Video unavailable' || errorMessage == 'Sign in to confirm your age' || errorMessagetwo == 'Sign in to confirm your age' ){
+
+
+
+
+
+
+
+
+                                if( errorMessage == 'Sign in to confirm your age' || errorMessagetwo == 'Sign in to confirm your age' ){
                                     log( 'This video is only for users over 18.. You may sign-in to not get this message in future for other videos.. We go to next video now..' );
                                     ytLinks_AR.shift();
                                     process.nextTick(startYoutTube);
                                     return;
                                 } // if( !videoDuration ){
+
+
+
+
+
+
+
+
+
+
+
+                                if( errorMessage == 'Video unavailable' || errorMessagetwo == 'Video unavailable' ){
+                                    log( 'This video is unavailable.. We go to next video now..' );
+                                    process.nextTick(deleteOfflineVideos);
+                                    return;
+                                } // if( !videoDuration ){
+
+
+                                  if( errorMessage == 'Private Video' || errorMessagetwo == 'Private Video' ){
+                                      log( 'This video is private.. We go to next video now..' );
+                                      process.nextTick(deleteOfflineVideos);
+                                      return;
+                                  } // if( !videoDuration ){
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -722,7 +872,7 @@ function countdown(count){
                                           }, item);
                                           await page.waitFor(5000); // if the video is not directly starting or loading (slow network and stuff)
 
-                                          log( 'We wait now until the video was finished..' );
+                                          log( 'We wait now until the video was finished..\n\n' );
 
                                           countdown(vidDuration_ms);
                                           setTimeout(() => {
