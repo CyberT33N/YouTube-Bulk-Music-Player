@@ -859,7 +859,7 @@ rainbow.start();
                                 } // if( !videoDuration ){
 
 
-                                  if( errorMessage == 'Private Video' || errorMessagetwo == 'Private Video' ){
+                                  if( errorMessage == 'Private video' || errorMessagetwo == 'Private video' ){
                                       log( 'This video is private.. We delete this video now from bookmarks file..' );
                                       process.nextTick(deleteOfflineVideos);
                                       return;
