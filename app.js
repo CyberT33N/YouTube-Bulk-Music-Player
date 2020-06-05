@@ -487,12 +487,12 @@ fs.readFile('./bookmarks.txt', 'utf-8', function read(e, data) {
 
 
 function deleteOfflineVideos(){
-log( 'deleteOfflineVideos() - Current video: ' + ytLinks_AR[0] );
+log( 'deleteOfflineVideos() - Current video: ' + ytLinks_AR[0] + '\n\n' );
 
 
   fs.readFile('./bookmarks.txt', 'utf-8', function read(e, data) {
     if (e) {
-       log('#2 - Error while reading bookmarks file: ' + e);
+       log('#2 - Error while reading bookmarks file: ' + e + '\n\n');
        return;
     }
 
@@ -502,11 +502,11 @@ log( 'deleteOfflineVideos() - Current video: ' + ytLinks_AR[0] );
 
                                                      fs.writeFile("./bookmarks.txt", data, function(e) {
                                                          if(e) {
-                                                           log('Error while saving bookmarks file: ' + e);
+                                                           log( 'Error while saving bookmarks file: ' + e + '\n\n' );
                                                            return;
                                                          }
 
-                                                                            log('Successfully deleted offline video.. We go now back to the script..');
+                                                                            log( 'Successfully deleted offline video.. We go now back to the script..' + '\n\n' );
                                                                             ytLinks_AR.shift();
                                                                             process.nextTick(startYoutTube);
 
@@ -636,7 +636,7 @@ rainbow.start();
 
                                 if( count <= 0 ) {
                                   rainbow.stop();
-                                  log( '\ncountdown done!\n' );
+                                  log( 'countdown done!\n\n' );
                                   clearInterval( countdownInterval );
                                 } //   if( count <= 0 ) {
 
@@ -657,8 +657,7 @@ rainbow.start();
 
 
   function convert_time(duration) {
-
-  log( 'We convert now the youtube video duration to ms.. duration: '  + duration);
+  log( 'We convert now the youtube video duration to ms.. before: '  + duration);
 
       var a = duration.match(/\d+/g);
 
@@ -691,6 +690,7 @@ rainbow.start();
       }
 
       duration = Number( duration.toString() + '000' );
+      log( 'After convert into ms: ' + duration );
       return duration;
   }
 
@@ -899,7 +899,7 @@ rainbow.start();
                                           }, item);
                                           await page.waitFor(5000); // if the video is not directly starting or loading (slow network and stuff)
 
-                                          log( 'We wait now until the video was finished..\n\nTime left:' );
+                                          log( 'We wait now until the video was finished..\n\nTime left:\n\n' );
 
 
                                           countdown(vidDuration_ms);
@@ -915,7 +915,7 @@ rainbow.start();
 
                                          } //   if (await playButton.isIntersectingViewport()) {
                                          else {
-                                         log( 'Play button not visible.. video started itself.. \nWe wait now until the video was finished..\n\nTime left:' );
+                                         log( 'Play button not visible.. video started itself.. \n\nWe wait now until the video was finished..\n\nTime left:\n\n' );
 
 
                                           countdown(vidDuration_ms - 5000); // <--- minus 5s cause start delay at start
