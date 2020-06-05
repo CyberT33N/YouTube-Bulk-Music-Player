@@ -626,9 +626,10 @@ log( 'deleteOfflineVideos() - Current video: ' + ytLinks_AR[0] );
 
 function countdown(count){
 log( 'Time left:' );
+rainbow.replace( str = '' );
 rainbow.start();
 
-             count = count - 2000;
+             count = count - 1000;
 
               let countdownInterval = setInterval(() => {
 
