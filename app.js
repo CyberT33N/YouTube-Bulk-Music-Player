@@ -641,7 +641,7 @@ log( 'Time left:' );
                                 }
 
                                 if( count > 1000 ) var countS = count / 1000;
-                                rainbow.replace( str = countS.toString() );
+                                if( countS ) rainbow.replace( str = countS.toString() );
 
 
               }, 1000);
