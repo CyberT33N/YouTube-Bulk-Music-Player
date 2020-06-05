@@ -36,6 +36,7 @@ You may have to change this depend on your OS
 # Features
 - Randomise YouTube URL´s for fresh music feeling each new start
 - Detect duplicated YouTube links
+- When video is offline(Video Private/unavailable) the link will be deleted from the bookmarks.txt file!
 
 
 # config.json
