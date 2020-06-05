@@ -34,7 +34,8 @@ You may have to change this depend on your OS
 - YouTube must be displayed in english because the Bot scraps text like "Video unavailable"! For default we already use **'--lang=en'**
 
 # Features
-- Randomise YouTube URL´s for fresh music feeling each new start!
+- Randomise YouTube URL´s for fresh music feeling each new start
+- Detect duplicated YouTube links
 
 
 # config.json
