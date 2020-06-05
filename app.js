@@ -620,13 +620,13 @@ log( 'deleteOfflineVideos() - Current video: ' + ytLinks_AR[0] );
 
 
 
+  var str = ''
+  var rainbow = chalkAnimation.rainbow( str );
 
 
 function countdown(count){
 log( 'Time left:' );
 
-            let str = ''
-            let rainbow = chalkAnimation.rainbow( str );
 
              count = count - 1000;
 
@@ -635,8 +635,8 @@ log( 'Time left:' );
                                 count = count - 1000;
 
                                 if( count <= 0 ) {
-                                  log( 'countdown done!' );
                                   rainbow.stop();
+                                  log( 'countdown done!' );
                                   return;
                                 }
 
