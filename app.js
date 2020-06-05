@@ -497,7 +497,7 @@ log( 'deleteOfflineVideos() - Current video: ' + ytLinks_AR[0] );
     }
 
      // replace offline video..
-     data.split(   ytLinks_AR[0].replace('https://', '').replace('http://', '')   ).join('');
+    data = data.split(   ytLinks_AR[0].replace('https://', '').replace('http://', '').replace('https://www.', '').replace('http://www.', '')   ).join('\n');
 
 
                                                      fs.writeFile("./bookmarks.txt", data, function(e) {
@@ -625,7 +625,6 @@ log( 'deleteOfflineVideos() - Current video: ' + ytLinks_AR[0] );
 
 
 function countdown(count){
-log( 'Time left:' );
 rainbow.replace( str = '' );
 rainbow.start();
 
@@ -658,6 +657,7 @@ rainbow.start();
 
 
   function convert_time(duration) {
+
   log( 'We convert now the youtube video duration to ms.. duration: '  + duration);
 
       var a = duration.match(/\d+/g);
@@ -710,7 +710,7 @@ rainbow.start();
 
 
           try {
-              await page.goto(ytLinks_AR[0], {waitUntil: 'load', timeout: 35000});
+              await page.goto(ytLinks_AR[0], {waitUntil: 'networkidle0', timeout: 35000});
           } catch(e) {
               log( '#3 error: ' + e.message );
 
@@ -757,6 +757,10 @@ rainbow.start();
           log( 'Successfully loaded: ' + ytLinks_AR[0] );
 
 
+                     // dont remove, youtube is loading sometimes even when document is ready..
+                    await page.waitFor(5000);
+
+
 
 
                     let css = await page.evaluate(() => document.querySelector('body').outerHTML);
@@ -764,14 +768,36 @@ rainbow.start();
                     let $ = cheerio.load(css);
 
 
-                              let videoDuration = $(css).find('.ytp-time-duration').text();
-                              log( 'videoDuration:' + videoDuration + '\n\n' );
 
                               let errorMessage = $(css).find('.ytp-error-content-wrap-reason > span').text();
                               log( 'errorMessage:' + errorMessage + '\n\n' );
 
                               let errorMessagetwo = $(css).find('.reason.style-scope.yt-player-error-message-renderer').text();
-                              log( 'errorMessagetwo:' + errorMessagetwo + '\n\n' );
+                              log( 'errorMessagetwo: ' + errorMessagetwo + '\n\n' );
+
+
+
+                              let videoDuration = $(css).find('.ytp-time-duration').text();
+                              log( 'videoDuration: ' + chalk.white.bgGreen.bold( videoDuration ) );
+
+                              let videoTitle = $(css).find('.title.style-scope.ytd-video-primary-info-renderer').text();
+                              log( 'videoTitle: ' + chalk.white.bgGreen.bold( videoTitle )  );
+
+                              let videoViews = $(css).find('.view-count.style-scope.yt-view-count-renderer').text();
+                              log( 'videoViews: ' + chalk.white.bgGreen.bold( videoViews ) );
+
+                              let videoDate = $(css).find('#date > yt-formatted-string').text();
+                              log( 'videoDate: ' + chalk.white.bgGreen.bold( videoDate ) );
+
+                              let channelName = $(css).find('#upload-info > #channel-name').find('.yt-simple-endpoint.style-scope.yt-formatted-string').text();
+                              log( 'channelName: ' + chalk.white.bgGreen.bold( channelName ) );
+
+                              let videoLikes = $(css).find('#menu-container').find('#top-level-buttons > ytd-toggle-button-renderer:nth-child(1)').find('#text').text();
+                              log( 'videoLikes: ' + chalk.white.bgGreen.bold( videoLikes ) );
+
+                              let videoDisslikes = $(css).find('#menu-container').find('#top-level-buttons > ytd-toggle-button-renderer:nth-child(2)').find('#text').text();
+                              log( 'videoDisslikes: ' + chalk.white.bgGreen.bold( videoDisslikes )  + '\n\n' );
+
 
 
 
@@ -827,14 +853,14 @@ rainbow.start();
 
 
                                 if( errorMessage == 'Video unavailable' || errorMessagetwo == 'Video unavailable' ){
-                                    log( 'This video is unavailable.. We go to next video now..' );
+                                    log( 'This video is unavailable.. We delete this video now from bookmarks file..' );
                                     process.nextTick(deleteOfflineVideos);
                                     return;
                                 } // if( !videoDuration ){
 
 
                                   if( errorMessage == 'Private Video' || errorMessagetwo == 'Private Video' ){
-                                      log( 'This video is private.. We go to next video now..' );
+                                      log( 'This video is private.. We delete this video now from bookmarks file..' );
                                       process.nextTick(deleteOfflineVideos);
                                       return;
                                   } // if( !videoDuration ){
@@ -873,7 +899,8 @@ rainbow.start();
                                           }, item);
                                           await page.waitFor(5000); // if the video is not directly starting or loading (slow network and stuff)
 
-                                          log( 'We wait now until the video was finished..\n\n' );
+                                          log( 'We wait now until the video was finished..\n\nTime left:' );
+
 
                                           countdown(vidDuration_ms);
                                           setTimeout(() => {
@@ -888,9 +915,10 @@ rainbow.start();
 
                                          } //   if (await playButton.isIntersectingViewport()) {
                                          else {
-                                         log( 'Play button not visible.. video started itself? \nWe wait now until the video was finished..' );
+                                         log( 'Play button not visible.. video started itself.. \nWe wait now until the video was finished..\n\nTime left:' );
 
-                                          countdown(vidDuration_ms);
+
+                                          countdown(vidDuration_ms - 5000); // <--- minus 5s cause start delay at start
                                            setTimeout(() => {
                                            log( '#2 - It seems that the video was finished.. We go to next one now' );
 
@@ -898,7 +926,7 @@ rainbow.start();
                                                   ytLinks_AR.shift();
                                                  process.nextTick(startYoutTube);
 
-                                            }, vidDuration_ms);
+                                            }, vidDuration_ms - 5000);
 
 
                                          } // else from   if (await example.isIntersectingViewport()) {
