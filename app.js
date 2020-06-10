@@ -780,6 +780,14 @@ rainbow.start();
                               let videoDuration = $(css).find('.ytp-time-duration').text();
                               log( 'videoDuration: ' + chalk.white.bgGreen.bold( videoDuration ) );
 
+                              let currentVideoDuration = $(css).find('.ytp-time-current').text();
+                              log( 'currentVideoDuration: ' + chalk.white.bgGreen.bold( currentVideoDuration ) );
+
+
+
+
+
+
                               let videoTitle = $(css).find('.title.style-scope.ytd-video-primary-info-renderer').text();
                               log( 'videoTitle: ' + chalk.white.bgGreen.bold( videoTitle )  );
 
@@ -886,6 +894,10 @@ rainbow.start();
                                 var vidDuration_ms = convert_time(videoDuration);
                                 log( 'Current video duration in ms: ' + vidDuration_ms );
 
+                                if( currentVideoDuration ){
+                                         var currentVidDuration_ms = convert_time(currentVideoDuration);
+                                         log( '#2 Current video duration in ms: ' + currentVidDuration_ms );
+                                 } // if( currentVideoDuration ){
 
 
                                 let playButton = await page.$('.ytp-large-play-button.ytp-button');
@@ -915,10 +927,21 @@ rainbow.start();
 
                                          } //   if (await playButton.isIntersectingViewport()) {
                                          else {
-                                         log( 'Play button not visible.. video started itself.. \n\nWe wait now until the video was finished..\n\nTime left:\n\n' );
 
 
-                                          countdown(vidDuration_ms - 5000); // <--- minus 5s cause start delay at start
+                                          if( currentVidDuration_ms ) {
+                                               var countdownValue = vidDuration_ms - currentVidDuration_ms;
+                                               log( 'countdownValue after substract played time: ' + countdownValue + '\n\n' );
+                                         }  //   if( currentVidDuration_ms ) {
+                                         else {
+                                              var countdownValue = vidDuration_ms;
+                                              log( 'countdownValue without substract played time: ' + countdownValue + '\n\n' );
+                                         } // else from   if( currentVidDuration_ms ) {
+
+
+                                           log( 'Play button not visible.. video started itself.. \n\nWe wait now until the video was finished..\n\nTime left:\n\n' );
+                                          countdown( countdownValue );
+
                                            setTimeout(() => {
                                            log( '#2 - It seems that the video was finished.. We go to next one now' );
 
@@ -926,7 +949,7 @@ rainbow.start();
                                                   ytLinks_AR.shift();
                                                  process.nextTick(startYoutTube);
 
-                                            }, vidDuration_ms - 5000);
+                                            }, countdownValue);
 
 
                                          } // else from   if (await example.isIntersectingViewport()) {
