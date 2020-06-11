@@ -1078,10 +1078,17 @@ log('#22 - Error:' + e);
 
 
         if ( e.toString().match( "TypeError: Cannot read property 'outerHTML' of null" ) ){
-            log( '#2 - TypeError: Cannot read property outerHTML of null was found we reload page in 30 seconds..' );
+            log( '#2 - TypeError: Cannot read property outerHTML of null was found we reload page now..' );
             process.nextTick( startYoutTube );
 
         } //   if ( e.match( 'net::ERR_EMPTY_RESPONSE' ) ){
+
+
+          if ( e.toString().match( "Execution context was destroyed" ) ){
+              log( '#2 - Execution context was destroyed was found we reload page now..' );
+              process.nextTick( startYoutTube );
+
+          } //   if ( e.match( 'net::ERR_EMPTY_RESPONSE' ) ){
 
 
 
