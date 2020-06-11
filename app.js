@@ -754,12 +754,13 @@ rainbow.start();
               return;
 
           } // catch(e) {
-          log( 'Successfully loaded: ' + ytLinks_AR[0] );
+
+
 
 
                      // dont remove, youtube is loading sometimes even when document is ready..
-                    await page.waitFor(5000);
-
+                     await page.waitForSelector('.title.style-scope.ytd-video-primary-info-renderer', {visible: true})
+                    log( 'Successfully loaded: ' + ytLinks_AR[0] + '\n\n' );
 
 
 
@@ -904,52 +905,52 @@ rainbow.start();
                                 if (await playButton.isIntersectingViewport()) {
                                 log( 'click on the play button .ytp-large-play-button.ytp-button' );
 
-                                          let item = '.ytp-large-play-button.ytp-button';
-                                          await page.waitFor(5000);
-                                          await page.evaluate((item) => {
-                                            document.querySelector(item).click();
-                                          }, item);
-                                          await page.waitFor(5000); // if the video is not directly starting or loading (slow network and stuff)
+                                                                      let item = '.ytp-large-play-button.ytp-button';
+                                                                      await page.waitFor(5000);
+                                                                      await page.evaluate((item) => {
+                                                                        document.querySelector(item).click();
+                                                                      }, item);
+                                                                      await page.waitFor(5000); // if the video is not directly starting or loading (slow network and stuff)
 
-                                          log( 'We wait now until the video was finished..\n\nTime left:\n\n' );
-
-
-                                          countdown(vidDuration_ms);
-                                          setTimeout(() => {
-                                          log( 'It seems that the video was finished.. We go to next one now' );
+                                                                      log( 'We wait now until the video was finished..\n\nTime left:\n\n' );
 
 
-                                                 ytLinks_AR.shift();
-                                                process.nextTick(startYoutTube);
+                                                                      countdown(vidDuration_ms);
+                                                                      setTimeout(() => {
+                                                                      log( 'It seems that the video was finished.. We go to next one now' );
 
-                                           }, vidDuration_ms);
+
+                                                                             ytLinks_AR.shift();
+                                                                            process.nextTick(startYoutTube);
+
+                                                                       }, vidDuration_ms);
 
 
                                          } //   if (await playButton.isIntersectingViewport()) {
                                          else {
 
 
-                                          if( currentVidDuration_ms ) {
-                                               var countdownValue = vidDuration_ms - currentVidDuration_ms;
-                                               log( 'countdownValue after substract played time: ' + countdownValue + '\n\n' );
-                                         }  //   if( currentVidDuration_ms ) {
-                                         else {
-                                              var countdownValue = vidDuration_ms;
-                                              log( 'countdownValue without substract played time: ' + countdownValue + '\n\n' );
-                                         } // else from   if( currentVidDuration_ms ) {
+                                                                      if( currentVidDuration_ms ) {
+                                                                           var countdownValue = vidDuration_ms - currentVidDuration_ms - 1000;
+                                                                           log( 'countdownValue after substract played time: ' + countdownValue + '\n\n' );
+                                                                     }  //   if( currentVidDuration_ms ) {
+                                                                     else {
+                                                                          var countdownValue = vidDuration_ms;
+                                                                          log( 'countdownValue without substract played time: ' + countdownValue + '\n\n' );
+                                                                     } // else from   if( currentVidDuration_ms ) {
 
 
-                                           log( 'Play button not visible.. video started itself.. \n\nWe wait now until the video was finished..\n\nTime left:\n\n' );
-                                          countdown( countdownValue );
+                                                                       log( 'Play button not visible.. video started itself.. \n\nWe wait now until the video was finished..\n\nTime left:\n\n' );
+                                                                      countdown( countdownValue );
 
-                                           setTimeout(() => {
-                                           log( '#2 - It seems that the video was finished.. We go to next one now' );
+                                                                       setTimeout(() => {
+                                                                       log( '#2 - It seems that the video was finished.. We go to next one now' );
 
 
-                                                  ytLinks_AR.shift();
-                                                 process.nextTick(startYoutTube);
+                                                                              ytLinks_AR.shift();
+                                                                             process.nextTick(startYoutTube);
 
-                                            }, countdownValue);
+                                                                        }, countdownValue);
 
 
                                          } // else from   if (await example.isIntersectingViewport()) {
