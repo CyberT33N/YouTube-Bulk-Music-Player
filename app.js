@@ -758,9 +758,101 @@ rainbow.start();
 
 
 
-                     // dont remove, youtube is loading sometimes even when document is ready..
-                     await page.waitForSelector('.title.style-scope.ytd-video-primary-info-renderer', {visible: true})
-                    log( 'Successfully loaded: ' + ytLinks_AR[0] + '\n\n' );
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+            try {
+
+                  // dont remove, youtube is loading sometimes even when document is ready..
+                  await page.waitForSelector('.title.style-scope.ytd-video-primary-info-renderer', {visible: true, timeout: 10000});
+
+               } catch(e) {
+                   log( '#3a error: ' + e.message );
+
+
+                   if( e.toString().match('TimeoutError: waiting for selector') ){
+
+                            log( 'As it seems the video title cant be found.. We will check now in more detail whats the problem.. \n\n' );
+
+                   } //    if( e.toString().match('TimeoutError: waiting for selector') ){
+
+              } // catch(e) {
+             log( 'Successfully loaded: ' + ytLinks_AR[0] + '\n\n' );
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -982,7 +1074,7 @@ else {
 
 
 function error2(e){
-log('#2 - Error:' + e);
+log('#22 - Error:' + e);
 
 
         if ( e.toString().match( "TypeError: Cannot read property 'outerHTML' of null" ) ){
