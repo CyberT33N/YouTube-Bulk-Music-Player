@@ -1023,9 +1023,10 @@ rainbow.start();
 
 
                                            // wait now 5 seconds in case that the video gets stopped again.. this happens when you delete css via adblock and ignore the I accept your cookies shit fields
-                                           await page.waitFor(5000);
-                                           log( 'We wait now 5 seconds and then check again if the video is playing or not..\n\n' );
 
+                                           log( 'We wait now 5 seconds and then check again if the video is playing or not..\n\n' );
+                                           await page.waitFor(5000);
+                                        
 
 
 
