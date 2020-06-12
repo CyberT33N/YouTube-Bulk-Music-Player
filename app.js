@@ -1056,7 +1056,7 @@ rainbow.start();
 
 
                                                                       if( currentVidDuration_ms ) {
-                                                                           var countdownValue = vidDuration_ms - currentVidDuration_ms - 1000;
+                                                                           var countdownValue = vidDuration_ms - currentVidDuration_ms;
                                                                            log( 'countdownValue after substract played time: ' + countdownValue + '\n\n' );
                                                                      }  //   if( currentVidDuration_ms ) {
                                                                      else {
