@@ -241,7 +241,7 @@ log( 'We will start now your Browser please wait..' );
                                                            windowSizeComplete,
 
 
-                                                      '--disable-extensions-except=../../../../../lib/chromeextension/webrtc_anti_leak_prevent/eiadekoaikejlgdbkbdfeijglgfdalml/1.0.14_0,../../../../../lib/chromeextension/ipfuck/bjgmbpodpcgmnpfjmigcckcjfldcicnd/1.3_0,../../../../../lib/chromeextension/script_safe/oiigbmnaadbkfbmpbfijlflahbdbdgdf/1.0.9.3_0,../../../../../lib/chromeextension/modheader/idgpnmonknjnojddfkpgkljpfnnfcklj/3.0.7_0,../../../../../lib/chromeextension/policycontrol/eekommagmgepaafaaegimeldlnnnolgn/0.3.5_0,../../../../../lib/chromeextension/alertblocker/ofjjanaennfbgpccfpbghnmblpdblbef/1.3_0,../../../../../lib/chromeextension/letmeout/hnfdibcbmlppjlkefinedeffoiomlecc/1.3_0,../../../../../lib/chromeextension/showmyip/pdnildedfbigagjbaigbalnfdfpijhaf/1.2.1_0,../../../../../lib/chromeextension/violentmonkey/jinjaccalgkegednnccohejagnlnfdag/2.12.7_0,../../../../../lib/chromeextension/touchvpn/bihmplhobchoageeokmgbdihknkjbknd/3.1.5_0',
+                                                      '--disable-extensions-except=../../../../../lib/chromeextension/adblock_plus/cfhdojbkjhnklbpkdaibdccddilifddb/1.13.4_0,../../../../../lib/chromeextension/webrtc_anti_leak_prevent/eiadekoaikejlgdbkbdfeijglgfdalml/1.0.14_0,../../../../../lib/chromeextension/ipfuck/bjgmbpodpcgmnpfjmigcckcjfldcicnd/1.3_0,../../../../../lib/chromeextension/script_safe/oiigbmnaadbkfbmpbfijlflahbdbdgdf/1.0.9.3_0,../../../../../lib/chromeextension/modheader/idgpnmonknjnojddfkpgkljpfnnfcklj/3.0.7_0,../../../../../lib/chromeextension/policycontrol/eekommagmgepaafaaegimeldlnnnolgn/0.3.5_0,../../../../../lib/chromeextension/alertblocker/ofjjanaennfbgpccfpbghnmblpdblbef/1.3_0,../../../../../lib/chromeextension/letmeout/hnfdibcbmlppjlkefinedeffoiomlecc/1.3_0,../../../../../lib/chromeextension/showmyip/pdnildedfbigagjbaigbalnfdfpijhaf/1.2.1_0,../../../../../lib/chromeextension/violentmonkey/jinjaccalgkegednnccohejagnlnfdag/2.12.7_0,../../../../../lib/chromeextension/touchvpn/bihmplhobchoageeokmgbdihknkjbknd/3.1.5_0,',
                                                       '--load-extension=../../../../../lib/chromeextension/webrtc_anti_leak_prevent/eiadekoaikejlgdbkbdfeijglgfdalml/1.0.14_0',
                                                       '--load-extension=../../../../../lib/chromeextension/ipfuck/bjgmbpodpcgmnpfjmigcckcjfldcicnd/1.3_0',
                                                       '--load-extension=../../../../../lib/chromeextension/script_safe/oiigbmnaadbkfbmpbfijlflahbdbdgdf/1.0.9.3_0',
@@ -252,6 +252,8 @@ log( 'We will start now your Browser please wait..' );
                                                       '--load-extension=../../../../../lib/chromeextension/showmyip/pdnildedfbigagjbaigbalnfdfpijhaf/1.2.1_0',
                                                       '--load-extension=../../../../../lib/chromeextension/violentmonkey/jinjaccalgkegednnccohejagnlnfdag/2.12.7_0',
                                                        '--load-extension=../../../../../lib/chromeextension/touchvpn/bihmplhobchoageeokmgbdihknkjbknd/3.1.5_0',
+                                                       '--load-extension=../../../../../lib/chromeextension/adblock_plus/cfhdojbkjhnklbpkdaibdccddilifddb/1.13.4_0',
+
 
 
 
@@ -983,27 +985,23 @@ rainbow.start();
 
 
 
-
-                                var vidDuration_ms = convert_time(videoDuration);
-                                log( 'Current video duration in ms: ' + vidDuration_ms );
-
-                                if( currentVideoDuration ){
-                                         var currentVidDuration_ms = convert_time(currentVideoDuration);
-                                         log( '#2 Current video duration in ms: ' + currentVidDuration_ms );
-                                 } // if( currentVideoDuration ){
-
-
                                 let playButton = await page.$('.ytp-large-play-button.ytp-button');
                                 if (await playButton.isIntersectingViewport()) {
-                                log( 'click on the play button .ytp-large-play-button.ytp-button' );
+                                log( 'Large play button was found.. Video did not started itself' );
+
+
+
+
+                                                                      var vidDuration_ms = convert_time(videoDuration);
+                                                                      log( 'Current video duration in ms: ' + vidDuration_ms );
+
+
+
 
                                                                       let item = '.ytp-large-play-button.ytp-button';
-                                                                      await page.waitFor(5000);
                                                                       await page.evaluate((item) => {
                                                                         document.querySelector(item).click();
                                                                       }, item);
-                                                                      await page.waitFor(5000); // if the video is not directly starting or loading (slow network and stuff)
-
                                                                       log( 'We wait now until the video was finished..\n\nTime left:\n\n' );
 
 
@@ -1022,6 +1020,41 @@ rainbow.start();
                                          else {
 
 
+
+
+                                           // wait now 5 seconds in case that the video gets stopped again.. this happens when you delete css via adblock and ignore the I accept your cookies shit fields
+                                           await page.waitFor(5000);
+                                           log( 'We wait now 5 seconds and then check again if the video is playing or not..\n\n' );
+
+
+
+
+                                                               let css = await page.evaluate(() => document.querySelector('body').outerHTML);
+                                                               //log( 'body css: ' + css );
+                                                               let $ = cheerio.load(css);
+
+                                                                         let videoDuration = $(css).find('.ytp-time-duration').text();
+                                                                         log( '#2 videoDuration: ' + chalk.white.bgGreen.bold( videoDuration ) + '\n\n' );
+
+                                                                         let currentVideoDuration = $(css).find('.ytp-time-current').text();
+                                                                         log( '#2 - currentVideoDuration: ' + chalk.white.bgGreen.bold( currentVideoDuration ) + '\n\n'  );
+
+
+
+
+
+                                                                           var vidDuration_ms = convert_time(videoDuration);
+                                                                           log( 'Current video duration in ms: ' + vidDuration_ms );
+
+                                                                           if( currentVideoDuration ){
+                                                                                    var currentVidDuration_ms = convert_time(currentVideoDuration);
+                                                                                    log( '#2 Current video duration in ms: ' + currentVidDuration_ms );
+                                                                            } // if( currentVideoDuration ){
+
+
+
+
+
                                                                       if( currentVidDuration_ms ) {
                                                                            var countdownValue = vidDuration_ms - currentVidDuration_ms - 1000;
                                                                            log( 'countdownValue after substract played time: ' + countdownValue + '\n\n' );
@@ -1032,7 +1065,43 @@ rainbow.start();
                                                                      } // else from   if( currentVidDuration_ms ) {
 
 
-                                                                       log( 'Play button not visible.. video started itself.. \n\nWe wait now until the video was finished..\n\nTime left:\n\n' );
+
+
+
+
+
+
+                                                                     let playButtonCheck = $(css).find('.ytp-play-button.ytp-button[aria-label="Play (k)" ]').html();
+                                                                     log( 'playButtonCheck:' + playButtonCheck + '\n\n' );
+
+                                                                       if ( playButtonCheck ){
+                                                                      log( 'Small Play button was found.. video did not started itself.. \n\nWe click now play..\n\nTime left:\n\n' );
+
+                                                                                            let item = '.ytp-play-button.ytp-button';
+                                                                                            await page.evaluate((item) => {
+                                                                                              document.querySelector(item).click();
+                                                                                            }, item);
+
+
+                                                                       } //  if ( currentVidDuration_ms == 0 && playButtonCheck ){
+                                                                      else log( 'Play button not visible.. video started itself.. \n\nWe wait now until the video was finished..\n\nTime left:\n\n' );
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
                                                                       countdown( countdownValue );
 
                                                                        setTimeout(() => {
@@ -1043,6 +1112,9 @@ rainbow.start();
                                                                              process.nextTick(startYoutTube);
 
                                                                         }, countdownValue);
+
+
+
 
 
                                          } // else from   if (await example.isIntersectingViewport()) {
