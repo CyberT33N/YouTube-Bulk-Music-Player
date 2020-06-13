@@ -917,7 +917,7 @@ rainbow.start();
                                   log( 'googleCaptcha:' + googleCaptcha + '\n\n' );
 
                                   if( googleCaptcha ) {
-                                    log( 'Google Captcha was found.. solve it or change ip.. We wait now 60 second and after this we restart bot..' );
+                                    log( 'Google Captcha was found.. solve it or change ip.. We wait now 60 second and after this we restart bot..\n\n' );
                                     setTimeout(() => { process.nextTick(startYoutTube); }, 60000);
                                   } //   if( googleCaptcha ) {
                                   else{
@@ -1026,7 +1026,7 @@ rainbow.start();
 
                                            log( 'We wait now 5 seconds and then check again if the video is playing or not..\n\n' );
                                            await page.waitFor(5000);
-                                        
+
 
 
 
