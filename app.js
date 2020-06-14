@@ -627,12 +627,27 @@ log( 'deleteOfflineVideos() - Current video: ' + ytLinks_AR[0] + '\n\n' );
 
 
 function countdown(count){
+
+
 rainbow.replace( str = '' );
 rainbow.start();
 
              count = count - 1000;
 
-              let countdownInterval = setInterval(() => {
+              let countdownInterval = setInterval(() => {(async () => {
+
+
+                                             if ( await page.$('#confirm-button') ) {
+                                             log( 'As it seems video was stopped.. We will click now on play..\n\n' );
+
+                                                                         let item = '#confirm-button';
+                                                                         await page.evaluate((item) => {
+                                                                           document.querySelector(item).click();
+                                                                         }, item);
+
+                                              } //  if ( await page.$('line-text.style-scope.yt-confirm-dialog-renderer') ) {
+
+
 
                                 count = count - 1000;
 
@@ -646,12 +661,42 @@ rainbow.start();
                                 if( countS ) rainbow.replace( str = countS.toString() );
 
 
+
+                })().catch((e) => error4(e));
               }, 1000);
 
 
 
 
 } //   function countdown(count){
+
+
+
+
+  function error4(e){
+  log('#44 - Error:' + e);
+
+    } // function error2(){
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -695,6 +740,27 @@ rainbow.start();
       log( 'After convert into ms: ' + duration );
       return duration;
   }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -917,21 +983,15 @@ rainbow.start();
                               if( !videoDuration ){
                                   log( 'Cant find video duration.. Maybe video not found? We go to next video..' );
 
-                                  css = await page.evaluate(() => document.querySelector('body').outerHTML);
-                                  //log( 'body css: ' + css );
-                                  $ = cheerio.load(css);
+                                                            if( await page.$('#captcha-form') ) {
+                                                              log( 'Google Captcha was found.. solve it or change ip.. We wait now 60 second and after this we restart bot..\n\n' );
+                                                              setTimeout(() => { process.nextTick(startYoutTube); }, 60000);
+                                                            } //   if( googleCaptcha ) {
+                                                            else{
+                                                                        ytLinks_AR.shift();
+                                                                        process.nextTick(startYoutTube);
+                                                            } // else from   if( googleCaptcha ) {
 
-                                  let googleCaptcha = $(css).find('#captcha-form').html();
-                                  log( 'googleCaptcha:' + googleCaptcha + '\n\n' );
-
-                                  if( googleCaptcha ) {
-                                    log( 'Google Captcha was found.. solve it or change ip.. We wait now 60 second and after this we restart bot..\n\n' );
-                                    setTimeout(() => { process.nextTick(startYoutTube); }, 60000);
-                                  } //   if( googleCaptcha ) {
-                                  else{
-                                              ytLinks_AR.shift();
-                                              process.nextTick(startYoutTube);
-                                  } // else from   if( googleCaptcha ) {
                                   return;
                               } // if( !videoDuration ){
 
@@ -1036,19 +1096,11 @@ rainbow.start();
                                            await page.waitFor(5000);
 
 
-
-
-                                                               let css = await page.evaluate(() => document.querySelector('body').outerHTML);
-                                                               //log( 'body css: ' + css );
-                                                               let $ = cheerio.load(css);
-
-                                                                         let videoDuration = $(css).find('.ytp-time-duration').text();
+                                                                         let videoDuration = await page.evaluate(element => element.textContent, await page.$(".ytp-time-duration") );
                                                                          log( '#2 videoDuration: ' + chalk.white.bgGreen.bold( videoDuration ) + '\n\n' );
 
-                                                                         let currentVideoDuration = $(css).find('.ytp-time-current').text();
-                                                                         log( '#2 - currentVideoDuration: ' + chalk.white.bgGreen.bold( currentVideoDuration ) + '\n\n'  );
-
-
+                                                                          let currentVideoDuration = await page.evaluate(element => element.textContent, await page.$(".ytp-time-current") );
+                                                                          log( '#2 - currentVideoDuration: ' + chalk.white.bgGreen.bold( currentVideoDuration ) + '\n\n'  );
 
 
 
@@ -1080,17 +1132,14 @@ rainbow.start();
 
 
 
-                                                                     let playButtonCheck = $(css).find('.ytp-play-button.ytp-button[aria-label="Play (k)" ]').html();
-                                                                     log( 'playButtonCheck:' + playButtonCheck + '\n\n' );
 
-                                                                       if ( playButtonCheck ){
+                                                                       if ( await page.$('.ytp-play-button.ytp-button[aria-label="Play (k)" ]') ){
                                                                       log( 'Small Play button was found.. video did not started itself.. \n\nWe click now play..\n\nTime left:\n\n' );
 
                                                                                             let item = '.ytp-play-button.ytp-button';
                                                                                             await page.evaluate((item) => {
                                                                                               document.querySelector(item).click();
                                                                                             }, item);
-
 
                                                                        } //  if ( currentVidDuration_ms == 0 && playButtonCheck ){
                                                                       else log( 'Play button not visible.. video started itself.. \n\nWe wait now until the video was finished..\n\nTime left:\n\n' );
