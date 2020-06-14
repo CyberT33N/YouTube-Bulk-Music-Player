@@ -746,6 +746,14 @@ rainbow.start();
                           } //   if ( e.match( 'net::ERR_EMPTY_RESPONSE' ) ){
 
 
+                                                                                  if ( e.toString().match( 'net::ERR_PROXY_CONNECTION_FAILED' ) ){
+                                                                                      log( '#2 - net::ERR_PROXY_CONNECTION_FAILED was found.. Maybe your proxy is offline? Maybe change your proxy.. However we reload page in 30 seconds..' );
+                                                                                        setTimeout(() => { process.nextTick(startYoutTube) }, 30000);
+                                                                                  } //   if ( e.match( 'net::ERR_EMPTY_RESPONSE' ) ){
+
+
+
+
 
                                                       if ( e.toString().match( 'net::ERR_CONNECTION_REFUSED' ) ){
                                                           log( '#2 - net::ERR_CONNECTION_REFUSED was found we reload page in 30 seconds..' );
