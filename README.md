@@ -10,7 +10,7 @@ Works with default links (https://www.youtube.com/watch?v=GvEMP8pvxJs) or playli
 
 
 # Install
-```   
+```bash
 install_module.bat/.sh
 ```  
 
@@ -30,7 +30,7 @@ You can import unsorted text from browser bookmarks files (bot will parse youtub
 # Browser Extensions
 - If you want you can use any Ad blocking extension like ScriptSafe or Adblock Plus to block all video ads! Extensions must be inserted at **./lib/chromeextension** and included in your **app.js** like this:
 
-```   
+```javascript
 '--disable-extensions-except=../../../../../lib/chromeextension/webrtc_anti_leak_prevent/eiadekoaikejlgdbkbdfeijglgfdalml/1.0.14_0,../../../../../lib/chromeextension/script_safe/oiigbmnaadbkfbmpbfijlflahbdbdgdf/1.0.9.3_0',
 
 '--load-extension=../../../../../lib/chromeextension/webrtc_anti_leak_prevent/eiadekoaikejlgdbkbdfeijglgfdalml/1.0.14_0',
