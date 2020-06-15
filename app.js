@@ -58,8 +58,10 @@ YouTube Ads block extension like scriptsafe or adblock plus must be used
    Here you can add all Objects/Arrays
    */
 
-//puppeter
-var client;
+//puppeter
+
+var client;
+
 var page;
 var ytLinks_AR = [];
 var t33n = {};
@@ -637,16 +639,7 @@ rainbow.start();
               let countdownInterval = setInterval(() => {(async () => {
 
 
-                                             if ( await page.$('#confirm-button') ) {
-                                             log( 'As it seems video was stopped.. We will click now on play..\n\n' );
-
-                                                                         let item = '#confirm-button';
-                                                                         await page.evaluate((item) => {
-                                                                           document.querySelector(item).click();
-                                                                         }, item);
-
-                                              } //  if ( await page.$('line-text.style-scope.yt-confirm-dialog-renderer') ) {
-
+                               if ( await page.$('#confirm-button') ) await page.click('#confirm-button');
 
 
                                 count = count - 1000;
@@ -1065,11 +1058,7 @@ rainbow.start();
 
 
 
-
-                                                                      let item = '.ytp-large-play-button.ytp-button';
-                                                                      await page.evaluate((item) => {
-                                                                        document.querySelector(item).click();
-                                                                      }, item);
+                                                                      await page.click('.ytp-large-play-button.ytp-button');
                                                                       log( 'We wait now until the video was finished..\n\nTime left:\n\n' );
 
 
@@ -1136,10 +1125,7 @@ rainbow.start();
                                                                        if ( await page.$('.ytp-play-button.ytp-button[aria-label="Play (k)" ]') ){
                                                                       log( 'Small Play button was found.. video did not started itself.. \n\nWe click now play..\n\nTime left:\n\n' );
 
-                                                                                            let item = '.ytp-play-button.ytp-button';
-                                                                                            await page.evaluate((item) => {
-                                                                                              document.querySelector(item).click();
-                                                                                            }, item);
+                                                                                            await page.click('.ytp-play-button.ytp-button');
 
                                                                        } //  if ( currentVidDuration_ms == 0 && playButtonCheck ){
                                                                       else log( 'Play button not visible.. video started itself.. \n\nWe wait now until the video was finished..\n\nTime left:\n\n' );
