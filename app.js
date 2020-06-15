@@ -318,7 +318,7 @@ log( 'We will start now your Browser please wait..' );
 
 
                                                     if(typeof e == 'string'){
-                                                        if( e == 'Error: connect ECONNREFUSED 0.0.0.0:4444' ) log( '#1 error: ' + e );
+                                                        if( e == 'Error: connect ECONNREFUSED 0.0.0.0:4444' ) log( '#1 ECONNREFUSED error found.. error: ' + e );
                                                         else log( '#2 error: ' + e );
                                                     }//   if(typeof e == 'string'){
 
@@ -776,21 +776,21 @@ rainbow.start();
               log( '#3 error: ' + e.message );
 
 
-              if( e.toString().match('Navigation timeout of') ){
+              if( e.message.match('Navigation timeout of') ){
                     log( '#2 - timeout was found we reload page in 30 seconds..' );
                     setTimeout(() => { process.nextTick(startYoutTube) }, 30000);
                 } // else from  if( e.match('Navigation timeout of') ){
 
 
 
-                      if ( e.toString().match( 'net::ERR_EMPTY_RESPONSE' ) ){
+                      if ( e.message.match( 'net::ERR_EMPTY_RESPONSE' ) ){
                           log( '#2 - net::ERR_EMPTY_RESPONSE was found we reload page in 30 seconds..' );
                           setTimeout(() => { process.nextTick(startYoutTube) }, 30000);
                       } //   if ( e.match( 'net::ERR_EMPTY_RESPONSE' ) ){
 
 
 
-                        if ( e.toString().match( 'net::ERR_NAME_NOT_RESOLVED' ) ){
+                        if ( e.message.match( 'net::ERR_NAME_NOT_RESOLVED' ) ){
                             log( '#2 - net::ERR_NAME_NOT_RESOLVED was found we reload page in 30 seconds..' );
                             setTimeout(() => { process.nextTick(startYoutTube) }, 30000);
                         } //   if ( e.match( 'net::ERR_EMPTY_RESPONSE' ) ){
@@ -799,13 +799,13 @@ rainbow.start();
 
 
 
-                          if ( e.toString().match( 'net::ERR_CONNECTION_CLOSED' ) ){
+                          if ( e.message.match( 'net::ERR_CONNECTION_CLOSED' ) ){
                               log( '#2 - net::ERR_CONNECTION_CLOSED was found we reload page in 30 seconds..' );
                                 setTimeout(() => { process.nextTick(startYoutTube) }, 30000);
                           } //   if ( e.match( 'net::ERR_EMPTY_RESPONSE' ) ){
 
 
-                                                                                  if ( e.toString().match( 'net::ERR_PROXY_CONNECTION_FAILED' ) ){
+                                                                                  if ( e.message.match( 'net::ERR_PROXY_CONNECTION_FAILED' ) ){
                                                                                       log( '#2 - net::ERR_PROXY_CONNECTION_FAILED was found.. Maybe your proxy is offline? Maybe change your proxy.. However we reload page in 30 seconds..' );
                                                                                         setTimeout(() => { process.nextTick(startYoutTube) }, 30000);
                                                                                   } //   if ( e.match( 'net::ERR_EMPTY_RESPONSE' ) ){
@@ -814,7 +814,7 @@ rainbow.start();
 
 
 
-                                                      if ( e.toString().match( 'net::ERR_CONNECTION_REFUSED' ) ){
+                                                      if ( e.message.match( 'net::ERR_CONNECTION_REFUSED' ) ){
                                                           log( '#2 - net::ERR_CONNECTION_REFUSED was found we reload page in 30 seconds..' );
                                                             setTimeout(() => { process.nextTick(startYoutTube) }, 30000);
                                                       } //   if ( e.match( 'net::ERR_EMPTY_RESPONSE' ) ){
@@ -867,11 +867,9 @@ rainbow.start();
                    log( '#3a error: ' + e.message );
 
 
-                   if( e.toString().match('TimeoutError: waiting for selector') ){
+                   if( e.message.match('TimeoutError: waiting for selector') ) log( 'As it seems the video title cant be found.. We will check now in more detail whats the problem.. \n\n' );
 
-                            log( 'As it seems the video title cant be found.. We will check now in more detail whats the problem.. \n\n' );
 
-                   } //    if( e.toString().match('TimeoutError: waiting for selector') ){
 
               } // catch(e) {
              log( 'Successfully loaded: ' + ytLinks_AR[0] + '\n\n' );
