@@ -630,9 +630,22 @@ log( 'deleteOfflineVideos() - Current video: ' + ytLinks_AR[0] + '\n\n' );
 
 
 
+function checkPause(){(async () => {
+
+
+   if ( await page.$('#confirm-button') ) {
+     log( '#confirm-button was found and this means video was paused by youtube.. we click it now to replay the video!' );
+     await page.click('#confirm-button');
+   } //  if ( await page.$('#confirm-button') ) {
+
+
+})().catch((e) => {
+log('#stopPause() - Error:' + e);
 
 
 
+}); //   })().catch((e) => {
+} // function checkPause(){
 
 
 
@@ -652,11 +665,7 @@ rainbow.start();
 
              count = count - 1000;
 
-              let countdownInterval = setInterval(() => {(async () => {
-
-
-                               if ( await page.$('#confirm-button') ) await page.click('#confirm-button');
-
+              let countdownInterval = setInterval(() => {
 
                                 count = count - 1000;
 
@@ -669,16 +678,9 @@ rainbow.start();
                                 if( count > 1000 ) var countS = count / 1000;
                                 if( countS ) rainbow.replace( str = countS.toString() );
 
+                                process.nextTick( checkPause );
 
-
-              })().catch((e) => {
-              log('#44 - Error:' + e);
-
-              });
-
-
-
-              }, 1000);
+              }, 1000); //   let countdownInterval = setInterval(() => {
 
 
 
