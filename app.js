@@ -314,27 +314,43 @@ log( 'We will start now your Browser please wait..' );
 
 
 
-})().catch((e) => {
+})().catch((e) => {(async () => {
+
+                                        if(typeof e == 'string'){
+
+                                                                  if( e == 'Error: connect ECONNREFUSED 0.0.0.0:4444' ) log( '#1 ECONNREFUSED error found.. error: ' + e );
+                                                                  else log( '#2 error: ' + e );
+
+                                        }//   if(typeof e == 'string'){
+                                        else{
+                                        log('Error while try to start browser - error :' + JSON.stringify( e, null, 4) )
 
 
-                                                    if(typeof e == 'string'){
-                                                        if( e == 'Error: connect ECONNREFUSED 0.0.0.0:4444' ) log( '#1 ECONNREFUSED error found.. error: ' + e );
-                                                        else log( '#2 error: ' + e );
-                                                    }//   if(typeof e == 'string'){
 
-                                                    else{
-
-                                                        log('Error while try to start browser - error :' + JSON.stringify( e, null, 4) )
                                                         if ( e.length == undefined ) {
-                                                          log( 'e.length == 0' );
-                                                        }
+                                                          log( '#browser start - error is undefinied.. we restart now the browser..' );
 
-                                                    } // else from if(typeof e == 'string'){
+                                                                     await client.close();
+                                                                     process.nextTick( startBROWSER );
+
+                                                        } //     if ( e.length == undefined ) {
 
 
+
+                                                        if ( e.name == 'TimeoutError' ) {
+                                                          log( '#browser start - TimeoutError was found.. we restart now the browser..' );
+
+                                                                        await client.close();
+                                                                        process.nextTick( startBROWSER );
+
+                                                        } //     if ( e.length == undefined ) {
+
+
+                                        } // else from if(typeof e == 'string'){
+
+  }); // (async () => {
  }); //   })().catch((e) => {
 } //        async function startBROWSER(){
-
 
 
 
@@ -655,7 +671,13 @@ rainbow.start();
 
 
 
-                })().catch((e) => error4(e));
+              })().catch((e) => {
+              log('#44 - Error:' + e);
+
+              });
+
+
+
               }, 1000);
 
 
@@ -664,12 +686,6 @@ rainbow.start();
 } //   function countdown(count){
 
 
-
-
-  function error4(e){
-  log('#44 - Error:' + e);
-
-    } // function error2(){
 
 
 
@@ -1176,34 +1192,28 @@ else {
 } // else from if( ytLinks_AR[0] ){
 
 
-})().catch((e) => error2(e));
-} //  async function startBROWSER(){
+})().catch((e) => {
 
 
 
-
-
-
-
-
-
-function error2(e){
-log('#22 - Error:' + e);
-
-
-        if ( e.toString().match( "TypeError: Cannot read property 'outerHTML' of null" ) ){
-            log( '#2 - TypeError: Cannot read property outerHTML of null was found we reload page now..' );
-            process.nextTick( startYoutTube );
-
-        } //   if ( e.match( 'net::ERR_EMPTY_RESPONSE' ) ){
-
-
-          if ( e.toString().match( "Execution context was destroyed" ) ){
-              log( '#2 - Execution context was destroyed was found we reload page now..' );
+          if ( e.toString().match( "TypeError: Cannot read property 'outerHTML' of null" ) ){
+              log( '#2 - TypeError: Cannot read property outerHTML of null was found we reload page now..' );
               process.nextTick( startYoutTube );
 
           } //   if ( e.match( 'net::ERR_EMPTY_RESPONSE' ) ){
 
 
+            if ( e.toString().match( "Execution context was destroyed" ) ){
+                log( '#2 - Execution context was destroyed was found we reload page now..' );
+                process.nextTick( startYoutTube );
 
-  } // function error2(){
+            } //   if ( e.match( 'net::ERR_EMPTY_RESPONSE' ) ){
+
+
+
+}); // })().catch((e) => {
+
+
+
+
+} //  async function startBROWSER(){
