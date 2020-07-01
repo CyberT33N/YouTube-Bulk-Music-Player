@@ -782,7 +782,7 @@ rainbow.start();
 
 
               if( e.message.match('Navigation timeout of') ){
-                    log( '#2 - timeout was found we reload page in 30 seconds..' );
+                    log( '#2 - Navigation timeout was found we reload page in 30 seconds..' );
                     setTimeout(() => { process.nextTick(startYoutTube) }, 30000);
                 } // else from  if( e.match('Navigation timeout of') ){
 
@@ -829,6 +829,12 @@ rainbow.start();
                                                           log( '#2 - net::ERR_CONNECTION_REFUSED was found we reload page in 30 seconds..' );
                                                             setTimeout(() => { process.nextTick(startYoutTube) }, 30000);
                                                       } //   if ( e.match( 'net::ERR_EMPTY_RESPONSE' ) ){
+
+                                                        if ( e.message.match( 'net::ERR_CONNECTION_TIMED_OUT' ) ){
+                                                            log( '#2 - net::ERR_CONNECTION_TIMED_OUT was found we reload page in 30 seconds..' );
+                                                              setTimeout(() => { process.nextTick(startYoutTube) }, 30000);
+                                                        } //   if ( e.match( 'net::ERR_EMPTY_RESPONSE' ) ){
+
 
 
               return;
