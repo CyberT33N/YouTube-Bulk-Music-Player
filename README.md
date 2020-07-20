@@ -14,7 +14,7 @@ Webdriver: **Puppeteer**
 <br />
 Bot Protection: **Google Captcha (if VPN user but comes very rar)**
 <br />
-Sign-in required: **False**
+Sign-in required: **Not required only if your videos are age restricted**
 <br />
 Language: **EN**
 
