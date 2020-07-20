@@ -1,5 +1,5 @@
 # YouTube Bulk Music Player
-This Bot is based on Puppeteer and will autoplay a list of imported YouTube Links!
+This Bot will parse YouTube links from unformarted text, generate a internal playlist and then autoplay each link until all videos was played!
 
 Works with default links or playlist links:
 - https://www.youtube.com/watch?v=GvEMP8pvxJs
