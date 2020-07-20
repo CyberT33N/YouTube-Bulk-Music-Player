@@ -21,8 +21,8 @@ Language: **EN**
 <br />
 <br />
 
-![alt tag](https://i.imgur.com/UOYleZU.jpg)
-![alt tag](https://i.imgur.com/CacU3wf.jpg)
+![alt tag](https://i.imgur.com/UQ1QuAP.jpg)
+![alt tag](https://i.imgur.com/auzn9pj.jpg)
 
 
 
