@@ -953,13 +953,17 @@ rainbow.start();
 
 
 
-                              let videoDuration = $(css).find('.ytp-time-duration').text();
-                              log( 'videoDuration: ' + chalk.white.bgGreen.bold( videoDuration ) );
-
-                              let currentVideoDuration = $(css).find('.ytp-time-current').text();
-                              log( 'currentVideoDuration: ' + chalk.white.bgGreen.bold( currentVideoDuration ) );
 
 
+                              await page.hover('.ytp-progress-bar-container');
+
+                              let videoDuration = await page.evaluate(element => element.textContent, await page.$(".ytp-time-duration") );
+                              log( 'videoDuration: ' + chalk.white.bgGreen.bold( videoDuration ) + '\n\n' );
+
+                               let currentVideoDuration = await page.evaluate(element => element.textContent, await page.$(".ytp-time-current") );
+                               log( 'currentVideoDuration: ' + chalk.white.bgGreen.bold( currentVideoDuration ) + '\n\n'  );
+
+                              await page.hover('video');
 
 
 
@@ -1120,7 +1124,10 @@ rainbow.start();
                                            // wait now 5 seconds in case that the video gets stopped again.. this happens when you delete css via adblock and ignore the I accept your cookies shit fields
 
                                            log( 'We wait now 5 seconds and then check again if the video is playing or not..\n\n' );
-                                           await new Promise(resolve => setTimeout(resolve, 5000));
+                                           await page.waitFor(5000);
+
+
+                                                                         await page.hover('.ytp-progress-bar-container');
 
 
                                                                          let videoDuration = await page.evaluate(element => element.textContent, await page.$(".ytp-time-duration") );
@@ -1129,6 +1136,8 @@ rainbow.start();
                                                                           let currentVideoDuration = await page.evaluate(element => element.textContent, await page.$(".ytp-time-current") );
                                                                           log( '#2 - currentVideoDuration: ' + chalk.white.bgGreen.bold( currentVideoDuration ) + '\n\n'  );
 
+
+                                                                          await page.hover('video');
 
 
                                                                            var vidDuration_ms = convert_time(videoDuration);
