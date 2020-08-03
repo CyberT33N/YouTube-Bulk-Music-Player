@@ -61,10 +61,9 @@ YouTube Ads block extension like scriptsafe or adblock plus must be used
 //puppeter
 
 var client;
-
 var page;
+
 var ytLinks_AR = [];
-var t33n = {};
 
 
 /*
@@ -82,10 +81,10 @@ Here you can add all your plugins. *Note* The enabled plugins are necessary.
                               log = require('fancy-log'),
                              unq = require('unq'),
                           chalk = require('chalk'),
-                          cheerio = require('cheerio'),
-                  puppeteer = require('puppeteer'),
-        chalkAnimation = require('chalk-animation'),
-                     gradient = require('gradient-string'),
+                      cheerio = require('cheerio'),
+                 puppeteer = require('puppeteer'),
+       chalkAnimation = require('chalk-animation'),
+                    gradient = require('gradient-string'),
 
           // import config file
          json_configFile = fs.readFileSync('./admin/config.json', 'utf8'),
@@ -634,7 +633,7 @@ log( 'deleteOfflineVideos() - Current video: ' + ytLinks_AR[0] + '\n\n' );
 
 
 
-  var str = ''
+  var str = '';
   const rainbow = chalkAnimation.rainbow( str );
 
 
@@ -1014,20 +1013,36 @@ rainbow.start();
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
                                 if( errorMessage == 'Sign in to confirm your age' || errorMessagetwo == 'Sign in to confirm your age' ){
                                     log( 'This video is only for users over 18.. You may sign-in to not get this message in future for other videos.. We go to next video now..' );
                                     ytLinks_AR.shift();
                                     process.nextTick(startYoutTube);
                                     return;
                                 } // if( !videoDuration ){
-
-
-
-
-
-
-
-
 
 
 
@@ -1043,6 +1058,14 @@ rainbow.start();
                                       process.nextTick(deleteOfflineVideos);
                                       return;
                                   } // if( !videoDuration ){
+
+
+
+
+
+
+
+
 
 
 
@@ -1097,7 +1120,7 @@ rainbow.start();
                                            // wait now 5 seconds in case that the video gets stopped again.. this happens when you delete css via adblock and ignore the I accept your cookies shit fields
 
                                            log( 'We wait now 5 seconds and then check again if the video is playing or not..\n\n' );
-                                           await page.waitFor(5000);
+                                           await new Promise(resolve => setTimeout(resolve, 5000));
 
 
                                                                          let videoDuration = await page.evaluate(element => element.textContent, await page.$(".ytp-time-duration") );
