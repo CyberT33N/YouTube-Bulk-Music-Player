@@ -955,6 +955,82 @@ rainbow.start();
 
 
 
+
+
+                                                              if( errorMessage == 'Sign in to confirm your age' || errorMessagetwo == 'Sign in to confirm your age' ){
+                                                                  log( 'This video is only for users over 18.. You may sign-in to not get this message in future for other videos.. We go to next video now..' );
+                                                                  ytLinks_AR.shift();
+                                                                  process.nextTick(startYoutTube);
+                                                                  return;
+                                                              } // if( !videoDuration ){
+
+
+
+                                                              if( errorMessage == 'Video unavailable' || errorMessagetwo == 'Video unavailable' ){
+                                                                  log( 'This video is unavailable.. We delete this video now from bookmarks file..\n\n' );
+                                                                  process.nextTick(deleteOfflineVideos);
+                                                                  return;
+                                                              } // if( !videoDuration ){
+
+
+                                                                if( errorMessage == 'Private video' || errorMessagetwo == 'Private video' ){
+                                                                    log( 'This video is private.. We delete this video now from bookmarks file..\n\n' );
+                                                                    process.nextTick(deleteOfflineVideos);
+                                                                    return;
+                                                                } // if( !videoDuration ){
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
                               await page.hover('.ytp-progress-bar-container');
 
                               let videoDuration = await page.evaluate(element => element.textContent, await page.$(".ytp-time-duration") );
@@ -1041,37 +1117,6 @@ rainbow.start();
 
 
 
-                                if( errorMessage == 'Sign in to confirm your age' || errorMessagetwo == 'Sign in to confirm your age' ){
-                                    log( 'This video is only for users over 18.. You may sign-in to not get this message in future for other videos.. We go to next video now..' );
-                                    ytLinks_AR.shift();
-                                    process.nextTick(startYoutTube);
-                                    return;
-                                } // if( !videoDuration ){
-
-
-
-                                if( errorMessage == 'Video unavailable' || errorMessagetwo == 'Video unavailable' ){
-                                    log( 'This video is unavailable.. We delete this video now from bookmarks file..' );
-                                    process.nextTick(deleteOfflineVideos);
-                                    return;
-                                } // if( !videoDuration ){
-
-
-                                  if( errorMessage == 'Private video' || errorMessagetwo == 'Private video' ){
-                                      log( 'This video is private.. We delete this video now from bookmarks file..' );
-                                      process.nextTick(deleteOfflineVideos);
-                                      return;
-                                  } // if( !videoDuration ){
-
-
-
-
-
-
-
-
-
-
 
 
 
@@ -1090,7 +1135,7 @@ rainbow.start();
 
                                 let playButton = await page.$('.ytp-large-play-button.ytp-button');
                                 if (await playButton.isIntersectingViewport()) {
-                                log( 'Large play button was found.. Video did not started itself' );
+                                log( 'Large play button was found.. Video did not started itself\n\n' );
 
 
 
@@ -1106,7 +1151,7 @@ rainbow.start();
 
                                                                       countdown(vidDuration_ms);
                                                                       setTimeout(() => {
-                                                                      log( 'It seems that the video was finished.. We go to next one now' );
+                                                                      log( 'It seems that the video was finished.. We go to next one now\n\n' );
 
 
                                                                              ytLinks_AR.shift();
