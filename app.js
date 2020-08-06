@@ -981,6 +981,13 @@ rainbow.start();
 
 
 
+                                                                if( errorMessage == "This video has been removed for violating YouTube's Community Guidelines." || errorMessagetwo == "This video has been removed for violating YouTube's Community Guidelines." ){
+                                                                    log( 'This video has been removed for violating YouTubes Community Guidelines.. We delete this video now from bookmarks file..\n\n' );
+                                                                    process.nextTick(deleteOfflineVideos);
+                                                                    return;
+                                                                } // if( !videoDuration ){
+
+
 
 
 
