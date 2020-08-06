@@ -643,11 +643,11 @@ function countdown(count){
 rainbow.replace( str = '' );
 rainbow.start();
 
-             count = count - 1000;
+             count = count - 2000;
 
               let countdownInterval = setInterval(async () => {
 
-                                count = count - 1000;
+                                count = count - 2000;
 
                                 if( count <= 0 ) {
                                   rainbow.stop();
@@ -656,28 +656,26 @@ rainbow.start();
                                   return;
                                 } //   if( count <= 0 ) {
 
-                                if( count > 1000 ) var countS = count / 1000;
+                                if( count > 2000 ) var countS = count / 2000;
                                 if( countS ) rainbow.replace( str = countS.toString() );
 
 
                                    if ( await page.$('#confirm-button') ) {
-                                     log( '#confirm-button was found and this means video was paused by youtube.. we click it now to replay the video!\n\n' );
-                                     await page.click('#confirm-button');
+                                   log( '#confirm-button was found and this means video was paused by youtube.. we click it now to replay the video!\n\n' );
+
+                                                 try{
+                                                   await page.click('#confirm-button');
+                                                 } catch(e) {  log( '#confirm-button error: ' + e.message );   }
+
                                    } //  if ( await page.$('#confirm-button') ) {
 
 
-              }, 1000); //   let countdownInterval = setInterval(() => {
+              }, 2000); //   let countdownInterval = setInterval(() => {
 
 
 
 
 } //   function countdown(count){
-
-
-
-
-
-
 
 
 
