@@ -643,11 +643,11 @@ function countdown(count){
 rainbow.replace( str = '' );
 rainbow.start();
 
-             count = count - 2000;
+             count = count - 1000;
 
               let countdownInterval = setInterval(async () => {
 
-                                count = count - 2000;
+                                count = count - 1000;
 
                                 if( count <= 0 ) {
                                   rainbow.stop();
@@ -656,7 +656,7 @@ rainbow.start();
                                   return;
                                 } //   if( count <= 0 ) {
 
-                                if( count > 2000 ) var countS = count / 2000;
+                                if( count > 1000 ) var countS = count / 1000;
                                 if( countS ) rainbow.replace( str = countS.toString() );
 
 
@@ -670,7 +670,7 @@ rainbow.start();
                                    } //  if ( await page.$('#confirm-button') ) {
 
 
-              }, 2000); //   let countdownInterval = setInterval(() => {
+              }, 1000); //   let countdownInterval = setInterval(() => {
 
 
 
