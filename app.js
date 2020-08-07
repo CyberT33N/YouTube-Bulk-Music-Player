@@ -60,10 +60,9 @@ YouTube Ads block extension like scriptsafe or adblock plus must be used
 
 //puppeter
 
-var client;
-var page;
 
 var ytLinks_AR = [];
+var client, page;
 
 
 /*
@@ -775,7 +774,7 @@ rainbow.start();
           try {
               await page.goto(ytLinks_AR[0], {waitUntil: 'networkidle0', timeout: 35000});
           } catch(e) {
-              log( '#3 error: ' + e.message );
+              log( 'Error while open youtube video.. Error: ' + e.message );
 
 
               if( e.message.match('Navigation timeout of') ){
@@ -924,6 +923,9 @@ rainbow.start();
 
 
 
+                   let css = await page.evaluate(() => document.querySelector('body').outerHTML);
+                   //log( 'body css: ' + css );
+                   let $ = cheerio.load(css);
 
 
 
@@ -931,31 +933,34 @@ rainbow.start();
 
 
 
+                    let errorMessageMAIN = $(css).find('#reason').text();
+                    log( 'errorMessageMAIN: ' + errorMessageMAIN + '\n\n' );
+
+
+
+                              if( !errorMessageMAIN )  {
+
+                                    var errorMessage = $(css).find('.ytp-error-content-wrap-reason > span').text();
+                                    log( 'errorMessage:' + errorMessage + '\n\n' );
+
+                                   var errorMessagetwo = $(css).find('.reason.style-scope.yt-player-error-message-renderer').text();
+                                   log( 'errorMessagetwo: ' + errorMessagetwo + '\n\n' );
+
+                                 var errorMessagethree = $(css).find('.style-scope.yt-player-error-message-renderer').text();
+                                 log( 'errorMessagethree: ' + errorMessagethree + '\n\n' );
+
+                            } //   if( !errorMessageMAIN )  {
 
 
 
 
 
-
-                    let css = await page.evaluate(() => document.querySelector('body').outerHTML);
-                    //log( 'body css: ' + css );
-                    let $ = cheerio.load(css);
-
-
-
-                              let errorMessage = $(css).find('.ytp-error-content-wrap-reason > span').text();
-                              log( 'errorMessage:' + errorMessage + '\n\n' );
-
-                              let errorMessagetwo = $(css).find('.reason.style-scope.yt-player-error-message-renderer').text();
-                              log( 'errorMessagetwo: ' + errorMessagetwo + '\n\n' );
-
-
-
-
-
-
-
-                                                              if( errorMessage == 'Sign in to confirm your age' || errorMessagetwo == 'Sign in to confirm your age' ){
+                                                              if(
+                                                                   errorMessage == 'Sign in to confirm your age' ||
+                                                                   errorMessagetwo == 'Sign in to confirm your age' ||
+                                                                   errorMessageMAIN == 'Sign in to confirm your age' ||
+                                                                   errorMessagethree == 'Sign in to confirm your age'
+                                                                 ){
                                                                   log( 'This video is only for users over 18.. You may sign-in to not get this message in future for other videos.. We go to next video now..' );
                                                                   ytLinks_AR.shift();
                                                                   process.nextTick(startYoutTube);
@@ -964,14 +969,30 @@ rainbow.start();
 
 
 
-                                                              if( errorMessage == 'Video unavailable' || errorMessagetwo == 'Video unavailable' ){
+
+                                                              if(
+                                                                    errorMessage == 'Video unavailable' ||
+                                                                    errorMessagetwo == 'Video unavailable' ||
+                                                                    errorMessageMAIN == 'Video unavailable' ||
+                                                                    errorMessagethree == 'Video unavailable'
+                                                                  ){
                                                                   log( 'This video is unavailable.. We delete this video now from bookmarks file..\n\n' );
                                                                   process.nextTick(deleteOfflineVideos);
                                                                   return;
                                                               } // if( !videoDuration ){
 
 
-                                                                if( errorMessage == 'Private video' || errorMessagetwo == 'Private video' ){
+
+
+
+
+
+                                                                if(
+                                                                     errorMessage == 'Private video' ||
+                                                                     errorMessagetwo == 'Private video' ||
+                                                                     errorMessageMAIN == 'Private video' ||
+                                                                     errorMessagethree == 'Private video'
+                                                                   ){
                                                                     log( 'This video is private.. We delete this video now from bookmarks file..\n\n' );
                                                                     process.nextTick(deleteOfflineVideos);
                                                                     return;
@@ -979,15 +1000,19 @@ rainbow.start();
 
 
 
-                                                                if( errorMessage == "This video has been removed for violating YouTube's Community Guidelines." || errorMessagetwo == "This video has been removed for violating YouTube's Community Guidelines." ){
+
+
+
+                                                                if(
+                                                                  errorMessage == "This video has been removed for violating YouTube's Community Guidelines." ||
+                                                                  errorMessagetwo == "This video has been removed for violating YouTube's Community Guidelines." ||
+                                                                  errorMessageMAIN == "This video has been removed for violating YouTube's Community Guidelines." ||
+                                                                  errorMessagethree == "This video has been removed for violating YouTube's Community Guidelines."
+                                                                 ){
                                                                     log( 'This video has been removed for violating YouTubes Community Guidelines.. We delete this video now from bookmarks file..\n\n' );
                                                                     process.nextTick(deleteOfflineVideos);
                                                                     return;
                                                                 } // if( !videoDuration ){
-
-
-
-
 
 
 
@@ -1049,24 +1074,36 @@ rainbow.start();
 
 
 
-                              let videoTitle = $(css).find('.title.style-scope.ytd-video-primary-info-renderer').text();
-                              log( 'videoTitle: ' + chalk.white.bgGreen.bold( videoTitle )  );
 
-                              let videoViews = $(css).find('.view-count.style-scope.yt-view-count-renderer').text();
-                              log( 'videoViews: ' + chalk.white.bgGreen.bold( videoViews ) );
 
-                              let videoDate = $(css).find('#date > yt-formatted-string').text();
-                              log( 'videoDate: ' + chalk.white.bgGreen.bold( videoDate ) );
 
-                              let channelName = $(css).find('#upload-info > #channel-name').find('.yt-simple-endpoint.style-scope.yt-formatted-string').text();
-                              log( 'channelName: ' + chalk.white.bgGreen.bold( channelName ) );
 
-                              let videoLikes = $(css).find('#menu-container').find('#top-level-buttons > ytd-toggle-button-renderer:nth-child(1)').find('#text').text();
-                              log( 'videoLikes: ' + chalk.white.bgGreen.bold( videoLikes ) );
 
-                              let videoDisslikes = $(css).find('#menu-container').find('#top-level-buttons > ytd-toggle-button-renderer:nth-child(2)').find('#text').text();
-                              log( 'videoDisslikes: ' + chalk.white.bgGreen.bold( videoDisslikes )  + '\n\n' );
 
+
+
+
+
+
+
+
+                                                            let videoTitle = $(css).find('.title.style-scope.ytd-video-primary-info-renderer').text();
+                                                            log( 'videoTitle: ' + chalk.white.bgGreen.bold( videoTitle )  );
+
+                                                            let videoViews = $(css).find('.view-count.style-scope.yt-view-count-renderer').text();
+                                                            log( 'videoViews: ' + chalk.white.bgGreen.bold( videoViews ) );
+
+                                                            let videoDate = $(css).find('#date > yt-formatted-string').text();
+                                                            log( 'videoDate: ' + chalk.white.bgGreen.bold( videoDate ) );
+
+                                                            let channelName = $(css).find('#upload-info > #channel-name').find('.yt-simple-endpoint.style-scope.yt-formatted-string').text();
+                                                            log( 'channelName: ' + chalk.white.bgGreen.bold( channelName ) );
+
+                                                            let videoLikes = $(css).find('#menu-container').find('#top-level-buttons > ytd-toggle-button-renderer:nth-child(1)').find('#text').text();
+                                                            log( 'videoLikes: ' + chalk.white.bgGreen.bold( videoLikes ) );
+
+                                                            let videoDisslikes = $(css).find('#menu-container').find('#top-level-buttons > ytd-toggle-button-renderer:nth-child(2)').find('#text').text();
+                                                            log( 'videoDisslikes: ' + chalk.white.bgGreen.bold( videoDisslikes )  + '\n\n' );
 
 
 
