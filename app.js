@@ -63,6 +63,7 @@ YouTube Ads block extension like scriptsafe or adblock plus must be used
 
 var ytLinks_AR = [];
 var client, page;
+var confirmButton = false;
 
 
 /*
@@ -659,12 +660,13 @@ rainbow.start();
                                 if( countS ) rainbow.replace( str = countS.toString() );
 
 
-                                   if ( await page.$('#confirm-button') ) {
+                                   if ( await page.$('#confirm-button') && !confirmButton ) {
                                    log( '#confirm-button was found and this means video was paused by youtube.. we click it now to replay the video!\n\n' );
 
                                                  try{
                                                    await page.click('#confirm-button');
                                                  } catch(e) {  log( '#confirm-button error: ' + e.message );   }
+                                                 confirmButton = true;
 
                                    } //  if ( await page.$('#confirm-button') ) {
 
@@ -766,7 +768,7 @@ rainbow.start();
    if( ytLinks_AR[0] ){
    log( 'startYoutTube() -  Current URL: '  + ytLinks_AR[0] );
 
-
+confirmButton = false;
 
 
 
