@@ -12,7 +12,9 @@ Database: **False**
 <br />
 Webdriver: **Puppeteer**
 <br />
-Bot Protection: **Google Captcha (if VPN user but comes very rar)**
+Bot Protection:
+- **Google Captcha (if VPN user but comes very rar)**
+- **Headless or minimised not working because it´s premium feature for autoplay**
 <br />
 Sign-in required: **Not required only if your videos are age restricted**
 <br />
@@ -67,6 +69,7 @@ You can import browser bookmarks files or other unsorted text (bot will parse yo
 - **Randomise YouTube links for fresh music feeling each new start**
 - **Detect duplicated YouTube links**
 - **When video is offline(Video Private/unavailable) the link will be deleted from the bookmarks.txt file!**
+- **After very long play time without interaction with the browser window youtube will pause the video. In this case the bot will detect it and click play again**
 
 # *Browser Extensions*
 - If you want you can use any Ad blocking extension like ScriptSafe or Adblock Plus to block all video ads! Extensions must be inserted at **./lib/chromeextension** and included in your **app.js** like this:
