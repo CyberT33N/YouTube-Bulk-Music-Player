@@ -8,6 +8,8 @@ Works with default links or playlist links:
 <br />
 <br />
 
+____________________________________________________________
+
 Database: **False**
 <br />
 Webdriver: **Puppeteer**
