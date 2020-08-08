@@ -50,11 +50,6 @@ ____________________________________________________________
 
 
 # Install
-```bash
-install_module.bat/.sh
-```  
-
-
 You can import browser bookmarks files or other unsorted text (bot will parse youtube links which ends with " or ') or directly paste YouTube links seperated with a new line at this file:
 **bookmarks.txt**
 
