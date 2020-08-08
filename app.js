@@ -260,11 +260,6 @@ log( 'We will start now your Browser please wait..' );
 
 
 
-
-
-
-
-
                                                            disableGPU,
                                                           '--disable-flash-3d',
                                                            '--no-sandbox',
@@ -302,9 +297,9 @@ log( 'We will start now your Browser please wait..' );
                                                          await page.bringToFront();
                                                          log( 'Browser should be started now..' );
 
-
-
-
+                                                         const session = await page.target().createCDPSession();
+                                                         await session.send('Page.enable');
+                                                         await session.send('Page.setWebLifecycleState', {state: 'active'});
 
                                                          process.nextTick(parseYoutTubeLinks);
 
@@ -420,7 +415,7 @@ log( 'We will start now your Browser please wait..' );
 
 
 function parseYoutTubeLinks(){
-log( 'parseYoutTubeLinks ()' );
+log( 'parseYoutTubeLinks()' );
 
 
 fs.readFile('./bookmarks.txt', 'utf-8', function read(e, data) {
@@ -428,7 +423,8 @@ fs.readFile('./bookmarks.txt', 'utf-8', function read(e, data) {
      log('Error while reading bookmarks file: ' + e);
      return;
   }
-  //log('Successfully open boomarks file (raw): ' +  data);
+//  log('Successfully open boomarks file (raw): ' +  data);
+log('Successfully read imported file..\n\n' );
 
 
 
@@ -454,10 +450,11 @@ fs.readFile('./bookmarks.txt', 'utf-8', function read(e, data) {
                                       ytLinks_AR = unq(ytLinks_AR);
 
                                        //log('Parsed Youtube URLS: ' + ytLinks_AR);
+                                       log( 'All videos was parsed..\n\n' );
                                        process.nextTick(startYoutTube);
 
                                   } //   if( tmpAR ){
-                                  else log( 'No video was able to get parsed..' );
+                                  else log( 'No video was able to get parsed..\n\n' );
 
   }); // fs.readFile('././' + logilog, 'utf-8', function read(err, data) {
 } //   function parseYoutTubeLinks(){
@@ -765,10 +762,16 @@ rainbow.start();
 
   function startYoutTube(){
    (async () => {
-   if( ytLinks_AR[0] ){
-   log( 'startYoutTube() -  Current URL: '  + ytLinks_AR[0] );
+   confirmButton = false;
 
-confirmButton = false;
+
+
+
+   if( ytLinks_AR[0] ){
+   log( 'startYoutTube() -  Current URL: '  + ytLinks_AR[0] + '\n\n' );
+
+
+
 
 
 
@@ -780,27 +783,27 @@ confirmButton = false;
 
 
               if( e.message.match('Navigation timeout of') ){
-                    log( '#2 - Navigation timeout was found we reload page in 30 seconds..' );
+                    log( '#2 - Navigation timeout was found we reload page in 30 seconds..\n\n' );
                     setTimeout(() => { process.nextTick(startYoutTube) }, 30000);
                 } // else from  if( e.match('Navigation timeout of') ){
 
 
 
                       if ( e.message.match( 'net::ERR_EMPTY_RESPONSE' ) ){
-                          log( '#2 - net::ERR_EMPTY_RESPONSE was found we reload page in 30 seconds..' );
+                          log( '#2 - net::ERR_EMPTY_RESPONSE was found we reload page in 30 seconds..\n\n' );
                           setTimeout(() => { process.nextTick(startYoutTube) }, 30000);
                       } //   if ( e.match( 'net::ERR_EMPTY_RESPONSE' ) ){
 
 
                         if ( e.message.match( 'net::ERR_NETWORK_CHANGED' ) ){
-                            log( '#2 - net::ERR_NETWORK_CHANGED was found we reload page in 30 seconds..' );
+                            log( '#2 - net::ERR_NETWORK_CHANGED was found we reload page in 30 seconds..\n\n' );
                             setTimeout(() => { process.nextTick(startYoutTube) }, 30000);
                         } //    if ( e.message.match( 'net::ERR_NETWORK_CHANGED' ) ){
 
 
 
                         if ( e.message.match( 'net::ERR_NAME_NOT_RESOLVED' ) ){
-                            log( '#2 - net::ERR_NAME_NOT_RESOLVED was found we reload page in 30 seconds..' );
+                            log( '#2 - net::ERR_NAME_NOT_RESOLVED was found we reload page in 30 seconds..\n\n' );
                             setTimeout(() => { process.nextTick(startYoutTube) }, 30000);
                         } //   if ( e.match( 'net::ERR_EMPTY_RESPONSE' ) ){
 
@@ -809,13 +812,13 @@ confirmButton = false;
 
 
                           if ( e.message.match( 'net::ERR_CONNECTION_CLOSED' ) ){
-                              log( '#2 - net::ERR_CONNECTION_CLOSED was found we reload page in 30 seconds..' );
+                              log( '#2 - net::ERR_CONNECTION_CLOSED was found we reload page in 30 seconds..\n\n' );
                                 setTimeout(() => { process.nextTick(startYoutTube) }, 30000);
                           } //   if ( e.match( 'net::ERR_EMPTY_RESPONSE' ) ){
 
 
                                                                                   if ( e.message.match( 'net::ERR_PROXY_CONNECTION_FAILED' ) ){
-                                                                                      log( '#2 - net::ERR_PROXY_CONNECTION_FAILED was found.. Maybe your proxy is offline? Maybe change your proxy.. However we reload page in 30 seconds..' );
+                                                                                      log( '#2 - net::ERR_PROXY_CONNECTION_FAILED was found.. Maybe your proxy is offline? Maybe change your proxy.. However we reload page in 30 seconds..\n\n' );
                                                                                         setTimeout(() => { process.nextTick(startYoutTube) }, 30000);
                                                                                   } //   if ( e.match( 'net::ERR_EMPTY_RESPONSE' ) ){
 
@@ -824,12 +827,12 @@ confirmButton = false;
 
 
                                                       if ( e.message.match( 'net::ERR_CONNECTION_REFUSED' ) ){
-                                                          log( '#2 - net::ERR_CONNECTION_REFUSED was found we reload page in 30 seconds..' );
+                                                          log( '#2 - net::ERR_CONNECTION_REFUSED was found we reload page in 30 seconds..\n\n' );
                                                             setTimeout(() => { process.nextTick(startYoutTube) }, 30000);
                                                       } //   if ( e.match( 'net::ERR_EMPTY_RESPONSE' ) ){
 
                                                         if ( e.message.match( 'net::ERR_CONNECTION_TIMED_OUT' ) ){
-                                                            log( '#2 - net::ERR_CONNECTION_TIMED_OUT was found we reload page in 30 seconds..' );
+                                                            log( '#2 - net::ERR_CONNECTION_TIMED_OUT was found we reload page in 30 seconds..\n\n' );
                                                               setTimeout(() => { process.nextTick(startYoutTube) }, 30000);
                                                         } //   if ( e.match( 'net::ERR_EMPTY_RESPONSE' ) ){
 
@@ -838,30 +841,7 @@ confirmButton = false;
               return;
 
           } // catch(e) {
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+          log( 'No loading error found..\n\n' );
 
 
 
@@ -1015,8 +995,6 @@ confirmButton = false;
                                                                     process.nextTick(deleteOfflineVideos);
                                                                     return;
                                                                 } // if( !videoDuration ){
-
-
 
 
 
@@ -1305,7 +1283,7 @@ confirmButton = false;
 } // if( ytLinks_AR[0] ){
 else {
   log( `############ FINISH ##############
-  No more youtube video was found.. we will end the script now..`);
+  No more youtube video was found.. we will end the script now..\n\n`);
 
 
                await client.close();
