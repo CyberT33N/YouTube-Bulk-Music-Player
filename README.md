@@ -10,6 +10,9 @@ Works with default links or playlist links:
 
 ____________________________________________________________
 
+<br />
+<br />
+
 Database: **False**
 <br />
 Webdriver: **Puppeteer**
