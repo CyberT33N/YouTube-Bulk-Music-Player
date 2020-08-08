@@ -1093,6 +1093,7 @@ rainbow.start();
                                   log( 'Cant find video duration.. Maybe video not found? We go to next video..' );
 
                                                             if( await page.$('#captcha-form') ) {
+                                                              await page.bringToFront();
                                                               log( 'Google Captcha was found.. solve it or change ip.. We wait now 60 second and after this we restart bot..\n\n' );
                                                               setTimeout(() => { process.nextTick(startYoutTube); }, 60000);
                                                             } //   if( googleCaptcha ) {
