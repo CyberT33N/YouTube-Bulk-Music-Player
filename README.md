@@ -76,6 +76,7 @@ You can import browser bookmarks files or other unsorted text (bot will parse yo
 
 # *Features*
 - **Randomise YouTube links for fresh music feeling each new start**
+- **Detect Google Captcha and wait until its solved by user**
 - **Detect duplicated YouTube links**
 - **When video is offline(Video Private/unavailable) the link will be deleted from the bookmarks.txt file!**
 - **After very long play time without interaction with the browser window youtube will pause the video. In this case the bot will detect it and click play again**
