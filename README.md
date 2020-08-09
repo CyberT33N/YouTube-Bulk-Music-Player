@@ -118,7 +118,7 @@ Then in your config.json file you add these lines:
 }
 ```
 
-You can add as much extension as you want. However use always unique names like **extension1**, **extension2***, ..
+You can add as much extension as you want. However use always unique names like **extension1**, **extension2**, ..
 
 If you want to disable extensions you use:
 ```javascript
