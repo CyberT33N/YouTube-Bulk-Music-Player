@@ -101,7 +101,7 @@ true or false (**Currently only works with false**)
 <br />
 <br />
 
-If you want you can use browser extensions (as example for block ads) and use them with your Bot. In order to use them you must download the extensions and include the files at this folder:
+If you want you can use browser extensions (as example for block ads). In order to use them you must download the extensions and include the files at this folder:
 - ./lib/chromeextension
 
 
