@@ -853,6 +853,15 @@ rainbow.start();
 
 
 
+
+
+
+
+
+
+
+
+
             try {
 
                   // dont remove, youtube is loading sometimes even when document is ready..
@@ -868,12 +877,6 @@ rainbow.start();
 
               } // catch(e) {
              log( 'Successfully loaded: ' + ytLinks_AR[0] + '\n\n' );
-
-
-
-
-
-
 
 
 
@@ -1041,30 +1044,10 @@ rainbow.start();
 
 
 
-                              await page.hover('.ytp-progress-bar-container');
-
-                              let videoDuration = await page.evaluate(element => element.textContent, await page.$(".ytp-time-duration") );
-                              log( 'videoDuration: ' + chalk.white.bgGreen.bold( videoDuration ) + '\n\n' );
-
-                               let currentVideoDuration = await page.evaluate(element => element.textContent, await page.$(".ytp-time-current") );
-                               log( 'currentVideoDuration: ' + chalk.white.bgGreen.bold( currentVideoDuration ) + '\n\n'  );
-
-                              await page.hover('video');
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
+                                                             log( 'We scrap now video details..' );
 
 
                                                             let videoTitle = $(css).find('.title.style-scope.ytd-video-primary-info-renderer').text();
@@ -1089,21 +1072,169 @@ rainbow.start();
 
 
 
-                              if( !videoDuration ){
-                                  log( 'Cant find video duration.. Maybe video not found? We go to next video..' );
 
-                                                            if( await page.$('#captcha-form') ) {
-                                                              await page.bringToFront();
-                                                              log( 'Google Captcha was found.. solve it or change ip.. We wait now 60 second and after this we restart bot..\n\n' );
-                                                              setTimeout(() => { process.nextTick(startYoutTube); }, 60000);
-                                                            } //   if( googleCaptcha ) {
-                                                            else{
-                                                                        ytLinks_AR.shift();
-                                                                        process.nextTick(startYoutTube);
-                                                            } // else from   if( googleCaptcha ) {
 
-                                  return;
-                              } // if( !videoDuration ){
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                              let videoDuration = await page.evaluate(element => element.textContent, await page.$(".ytp-time-duration") );
+                              log( 'videoDuration: ' + chalk.white.bgGreen.bold( videoDuration ) + '\n\n' );
+
+
+                              await page.hover('.ytp-progress-bar-container');
+                              await new Promise(resolve => setTimeout(resolve, 1000));
+
+                               let currentVideoDuration = await page.evaluate(element => element.textContent, await page.$(".ytp-time-current") );
+                               log( 'currentVideoDuration: ' + chalk.white.bgGreen.bold( currentVideoDuration ) + '\n\n'  );
+
+                              await page.hover('video');
+
+
+
+
+
+
+
+
+
+
+                                                            if( !videoDuration ){
+                                                                log( 'Cant find video duration.. Maybe video not found? We go to next video..' );
+
+                                                                                          if( await page.$('#captcha-form') ) {
+                                                                                            await page.bringToFront();
+                                                                                            log( 'Google Captcha was found.. solve it or change ip.. We wait now 60 second and after this we restart bot..\n\n' );
+                                                                                            setTimeout(() => { process.nextTick(startYoutTube); }, 60000);
+                                                                                          } //   if( googleCaptcha ) {
+                                                                                          else{
+                                                                                                      ytLinks_AR.shift();
+                                                                                                      process.nextTick(startYoutTube);
+                                                                                          } // else from   if( googleCaptcha ) {
+
+                                                                return;
+                                                            } // if( !videoDuration ){
+
+
+
+
+
+
+
+
+                                                                      let vidDuration_ms = convert_time(videoDuration);
+
+                                                                      if( currentVideoDuration ) var currentVideoDuration_ms = convert_time(currentVideoDuration);
+                                                                      else var currentVideoDuration_ms = 0;
+                                                                      //log( 'Successfully converted times.. currentVideoDuration_ms:' + currentVideoDuration_ms + '\nvidDuration_ms: ' + vidDuration_ms +  '\n\n' );
+
+
+
+                                                                        if( vidDuration_ms ) {
+                                                                                   var countdownValue = vidDuration_ms - currentVideoDuration_ms - 1000;
+                                                                                   log( 'countdownValue after substract played time: ' + countdownValue + '\n\n' );
+                                                                         }  //   if( VidDuration_ms ) {
+                                                                        else {
+                                                                                   var countdownValue = vidDuration_ms;
+                                                                                   log( 'countdownValue without substract played time: ' + countdownValue + '\n\n' );
+                                                                         } // else from   if( VidDuration_ms ) {
+
+
+
+
+
+
+
+
+
+
+
+
+
+// check for video ads..
+ let checkADSresult = await checkADS(countdownValue);
+ log( 'checkADSresult: ' + checkADSresult + '\n\n' );
+
+if( checkADSresult ){
+     process.nextTick( startYoutTube );
+     return;
+} // if( checkADSresult ){
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -1162,25 +1293,19 @@ rainbow.start();
 
 
 
-
-                                                                      var vidDuration_ms = convert_time(videoDuration);
-                                                                      log( 'Current video duration in ms: ' + vidDuration_ms );
-
-
-
                                                                       await page.click('.ytp-large-play-button.ytp-button');
-                                                                      log( 'We wait now until the video was finished..\n\nTime left:\n\n' );
+                                                                      log( 'We wait now until the video was finished.. Countdown: ' + countdownValue + '\n\nTime left: \n\n' );
 
 
-                                                                      countdown(vidDuration_ms);
+                                                                      countdown(countdownValue);
                                                                       setTimeout(() => {
-                                                                      log( 'It seems that the video was finished.. We go to next one now\n\n' );
+                                                                      log( 'It seems that the video was finished.. We go now to next one..\n\n' );
 
 
                                                                              ytLinks_AR.shift();
                                                                             process.nextTick(startYoutTube);
 
-                                                                       }, vidDuration_ms);
+                                                                       }, countdownValue);
 
 
                                          } //   if (await playButton.isIntersectingViewport()) {
@@ -1195,11 +1320,11 @@ rainbow.start();
                                            await page.waitFor(5000);
 
 
-                                                                         await page.hover('.ytp-progress-bar-container');
-
-
                                                                          let videoDuration = await page.evaluate(element => element.textContent, await page.$(".ytp-time-duration") );
                                                                          log( '#2 videoDuration: ' + chalk.white.bgGreen.bold( videoDuration ) + '\n\n' );
+
+                                                                         await page.hover('.ytp-progress-bar-container');
+                                                                         await new Promise(resolve => setTimeout(resolve, 1000));
 
                                                                           let currentVideoDuration = await page.evaluate(element => element.textContent, await page.$(".ytp-time-current") );
                                                                           log( '#2 - currentVideoDuration: ' + chalk.white.bgGreen.bold( currentVideoDuration ) + '\n\n'  );
@@ -1208,20 +1333,21 @@ rainbow.start();
                                                                           await page.hover('video');
 
 
-                                                                           var vidDuration_ms = convert_time(videoDuration);
+                                                                           let vidDuration_ms = convert_time(videoDuration);
                                                                            log( 'Current video duration in ms: ' + vidDuration_ms );
 
                                                                            if( currentVideoDuration ){
                                                                                     var currentVidDuration_ms = convert_time(currentVideoDuration);
                                                                                     log( '#2 Current video duration in ms: ' + currentVidDuration_ms );
                                                                             } // if( currentVideoDuration ){
+                                                                           else currentVidDuration_ms = 0;
 
 
 
 
 
                                                                       if( currentVidDuration_ms ) {
-                                                                           var countdownValue = vidDuration_ms - currentVidDuration_ms;
+                                                                           var countdownValue = vidDuration_ms - currentVidDuration_ms - 1000;
                                                                            log( 'countdownValue after substract played time: ' + countdownValue + '\n\n' );
                                                                      }  //   if( currentVidDuration_ms ) {
                                                                      else {
@@ -1318,3 +1444,74 @@ else {
 
 
 } //  async function startBROWSER(){
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+   // check for video ads..
+  async function checkADS(countdownValue){
+  log( 'ENTER checkADS() - countdownValue: ' + countdownValue );
+
+
+                           if ( await page.$('.ad-showing') ){
+                           log( 'Video ADS was found.. We wait now until the AD is finished..:\n\n' );
+
+                                        await new Promise(resolve => setTimeout(resolve, countdownValue));
+                                        log( 'Video AD is finished.. We restart the startYoutTube() now..' );
+                                        return true;
+
+                            } // if ( await page.$('.ad-showing') ){
+                            else {
+                              log( 'No video ADS was found.. we continue the script now..\n\n' );
+                              return false;
+                            } //  if ( await page.$('.ad-showing') ){
+
+
+     } // async function checkADS(){
