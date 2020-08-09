@@ -1174,7 +1174,7 @@ rainbow.start();
 
 
                                                                         if( vidDuration_ms ) {
-                                                                                   var countdownValue = vidDuration_ms - currentVideoDuration_ms - 1000;
+                                                                                   var countdownValue = vidDuration_ms - currentVideoDuration_ms;
                                                                                    log( 'countdownValue after substract played time: ' + countdownValue + '\n\n' );
                                                                          }  //   if( VidDuration_ms ) {
                                                                         else {
@@ -1347,7 +1347,7 @@ if( checkADSresult ){
 
 
                                                                       if( currentVidDuration_ms ) {
-                                                                           var countdownValue = vidDuration_ms - currentVidDuration_ms - 1000;
+                                                                           var countdownValue = vidDuration_ms - currentVidDuration_ms;
                                                                            log( 'countdownValue after substract played time: ' + countdownValue + '\n\n' );
                                                                      }  //   if( currentVidDuration_ms ) {
                                                                      else {
