@@ -75,20 +75,6 @@ You can import browser bookmarks files or other unsorted text (bot will parse yo
 - **After very long play time without interaction with the browser window youtube will pause the video. In this case the bot will detect it and click play again**
 - **Detect Video ADS and skip them**
 
-# *Browser Extensions*
-- If you want you can use any Ad blocking extension like ScriptSafe or Adblock Plus to block all video ads! Extensions must be inserted at **./lib/chromeextension** and included in your **app.js** like this:
-
-```javascript
-'--disable-extensions-except=../../../../../lib/chromeextension/webrtc_anti_leak_prevent/eiadekoaikejlgdbkbdfeijglgfdalml/1.0.14_0,../../../../../lib/chromeextension/script_safe/oiigbmnaadbkfbmpbfijlflahbdbdgdf/1.0.9.3_0',
-
-'--load-extension=../../../../../lib/chromeextension/webrtc_anti_leak_prevent/eiadekoaikejlgdbkbdfeijglgfdalml/1.0.14_0',
-'--load-extension=../../../../../lib/chromeextension/script_safe/oiigbmnaadbkfbmpbfijlflahbdbdgdf/1.0.9.3_0',
-
-```  
-For me on windows the current path was inside of the Puppeteer folder inside of the node_modules folder thats why I went 5 folder back with ../../../../../
-You may have to change this depend on your OS
-
-
 
 <br />
 <br />
@@ -110,6 +96,34 @@ true or false (**Currently only works with false**)
 
 - **windowWidth & windowHeight** Define your window width and height
 
+
+
+<br />
+<br />
+
+If you want you can use browser extensions (as example for block ads) and use them with your Bot. In order to use them you must download the extensions and include the files at this folder:
+- ./lib/chromeextension
+
+
+<br />
+<br />
+
+Then in your config.json file you add these lines:
+
+```javascript
+"extensionlist": {
+   "extension1": "webrtc_anti_leak_prevent/eiadekoaikejlgdbkbdfeijglgfdalml/1.0.14_0",
+   "extension2": "script_safe/oiigbmnaadbkfbmpbfijlflahbdbdgdf/1.0.9.3_0",
+   "extension3": "modheader/idgpnmonknjnojddfkpgkljpfnnfcklj/3.0.7_0"
+}
+```
+
+You can add as much extension as you want. However use always unique names like **extension1**, **extension2***, ..
+
+If you want to disable extensions you use:
+```javascript
+"extensionlist": ""
+```
 
 <br />
 <br />
