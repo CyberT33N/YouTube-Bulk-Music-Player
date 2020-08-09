@@ -85,6 +85,9 @@ Here you can add all your plugins. *Note* The enabled plugins are necessary.
                  puppeteer = require('puppeteer'),
        chalkAnimation = require('chalk-animation'),
                     gradient = require('gradient-string'),
+                              os = require('os'),
+                   osHOME = os.homedir(),
+          osPLATFORM = os.platform(),
 
           // import config file
          json_configFile = fs.readFileSync('./admin/config.json', 'utf8'),
@@ -96,26 +99,6 @@ config_browser_profile = json_config.browser_profile,
                windowWidth = json_config.windowWidth,
                windowHeight = json_config.windowHeight,
                windowSizeComplete = '--window-size=' + windowWidth + ',' + windowHeight;
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 
@@ -160,6 +143,101 @@ config_browser_profile = json_config.browser_profile,
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                                                  var args = [
+                                                  windowSizeComplete,
+
+                                                  disableGPU,
+                                                  '--disable-flash-3d',
+                                                  '--no-sandbox',
+                                                  // '--disable-setuid-sandbox',
+
+                                                  '--disable-popup-blocking',
+                                                  '--disable-notifications',
+                                                  '--disable-dev-shm-usage',
+                                                  '--force-webrtc-ip-handling-policy=disable-non-proxied-udp',
+                                                  '--disable-flash-stage3d',
+                                                  '--disable-java',
+                                                  '--disable-internal-flash',
+                                                  '--disable-cache',
+                                                  '--disable-webgl', // webgl
+                                                  '--disable-3d-apis', // webgl
+                                                  //'--disable-extensions',
+                                                  '--disable-webgl-image-chromium',
+                                                  //'--disable-reading-from-canvas', // <-- youtube videos not playing with this enabled
+
+                                                  '--lang=en'
+
+                                                ];
+
+
+
+
+
+
+
+                         var browserProfilePath;
+                         log( 'osPLATFORM: ' + osPLATFORM );
+                         if( osPLATFORM == 'darwin' ) browserProfilePath = './lib/browserProfiles/';
+                         if( osPLATFORM == 'linux' ) browserProfilePath = './lib/browserProfiles/';
+                         if( osPLATFORM == 'win32' ) browserProfilePath = '../../../../../lib/browserProfiles/';
+                         log( 'browserProfilePath: ' + browserProfilePath + '\nconfig_browser_profile: ' + config_browser_profile );
+
+
+                         var chromeExtensionPath;
+                         if( osPLATFORM == 'darwin' ) chromeExtensionPath = './lib/chromeextension/';
+                         if( osPLATFORM == 'linux' ) chromeExtensionPath = './lib/chromeextension/';
+                         if( osPLATFORM == 'win32' ) chromeExtensionPath = '../../../../../lib/chromeextension/';
+                         log( 'chromeExtension Path: ' + chromeExtensionPath );
+
+
+
+
+                                   //############## extensions ##################################
+                                   var extensionlist = json_config.extensionlist;
+                                   //if( extensionlist.length !== 0 ) extensionlist = '--disable-extensions-except=' + chromeExtensionPath + extensionlist.split( ',' ).join( ',' + chromeExtensionPath );
+
+
+                                   if( extensionlist.length !== 0 ){
+
+                                       let extensionlistAR = [];
+                                       for( let d in extensionlist ){
+                                              extensionlistAR.push( chromeExtensionPath + extensionlist[d] );
+                                              args.push( '--load-extension=' + chromeExtensionPath + extensionlist[d] );
+                                       } // for( let d of extensionlist ){
+
+                                    extensionlist = '--disable-extensions-except=' + extensionlistAR.join( ',' );
+                                    args.push(extensionlist);
+
+                                   } //  if( extensionlist.length !== 0 ){
+
+
+                                   log( 'extensionlist: ' + extensionlist + '\n\nArgs: ' + args);
 
 
 
@@ -277,53 +355,8 @@ log( 'We will start now your Browser please wait..' );
                                                            //executablePath: '/home/user/Downloads/Linux_x64_749751_chrome-linux/chrome-linux/chrome',
                                                           // executablePath: '/home/user/Downloads/firefox-78.0a1.en-US.linux-x86_64/firefox/firefox',
                                                            headless: headlessVALUE, // true or false
-                                                           userDataDir: '../../../../../lib/browserProfiles/' + config_browser_profile,
-                                                           args: [
-                                                           windowSizeComplete,
-
-
-                                                      '--disable-extensions-except=../../../../../lib/chromeextension/adblock_plus/cfhdojbkjhnklbpkdaibdccddilifddb/1.13.4_0,../../../../../lib/chromeextension/webrtc_anti_leak_prevent/eiadekoaikejlgdbkbdfeijglgfdalml/1.0.14_0,../../../../../lib/chromeextension/ipfuck/bjgmbpodpcgmnpfjmigcckcjfldcicnd/1.3_0,../../../../../lib/chromeextension/script_safe/oiigbmnaadbkfbmpbfijlflahbdbdgdf/1.0.9.3_0,../../../../../lib/chromeextension/modheader/idgpnmonknjnojddfkpgkljpfnnfcklj/3.0.7_0,../../../../../lib/chromeextension/policycontrol/eekommagmgepaafaaegimeldlnnnolgn/0.3.5_0,../../../../../lib/chromeextension/alertblocker/ofjjanaennfbgpccfpbghnmblpdblbef/1.3_0,../../../../../lib/chromeextension/letmeout/hnfdibcbmlppjlkefinedeffoiomlecc/1.3_0,../../../../../lib/chromeextension/showmyip/pdnildedfbigagjbaigbalnfdfpijhaf/1.2.1_0,../../../../../lib/chromeextension/violentmonkey/jinjaccalgkegednnccohejagnlnfdag/2.12.7_0,../../../../../lib/chromeextension/touchvpn/bihmplhobchoageeokmgbdihknkjbknd/3.1.5_0,',
-                                                      '--load-extension=../../../../../lib/chromeextension/webrtc_anti_leak_prevent/eiadekoaikejlgdbkbdfeijglgfdalml/1.0.14_0',
-                                                      '--load-extension=../../../../../lib/chromeextension/ipfuck/bjgmbpodpcgmnpfjmigcckcjfldcicnd/1.3_0',
-                                                      '--load-extension=../../../../../lib/chromeextension/script_safe/oiigbmnaadbkfbmpbfijlflahbdbdgdf/1.0.9.3_0',
-                                                      '--load-extension=../../../../../lib/chromeextension/modheader/idgpnmonknjnojddfkpgkljpfnnfcklj/3.0.7_0',
-                                                      '--load-extension=../../../../../lib/chromeextension/policycontrol/eekommagmgepaafaaegimeldlnnnolgn/0.3.5_0',
-                                                      '--load-extension=../../../../../lib/chromeextension/alertblocker/ofjjanaennfbgpccfpbghnmblpdblbef/1.3_0',
-                                                      '--load-extension=../../../../../lib/chromeextension/letmeout/hnfdibcbmlppjlkefinedeffoiomlecc/1.3_0',
-                                                      '--load-extension=../../../../../lib/chromeextension/showmyip/pdnildedfbigagjbaigbalnfdfpijhaf/1.2.1_0',
-                                                      '--load-extension=../../../../../lib/chromeextension/violentmonkey/jinjaccalgkegednnccohejagnlnfdag/2.12.7_0',
-                                                       '--load-extension=../../../../../lib/chromeextension/touchvpn/bihmplhobchoageeokmgbdihknkjbknd/3.1.5_0',
-                                                       '--load-extension=../../../../../lib/chromeextension/adblock_plus/cfhdojbkjhnklbpkdaibdccddilifddb/1.13.4_0',
-
-
-
-
-
-
-                                                           disableGPU,
-                                                          '--disable-flash-3d',
-                                                           '--no-sandbox',
-                                                          // '--disable-setuid-sandbox',
-
-                                                           '--disable-popup-blocking',
-                                                           '--disable-notifications',
-                                                           '--disable-dev-shm-usage',
-                                                           '--force-webrtc-ip-handling-policy=disable-non-proxied-udp',
-                                                           '--disable-flash-stage3d',
-                                                           '--disable-java',
-                                                           '--disable-internal-flash',
-                                                           '--disable-cache',
-                                                           '--disable-webgl', // webgl
-                                                           '--disable-3d-apis', // webgl
-                                                           //'--disable-extensions',
-                                                           '--disable-webgl-image-chromium',
-                                                          //'--disable-reading-from-canvas', // <-- youtube videos not playing with this enabled
-
-                                                           '--lang=en'
-
-                                                         ]
-
-
+                                                           userDataDir: browserProfilePath + config_browser_profile,
+                                                           args: args
                                                          });
 
 
