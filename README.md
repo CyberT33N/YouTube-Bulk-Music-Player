@@ -73,6 +73,7 @@ You can import browser bookmarks files or other unsorted text (bot will parse yo
 - **Detect duplicated YouTube links**
 - **When video is offline(Video Private/unavailable/..) the link will be deleted from the bookmarks.txt file!**
 - **After very long play time without interaction with the browser window youtube will pause the video. In this case the bot will detect it and click play again**
+- **Detect Video ADS and skip them**
 
 # *Browser Extensions*
 - If you want you can use any Ad blocking extension like ScriptSafe or Adblock Plus to block all video ads! Extensions must be inserted at **./lib/chromeextension** and included in your **app.js** like this:
