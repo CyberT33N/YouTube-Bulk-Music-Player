@@ -1103,6 +1103,20 @@ rainbow.start();
 
 
 
+                                                                  if(
+                                                                    errorMessage == "Your browser does not currently recognize any of the video formats available. Click here to visit our frequently asked questions about HTML5 video." ||
+                                                                    errorMessagetwo == "Your browser does not currently recognize any of the video formats available. Click here to visit our frequently asked questions about HTML5 video." ||
+                                                                    errorMessageMAIN == "Your browser does not currently recognize any of the video formats available. Click here to visit our frequently asked questions about HTML5 video." ||
+                                                                    errorMessagethree == "Your browser does not currently recognize any of the video formats available. Click here to visit our frequently asked questions about HTML5 video."
+                                                                   ){
+                                                                      log( 'Your browser does not currently recognize any of the video formats available. Click here to visit our frequently asked questions about HTML5 video... We skip this video now..\n\n' );
+
+                                                                      ytLinks_AR.shift();
+                                                                      process.nextTick(startYoutTube);
+
+                                                                      return;
+                                                                  } // if( !videoDuration ){
+
 
 
 
