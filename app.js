@@ -19,18 +19,6 @@
 
 
 
-/*
-
-Currently only works in headful mode
-
-YouTube Ads block extension like scriptsafe or adblock plus must be used
-
-
-
-
-*/
-
-
 
 
 
