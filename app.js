@@ -1600,13 +1600,13 @@ else {
 
 
                            if ( await page.$('.ad-showing') ){
-                           log( 'Video ADS was found.. We wait now until the AD is finished..:\n\n' );
+                           log( 'Video ADS was found.. We wait now until the AD is finished..\n\n' );
 
                                   await page.waitForSelector('.ytp-ad-skip-button-text', {visible: true, timeout:countdownValue});
                                   await new Promise(resolve => setTimeout(resolve, 1000));
-                                  log( 'Skip Button is clickable.. We click it now..' );
+                                  log( 'Skip Button is clickable.. We click it now..\n\n' );
                                   await page.click('.ytp-ad-skip-button-text');
-                                  log( 'Video AD is finished.. We restart the startYoutTube() now..' );
+                                  log( 'Video AD is finished.. We restart the startYoutTube() now..\n\n' );
                                   return true;
 
                             } // if ( await page.$('.ad-showing') ){
