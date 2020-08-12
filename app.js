@@ -31,8 +31,6 @@
 
 
 
-
-
      /*
     ▄██████▄  ▀█████████▄       ▄█    ▄████████  ▄████████     ███        ▄████████
    ███    ███   ███    ███     ███   ███    ███ ███    ███ ▀█████████▄   ███    ███
@@ -746,6 +744,8 @@ rainbow.start();
 
                                    if ( await page.$('#confirm-button') && !confirmButton ) {
                                    log( '#confirm-button was found and this means video was paused by youtube.. we click it now to replay the video!\n\n' );
+
+                                   await page.bringToFront();
 
                                                  try{
                                                    await page.click('#confirm-button');
