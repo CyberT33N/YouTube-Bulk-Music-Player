@@ -64,27 +64,27 @@ Here you can add all your plugins. *Note* The enabled plugins are necessary.
 */
                      // npm i fancy-log chalk puppeteer chalk-animation gradient-string cheerio
                      const fs = require('fs'),
-                              log = require('fancy-log'),
-                             unq = require('unq'),
-                          chalk = require('chalk'),
+                          log = require('fancy-log'),
+                          unq = require('unq'),
+                        chalk = require('chalk'),
                       cheerio = require('cheerio'),
-                 puppeteer = require('puppeteer'),
-       chalkAnimation = require('chalk-animation'),
-                    gradient = require('gradient-string'),
-                              os = require('os'),
-                   osHOME = os.homedir(),
-          osPLATFORM = os.platform(),
+                    puppeteer = require('puppeteer'),
+               chalkAnimation = require('chalk-animation'),
+                     gradient = require('gradient-string'),
+                           os = require('os'),
+                       osHOME = os.homedir(),
+                   osPLATFORM = os.platform(),
 
-          // import config file
-         json_configFile = fs.readFileSync('./admin/config.json', 'utf8'),
-                json_config = JSON.parse(json_configFile),
-config_browser_profile = json_config.browser_profile,
+               // import config file
+              json_configFile = fs.readFileSync('./admin/config.json', 'utf8'),
+                  json_config = JSON.parse(json_configFile),
+       config_browser_profile = json_config.browser_profile,
 
 
 
-               windowWidth = json_config.windowWidth,
-               windowHeight = json_config.windowHeight,
-               windowSizeComplete = '--window-size=' + windowWidth + ',' + windowHeight;
+                  windowWidth = json_config.windowWidth,
+                 windowHeight = json_config.windowHeight,
+           windowSizeComplete = '--window-size=' + windowWidth + ',' + windowHeight;
 
 
 
@@ -189,8 +189,6 @@ config_browser_profile = json_config.browser_profile,
                                     args.push(extensionlist);
 
                                    } //  if( extensionlist.length !== 0 ){
-
-
                                    log( 'extensionlist: ' + extensionlist + '\n\nArgs: ' + args);
 
 
@@ -275,54 +273,6 @@ config_browser_profile = json_config.browser_profile,
 
 
 
-                                                  // extract the Page class
-                                                         const { Page } = require("puppeteer/lib/Page");
-
-                                                         /**
-                                                          * @name elementContains
-                                                          * @param {String} selector specific selector globally search and match
-                                                          * @param {String} text filter the elements with the specified text
-                                                          * @returns {Promise} elementHandle
-                                                          */
-                                                         Page.prototype.elementContains = function elementContains(...args) {
-                                                           return this.evaluateHandle((selector, text) => {
-                                                             // get all selectors for this specific selector
-                                                             const elements = [...document.querySelectorAll(selector)];
-                                                             // find element by text
-                                                             const results = elements.filter(element => element.innerText.includes(text));
-                                                             // get the last element because that's how querySelectorAll serializes the result
-                                                             return results[results.length-1];
-                                                           }, ...args);
-                                                         };
-
-
-
-                                                         /**
-                                                          * Replicate the .get function
-                                                          * gets an element from the executionContext
-                                                          * @param {String} selector
-                                                          * @returns {Promise}
-                                                          */
-                                                         const { JSHandle } = require("puppeteer/lib/JSHandle");
-                                                         JSHandle.prototype.get = function get(selector) {
-                                                           // get the context and evaluate inside
-                                                           return this._context.evaluateHandle(
-                                                             (element, selector) => {
-                                                               return element.querySelector(selector);
-                                                             },
-                                                             // pass the JSHandle which is itself
-                                                             this,
-                                                             selector
-                                                           );
-                                                         };
-
-
-
-
-
-
-
-
 
                                                                         /*
                                                                          ████████████████████████████████████████████████████████████████████████████████
@@ -353,7 +303,7 @@ config_browser_profile = json_config.browser_profile,
 
 
 
-                startBROWSER();
+         startBROWSER();
 function startBROWSER(){
 (async () => {
 log( 'We will start now your Browser please wait..' );
@@ -523,20 +473,20 @@ log('Successfully read imported file..\n\n' );
 
                                        tmpAR.forEach(data => {
                                          data = data.replace(/["]$/gmi,'')
-                                                             .replace(/[']$/gmi,'')
-                                                             .replace(/(\r\n|\r|\n)/gmi,'');
+                                                    .replace(/[']$/gmi,'')
+                                                    .replace(/(\r\n|\r|\n)/gmi,'');
                                           ytLinks_AR.push( 'https://' + data);
                                        }) // ytLinks_AR.forEach(data => {
 
-                                       // randomise array..
-                                      shuffle(ytLinks_AR);
+                                         // randomise array..
+                                        shuffle(ytLinks_AR);
 
-                                      // unique array
-                                      ytLinks_AR = unq(ytLinks_AR);
+                                        // unique array
+                                        ytLinks_AR = unq(ytLinks_AR);
 
-                                       //log('Parsed Youtube URLS: ' + ytLinks_AR);
-                                       log( 'All videos was parsed..\n\n' );
-                                       process.nextTick(startYoutTube);
+                                        //log('Parsed Youtube URLS: ' + ytLinks_AR);
+                                        log( 'All videos was parsed..\n\n' );
+                                        process.nextTick(startYoutTube);
 
                                   } //   if( tmpAR ){
                                   else log( 'No video was able to get parsed..\n\n' );
@@ -715,8 +665,8 @@ log( 'deleteOfflineVideos() - Current video: ' + ytLinks_AR[0] + '\n\n' );
 
 
 
-  var str = '';
-  const rainbow = chalkAnimation.rainbow( str );
+var str = '';
+const rainbow = chalkAnimation.rainbow( str );
 
 
 function countdown(count){
@@ -847,9 +797,8 @@ rainbow.start();
 
 
 
-  function startYoutTube(){
-   (async () => {
-   confirmButton = false;
+function startYoutTube(){(async () => {
+confirmButton = false;
 
 
 
@@ -955,12 +904,9 @@ rainbow.start();
                   await page.waitForSelector('.title.style-scope.ytd-video-primary-info-renderer', {visible: true, timeout: 10000});
 
                } catch(e) {
+
                    log( '#3a error: ' + e.message );
-
-
                    if( e.message.match('TimeoutError: waiting for selector') ) log( 'As it seems the video title cant be found.. We will check now in more detail whats the problem.. \n\n' );
-
-
 
               } // catch(e) {
              log( 'Successfully loaded: ' + ytLinks_AR[0] + '\n\n' );
@@ -1018,8 +964,8 @@ rainbow.start();
                                    var errorMessagetwo = $(css).find('.reason.style-scope.yt-player-error-message-renderer').text();
                                    log( 'errorMessagetwo: ' + errorMessagetwo + '\n\n' );
 
-                                 var errorMessagethree = $(css).find('.style-scope.yt-player-error-message-renderer').text();
-                                 log( 'errorMessagethree: ' + errorMessagethree + '\n\n' );
+                                   var errorMessagethree = $(css).find('.style-scope.yt-player-error-message-renderer').text();
+                                   log( 'errorMessagethree: ' + errorMessagethree + '\n\n' );
 
                             } //   if( !errorMessageMAIN )  {
 
@@ -1229,8 +1175,8 @@ rainbow.start();
                               await page.hover('.ytp-progress-bar-container');
                               await new Promise(resolve => setTimeout(resolve, 1000));
 
-                               let currentVideoDuration = await page.evaluate(element => element.textContent, await page.$(".ytp-time-current") );
-                               log( 'currentVideoDuration: ' + chalk.white.bgGreen.bold( currentVideoDuration ) + '\n\n'  );
+                              let currentVideoDuration = await page.evaluate(element => element.textContent, await page.$(".ytp-time-current") );
+                              log( 'currentVideoDuration: ' + chalk.white.bgGreen.bold( currentVideoDuration ) + '\n\n'  );
 
                               await page.hover('video');
 
@@ -1403,7 +1349,7 @@ if( checkADSresult ){
                                                                       log( 'It seems that the video was finished.. We go now to next one..\n\n' );
 
 
-                                                                             ytLinks_AR.shift();
+                                                                            ytLinks_AR.shift();
                                                                             process.nextTick(startYoutTube);
 
                                                                        }, countdownValue);
