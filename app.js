@@ -349,9 +349,7 @@ log( 'We will start now your Browser please wait..' );
 
                                         }//   if(typeof e == 'string'){
                                         else{
-                                        log('Error while try to start browser - error :' + JSON.stringify( e, null, 4) )
-
-
+                                        log('Error while try to start browser - error :' + e )
 
                                                         if ( e.length == undefined ) {
                                                           log( '#browser start - error is undefinied.. we restart now the browser..' );
