@@ -23,6 +23,7 @@ Bot Protection:
 - **Headless or minimised not working because it´s premium feature for autoplay**
 
 
+
 <br />
 <br />
 <br />
