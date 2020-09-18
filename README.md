@@ -14,10 +14,10 @@ ____________________________________________________________
 <br />
 <br />
 
-Database: **False**<br /><br />
-Webdriver: **Puppeteer**<br /><br />
-Sign-in required: **Not required only if your videos are age restricted**<br /><br />
-Language: **EN**<br /><br />
+Database: **False**<br />
+Webdriver: **Puppeteer**<br />
+Sign-in required: **Not required only if your videos are age restricted**<br />
+Language: **EN**<br />
 Bot Protection:
 - **Google Captcha (if VPN user but comes very rar)**
 - **Headless or minimised not working because it´s premium feature for autoplay**
