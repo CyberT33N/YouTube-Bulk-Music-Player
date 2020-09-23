@@ -2,7 +2,7 @@
 This Bot will parse YouTube links from unformarted text, generate a internal playlist and then autoplay each link until all videos was played!
 
 Works with default links or playlist links:
-- https://www.youtube.com/watch?v=GvEMP8pvxJs
+- https://www.youtube.com/watch?v=muNKZK5aSNQ
 - https://www.youtube.com/watch?v=qycAC_6Bbto&list=PLazJAbbVspIhZp5nRaij_FjS7aIy7PqHF&index=2
 
 
