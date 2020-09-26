@@ -91,12 +91,11 @@ Alternative you can directly paste YouTube links separated with a new line.
 # config.json
 Here you can control your Bot and define some settings (**./admin/config.json**)
 
-- **browser_profile** This will set your Browser Profile which will be used in all further sessions too! (stored at **./lib/browserProfiles**)! You can change now browser settings, change the theme or sign-in to google to view videos with age restriction
+- **browser_profile** - This will set your Browser Profile which will be used in all further sessions too! (stored at **./lib/browserProfiles**)! You can change now browser settings, change the theme or sign-in to google to view videos with age restriction
 
-- **headless**
-true or false (**Currently only works with false**)
+- **headless** - true or false (**Currently only works with false**)
 
-- **windowWidth & windowHeight** Define your window width and height
+- **windowWidth & windowHeight** - Define your window width and height
 
 
 
