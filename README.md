@@ -73,7 +73,7 @@ Alternative you can directly paste YouTube links separated with a new line.
 - **Randomise YouTube links for fresh music feeling each new start**
 - **Detect duplicated YouTube links**
 - **When video is offline(Video Private/unavailable/..) the link will be deleted from the bookmarks.txt file!**
-- **After very long play time without interaction with the browser window youtube will pause the video. In this case the bot will detect it and click play again**
+- **After very long play time without interaction YouTube will pause the video.. In this case the bot will detect it and click play again**
 <br /><br />
 - **Detect Video ADS and skip them (Also detect double Video ADS)**
 <br /><br />
