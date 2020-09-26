@@ -27,6 +27,11 @@ Bot Protection:
 
 <br />
 <br />
+
+
+![alt tag](https://i.imgur.com/2FXctBZ.jpg)
+
+
 <br />
 <br />
 
