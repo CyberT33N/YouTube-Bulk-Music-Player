@@ -68,14 +68,17 @@ Alternative you can directly paste YouTube links separated with a new line.
 - YouTube must be displayed in english because the Bot scraps text like "Video unavailable"! For default we already use **'--lang=en'**
 
 # *Features*
-- **Randomise YouTube links for fresh music feeling each new start**
 - **Detect Google Captcha and wait until its solved by user**
+<br />
+- **Randomise YouTube links for fresh music feeling each new start**
 - **Detect duplicated YouTube links**
 - **When video is offline(Video Private/unavailable/..) the link will be deleted from the bookmarks.txt file!**
 - **After very long play time without interaction with the browser window youtube will pause the video. In this case the bot will detect it and click play again**
-- **Detect Video ADS and skip them - Also detect double ADS**
-- **Detect "Accept Terms" Modal Box and auto accept it**
-- **Detect "Please sign-in" Modal Box and click on "No thanks"**
+<br />
+- **Detect Video ADS and skip them (Also detect double Video ADS)**
+<br />
+- **Detect "Accept Terms" Modal Box and auto accept it (This box was added 2020)**
+- **Detect "Please sign-in" Modal Box and click on "No thanks"  (This box was added 2020)**
 
 
 <br />
