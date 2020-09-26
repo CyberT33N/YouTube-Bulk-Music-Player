@@ -1,0 +1,38 @@
+{
+  "name": "youtube-bulk-music-player",
+  "version": "1.0.0",
+  "description": "This Bot will parse YouTube links from unformarted text, generate a internal playlist and then autoplay each link until all videos was played!",
+  "main": "app.js",
+  "directories": {
+    "lib": "lib"
+  },
+  "dependencies": {
+    "chalk": "^4.0.0",
+    "chalk-animation": "^1.6.0",
+    "cheerio": "^1.0.0-rc.3",
+    "fancy-log": "^1.3.3",
+    "gradient-string": "^1.2.0",
+    "puppeteer": "^3.3.0",
+    "unq": "^0.0.2"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/CyberT33N/YouTube-Bulk-Music-Player.git"
+  },
+  "keywords": [
+    "puppeteer",
+    "node.js",
+    "youtube",
+    "playlist"
+  ],
+  "author": "Dennis Demand (CyberT33N)",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/CyberT33N/YouTube-Bulk-Music-Player/issues"
+  },
+  "homepage": "https://github.com/CyberT33N/YouTube-Bulk-Music-Player#readme"
+}
