@@ -1,5 +1,5 @@
 # YouTube Bulk Music Player
-This Bot will parse YouTube links from unformarted text, generate a internal playlist and then autoplay each video!
+This Bot will parse YouTube links from unformatted text, generate a internal playlist and then autoplay each video!
 
 Works with default links or playlist links:
 - https://www.youtube.com/watch?v=muNKZK5aSNQ
@@ -47,7 +47,7 @@ Insert your YouTube links here:
 - **bookmarks.txt**
 <br />
 <br />
-You can import browser bookmarks files text or other unsorted text but make sure that the YouTubelinks end with **"** or **'**
+You can import browser bookmarks files text or other unformatted  text but make sure that the YouTubelinks end with **"** or **'**
 <br />
 <br />
 Alternative you can directly paste YouTube links seperated with a new line.
