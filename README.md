@@ -69,14 +69,14 @@ Alternative you can directly paste YouTube links separated with a new line.
 
 # *Features*
 - **Detect Google Captcha and wait until its solved by user**
-<br />
+<br /><br />
 - **Randomise YouTube links for fresh music feeling each new start**
 - **Detect duplicated YouTube links**
 - **When video is offline(Video Private/unavailable/..) the link will be deleted from the bookmarks.txt file!**
 - **After very long play time without interaction with the browser window youtube will pause the video. In this case the bot will detect it and click play again**
-<br />
+<br /><br />
 - **Detect Video ADS and skip them (Also detect double Video ADS)**
-<br />
+<br /><br />
 - **Detect "Accept Terms" Modal Box and auto accept it (This box was added 2020)**
 - **Detect "Please sign-in" Modal Box and click on "No thanks"  (This box was added 2020)**
 
