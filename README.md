@@ -47,7 +47,7 @@ Insert your YouTube links here:
 - **bookmarks.txt**
 <br />
 <br />
-You can import browser bookmarks files text or other unformatted  text but make sure that the YouTubelinks end with **"** or **'**
+You can import browser bookmarks files text or other unformatted  text but make sure that the YouTubelinks end with " or '
 <br />
 <br />
 Alternative you can directly paste YouTube links seperated with a new line.
