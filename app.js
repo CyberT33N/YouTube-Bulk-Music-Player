@@ -78,7 +78,7 @@ log( 'ENTER main async area..' );
 
 
 
-        // start browser and get page & client..
+        // start browser and get page & client
         const botEngine_AR = await controller.startBROWSER();
         log( 'startBROWSER() done..' );
 
@@ -94,7 +94,7 @@ log( 'ENTER main async area..' );
 
 
 
-        // start the main youtube bot..
+        // start browser and get page & client
         await controller.startYoutTube(ytLinks_AR, client, page);
         log( 'startYoutTube() done..' );
 

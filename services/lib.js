@@ -187,7 +187,6 @@ log( 'deleteOfflineVideos() - Current video: ' + ytLinks_AR[0] + '\n\n' );
 
 
 async function convert_time(duration) {
-log( 'We convert now the youtube video duration to ms.. before: '  + duration);
 
         var a = duration.match(/\d+/g);
 
@@ -220,7 +219,6 @@ log( 'We convert now the youtube video duration to ms.. before: '  + duration);
         }
 
         duration = Number( duration.toString() + '000' );
-        log( 'After convert into ms: ' + duration );
         return duration;
 
 

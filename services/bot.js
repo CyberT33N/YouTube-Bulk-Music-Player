@@ -735,6 +735,8 @@ log( 'openLink()' );
                                          } //  if ( await page.$('#confirm-button') ) {
 
 
+                                           await checkADS(page);
+
                     }, 1000); //   let countdownInterval = setInterval(() => {
 
 
@@ -772,11 +774,17 @@ log( 'openLink()' );
 
 
      // check for video ads..
-    async function checkADS(countdownValue, page){
-    log( 'ENTER checkADS() - countdownValue: ' + countdownValue );
+    async function checkADS(page){
 
          if ( await page.$('.ad-showing') ){
          log( 'Video ADS was found.. We wait now until the AD is finished..\n\n' );
+
+         const timeValues = await checkVideoDuration(page, false);
+         const countdownValue = timeValues.countdownValue;
+         const videoDuration = timeValues.videoDuration;
+         const currentVideoDuration = timeValues.currentVideoDuration;
+         log( 'checkVideoDuration() done..' );
+
 
 
                  try {
@@ -795,7 +803,6 @@ log( 'openLink()' );
 
 
           } // if ( await page.$('.ad-showing') ){
-          else log( 'No video ADS was found.. we continue the script now..\n\n' );
 
     } // async function checkADS(){
 
@@ -812,6 +819,41 @@ log( 'openLink()' );
 
 
 
+// check current Video Duration
+async function checkVideoDuration(page, logs){
+log('logs:' + logs );
+
+        const videoDuration = await page.evaluate(() => document.querySelector('.ytp-time-duration')?.textContent);
+        if(logs) log( 'videoDuration: ' + chalk.white.bgGreen.bold( videoDuration ) );
+
+
+        await page.hover('.ytp-progress-bar-container');
+        await new Promise(resolve => setTimeout(resolve, 1000));
+
+        const currentVideoDuration = await page.evaluate(() => document.querySelector('.ytp-time-current')?.textContent);
+        if(logs) log( 'currentVideoDuration: ' + chalk.white.bgGreen.bold( currentVideoDuration ) + '\n\n'  );
+
+        await page.hover('video');
+
+
+
+
+
+
+        const vidDuration_ms = await controller.convert_time(videoDuration);
+
+        if( currentVideoDuration ) var currentVideoDuration_ms = await controller.convert_time(currentVideoDuration);
+        else var currentVideoDuration_ms = 0;
+        //log( 'Successfully converted times.. currentVideoDuration_ms:' + currentVideoDuration_ms + '\nvidDuration_ms: ' + vidDuration_ms +  '\n\n' );
+
+
+        if( vidDuration_ms ) return {"countdownValue":vidDuration_ms - currentVideoDuration_ms,"videoDuration":videoDuration,"currentVideoDuration":currentVideoDuration};
+        else return {"countdownValue":vidDuration_ms,"videoDuration":videoDuration,"currentVideoDuration":currentVideoDuration};
+
+
+
+
+} // async function checkVideoDuration(page, true){
 
 
 
@@ -926,9 +968,29 @@ log( 'openLink() done..' );
 
 
 
+
+
+
+
+
+
+             // check if any youtube error like private video and so on is visible..
+             if(!await youTubeError(ytLinks_AR, client, page)){ return; }
+             log( 'No YouTube Warning was found..' );
+
+
+
+
+
+
+
+
+
+
+
               // check if signin box is avaible..
                if( firstRUN ){
-               log( 'We wait now 10 seconds if the sign-in box will come..' );
+               log( 'We wait now 10 seconds if the sign-in box will come.. Please wait.. We will only do this 1x time at the start..' );
                firstRUN = false;
 
                  try {
@@ -948,21 +1010,10 @@ log( 'openLink() done..' );
 
 
 
-              // check if any youtube error like private video and so on is visible..
-              if(!await youTubeError(ytLinks_AR, client, page)){ return; }
-              log( 'No YouTube Warning was found..' );
 
 
 
 
-
-
-
-
-              // check for video ads.. do it 2 times because sometimes 2 ads..
-              await checkADS(countdownValue, page)
-              await checkADS(countdownValue, page)
-              log( 'checkADS() done..' );
 
 
 
@@ -1000,20 +1051,14 @@ log( 'openLink() done..' );
 
 
 
-                  let videoDuration = await page.evaluate(() => document.querySelector('.ytp-time-duration')?.textContent);
-                  log( 'videoDuration: ' + chalk.white.bgGreen.bold( videoDuration ) );
-
-
-                  await page.hover('.ytp-progress-bar-container');
-                  await new Promise(resolve => setTimeout(resolve, 1000));
-
-                  let currentVideoDuration = await page.evaluate(() => document.querySelector('.ytp-time-current')?.textContent);
-                  log( 'currentVideoDuration: ' + chalk.white.bgGreen.bold( currentVideoDuration ) + '\n\n'  );
-
-                  await page.hover('video');
 
 
 
+                var timeValues = await checkVideoDuration(page, true);
+                var countdownValue = timeValues.countdownValue;
+                var videoDuration = timeValues.videoDuration;
+                var currentVideoDuration = timeValues.currentVideoDuration;
+                log( 'checkVideoDuration() done..' );
 
 
 
@@ -1048,26 +1093,21 @@ log( 'openLink() done..' );
 
 
 
-                  let vidDuration_ms = await controller.convert_time(videoDuration);
-
-                  if( currentVideoDuration ) var currentVideoDuration_ms = await controller.convert_time(currentVideoDuration);
-                  else var currentVideoDuration_ms = 0;
-                  //log( 'Successfully converted times.. currentVideoDuration_ms:' + currentVideoDuration_ms + '\nvidDuration_ms: ' + vidDuration_ms +  '\n\n' );
-
-
-
-                    if( vidDuration_ms ) {
-                        var countdownValue = vidDuration_ms - currentVideoDuration_ms;
-                        log( 'countdownValue after substract played time: ' + countdownValue + '\n\n' );
-                     }  else {
-                        var countdownValue = vidDuration_ms;
-                        log( 'countdownValue without substract played time: ' + countdownValue + '\n\n' );
-                     }
 
 
 
 
+                    // check for video ads.. do it 2 times because sometimes 2 ads..
+                    await checkADS(page);
 
+                    timeValues = await checkVideoDuration(page, true);
+                    countdownValue = timeValues.countdownValue;
+                    videoDuration = timeValues.videoDuration;
+                    currentVideoDuration = timeValues.currentVideoDuration;
+                    log( '#2 - checkVideoDuration() done..' );
+
+                    await checkADS(page);
+                    log( 'checkADS() done..' );
 
 
 
@@ -1145,46 +1185,31 @@ log( 'openLink() done..' );
 
 
 
-               // wait now 5 seconds in case that the video gets stopped again.. this happens when you delete css via adblock and ignore the I accept your cookies shit fields
+             // wait now 5 seconds in case that the video gets stopped again.. this happens when you delete css via adblock and ignore the I accept your cookies shit fields
 
-               log( 'We wait now 5 seconds and then check again if the video is playing or not..\n\n' );
-               await page.waitFor(5000);
-
-
-                 let videoDuration = await page.evaluate(element => element.textContent, await page.$(".ytp-time-duration") );
-                 log( '#2 videoDuration: ' + chalk.white.bgGreen.bold( videoDuration ) + '\n\n' );
-
-                 await page.hover('.ytp-progress-bar-container');
-                 await new Promise(resolve => setTimeout(resolve, 1000));
-
-                  let currentVideoDuration = await page.evaluate(element => element.textContent, await page.$(".ytp-time-current") );
-                  log( '#2 - currentVideoDuration: ' + chalk.white.bgGreen.bold( currentVideoDuration ) + '\n\n'  );
+             log( 'We wait now 5 seconds and then check again if the video is playing or not..\n\n' );
+             await page.waitFor(5000);
 
 
-                  await page.hover('video');
 
-
-                   let vidDuration_ms = await controller.convert_time(videoDuration);
-                   log( 'Current video duration in ms: ' + vidDuration_ms );
-
-                   if( currentVideoDuration ){
-                       var currentVidDuration_ms = await controller.convert_time(currentVideoDuration);
-                       log( '#2 Current video duration in ms: ' + currentVidDuration_ms );
-                    } // if( currentVideoDuration ){
-                   else currentVidDuration_ms = 0;
+             timeValues = await checkVideoDuration(page, true);
+             countdownValue = timeValues.countdownValue;
+             videoDuration = timeValues.videoDuration;
+             currentVideoDuration = timeValues.currentVideoDuration;
+             log( '#3 - checkVideoDuration() done..' );
 
 
 
 
 
-              if( currentVidDuration_ms ) {
-                  var countdownValue = vidDuration_ms - currentVidDuration_ms;
-                  log( 'countdownValue after substract played time: ' + countdownValue + '\n\n' );
-              }
-              else {
-                  var countdownValue = vidDuration_ms;
-                  log( 'countdownValue without substract played time: ' + countdownValue + '\n\n' );
-              }
+
+             if ( await page.$('.ytp-play-button.ytp-button[aria-label="Play (k)" ]') ){
+
+                  log( 'Small Play button was found.. video did not started itself.. \n\nWe click now play..\n\nTime left:\n\n' );
+                  await page.click('.ytp-play-button.ytp-button');
+
+             }
+            else log( 'Play button not visible.. video started itself.. \n\nWe wait now until the video was finished..\n\nTime left:\n\n' );
 
 
 
@@ -1193,28 +1218,12 @@ log( 'openLink() done..' );
 
 
 
+             countdown( countdownValue, page );
+             await new Promise(resolve => setTimeout(resolve, countdownValue));
+             log( '#2 - It seems that the video was finished.. We go to next one now' );
 
-               if ( await page.$('.ytp-play-button.ytp-button[aria-label="Play (k)" ]') ){
-
-                    log( 'Small Play button was found.. video did not started itself.. \n\nWe click now play..\n\nTime left:\n\n' );
-                    await page.click('.ytp-play-button.ytp-button');
-
-               }
-              else log( 'Play button not visible.. video started itself.. \n\nWe wait now until the video was finished..\n\nTime left:\n\n' );
-
-
-
-
-
-
-
-
-               countdown( countdownValue, page );
-               await new Promise(resolve => setTimeout(resolve, countdownValue));
-               log( '#2 - It seems that the video was finished.. We go to next one now' );
-
-               ytLinks_AR.shift();
-               await startYoutTube(ytLinks_AR, client, page);
+             ytLinks_AR.shift();
+             await startYoutTube(ytLinks_AR, client, page);
 
 
 
