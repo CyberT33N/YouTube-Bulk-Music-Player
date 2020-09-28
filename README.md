@@ -56,6 +56,14 @@ Alternative you can directly paste YouTube links separated with a new line.
 <br />
 <br />
 
+Then run:
+```javascript
+npm install
+```
+
+<br />
+<br />
+
  _____________________________________________________
 
 
