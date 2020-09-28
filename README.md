@@ -75,7 +75,7 @@ Alternative you can directly paste YouTube links separated with a new line.
 - **When video is offline(Video Private/unavailable/..) the link will be deleted from the bookmarks.txt file!**
 - **After very long play time without interaction YouTube will pause the video.. In this case the bot will detect it and click play again**
 <br /><br />
-- **Detect Video ADS and skip them (Also detect double Video ADS)**
+- **Detect Video ADS and skip them (Also detect double Video ADS and Video ADS inside of long videos)**
 <br /><br />
 - **Detect "Accept Terms" Modal Box and auto accept it (This box was added 2020)**
 - **Detect "Please sign-in" Modal Box and click on "No thanks"  (This box was added 2020)**
