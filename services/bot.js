@@ -736,6 +736,7 @@ log( 'openLink()' );
 
 
                                            await checkADS(page);
+                                           await checkADS(page);
 
                     }, 1000); //   let countdownInterval = setInterval(() => {
 
@@ -1099,13 +1100,6 @@ log( 'openLink() done..' );
 
                     // check for video ads.. do it 2 times because sometimes 2 ads..
                     await checkADS(page);
-
-                    timeValues = await checkVideoDuration(page, true);
-                    countdownValue = timeValues.countdownValue;
-                    videoDuration = timeValues.videoDuration;
-                    currentVideoDuration = timeValues.currentVideoDuration;
-                    log( '#2 - checkVideoDuration() done..' );
-
                     await checkADS(page);
                     log( 'checkADS() done..' );
 
