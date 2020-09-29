@@ -1,9 +1,7 @@
 'use strict'
 console.log( 'bot.js - Current working directory: ' + __dirname );
-
-
 var confirmButton = false;
-var firstRUN = true;
+
 
 
               const fs = require('fs'),
@@ -42,7 +40,16 @@ config_browser_profile = json_config.browser_profile,
         const BOT = {
 
           startBROWSER: async function() { return await startBROWSER(); },
-          startYoutTube: async function(ytLinks_AR, client, page) { return await startYoutTube(ytLinks_AR, client, page); }
+          openLink: async function(ytLinks_AR, page) { return await openLink(ytLinks_AR, page); },
+          youTubeError: async function(ytLinks_AR, page) { return await youTubeError(ytLinks_AR, page); },
+          checkSignBox: async function(page) { return await checkSignBox(page); },
+          scrapVideoInfo: async function(page) { return await scrapVideoInfo(page); },
+          checkVideoDuration: async function(page, logs) { return await checkVideoDuration(page, logs); },
+          checkADS: async function(page) { return await checkADS(page); },
+          countdown: function(countdownValue, page) { countdown(countdownValue, page); }
+
+
+
 
         };
 
@@ -333,7 +340,7 @@ log( 'We will start now your Browser please wait..' );
 
 
 
-async function checkSignBox(client, page){
+async function checkSignBox(page){
 log( 'checkSignBox()' );
 
 
@@ -387,8 +394,44 @@ log( 'checkSignBox()' );
 
 
 
-async function youTubeError(ytLinks_AR, client, page){
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+async function youTubeError(ytLinks_AR, page){
 log( 'youTubeError()' );
+
+
+
+
+
+            try {
+
+                  // dont remove, youtube is loading sometimes even when document is ready..
+                  await page.waitForSelector('.title.style-scope.ytd-video-primary-info-renderer', {visible: true, timeout: 10000});
+
+               } catch(e) {
+
+                   log( '#3a error: ' + e.message );
+                   if( e.message.match('TimeoutError: waiting for selector') ) log( 'As it seems the video title cant be found.. We will check now in more detail whats the problem.. \n\n' );
+
+              } // catch(e) {
+             log( 'Successfully loaded: ' + ytLinks_AR[0] + '\n\n' );
+
+
 
 
 
@@ -421,8 +464,7 @@ log( 'youTubeError()' );
 
                  log( 'This video is only for users over 18.. You may sign-in to not get this message in future for other videos.. We go to next video now..' );
                  ytLinks_AR.shift();
-                 await startYoutTube(ytLinks_AR, client, page);
-                 return false;
+                 return {"ytLinks_AR":ytLinks_AR, "nextVid": true};
 
             } // if( !videoDuration ){
 
@@ -436,9 +478,8 @@ log( 'youTubeError()' );
                 ){
 
                   log( 'This video is unavailable.. We delete this video now from bookmarks file..\n\n' );
-                  ytLinks_AR = await controller.deleteOfflineVideos(ytLinks_AR);
-                  await startYoutTube(ytLinks_AR, client, page);
-                  return false;
+                  return {"ytLinks_AR":await controller.deleteOfflineVideos(ytLinks_AR), "nextVid": true};
+
 
             } // if( !videoDuration ){
 
@@ -454,9 +495,8 @@ log( 'youTubeError()' );
                    errorMessageMAIN == 'Private video'
                  ){
                    log( 'This video is private.. We delete this video now from bookmarks file..\n\n' );
-                   ytLinks_AR = await controller.deleteOfflineVideos(ytLinks_AR);
-                   await startYoutTube(ytLinks_AR, client, page);
-                   return false;
+                   return {"ytLinks_AR":await controller.deleteOfflineVideos(ytLinks_AR), "nextVid": true};
+
               } // if( !videoDuration ){
 
 
@@ -471,9 +511,8 @@ log( 'youTubeError()' );
                ){
 
                   log( 'This video has been removed for violating YouTubes Community Guidelines.. We delete this video now from bookmarks file..\n\n' );
-                  ytLinks_AR = await controller.deleteOfflineVideos(ytLinks_AR);
-                  await startYoutTube(ytLinks_AR, client, page);
-                  return false;
+                  return {"ytLinks_AR":await controller.deleteOfflineVideos(ytLinks_AR), "nextVid": true};
+
 
               } // if( !videoDuration ){
 
@@ -489,16 +528,27 @@ log( 'youTubeError()' );
                  ){
                     log( 'Your browser does not currently recognize any of the video formats available. Click here to visit our frequently asked questions about HTML5 video... We skip this video now..\n\n' );
                     ytLinks_AR.shift();
-                    await startYoutTube(ytLinks_AR, client, page);
-                    return false;
+                    return {"ytLinks_AR":ytLinks_AR, "nextVid": true};
                 } // if( !videoDuration ){
 
 
 
 
-return true;
+return {"ytLinks_AR":ytLinks_AR, "nextVid": false};
 
 } // async function youTubeError(page){
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -588,7 +638,7 @@ log( 'scrapVideoInfo()' );
 
 
 
-async function openLink(ytLinks_AR, client, page){
+async function openLink(ytLinks_AR, page){
 log( 'openLink()' );
 
 
@@ -602,50 +652,42 @@ log( 'openLink()' );
                     if( e.message.match('Navigation timeout of') ){
                         log( '#2 - Navigation timeout was found we reload page in 30 seconds..\n\n' );
                         await new Promise(resolve => setTimeout(resolve, 30000));
-                        await startYoutTube(ytLinks_AR, client, page);
                     }
 
                     if ( e.message.match( 'net::ERR_EMPTY_RESPONSE' ) ){
                          log( '#2 - net::ERR_EMPTY_RESPONSE was found we reload page in 30 seconds..\n\n' );
                          await new Promise(resolve => setTimeout(resolve, 30000));
-                         await startYoutTube(ytLinks_AR, client, page);
                     }
 
                     if ( e.message.match( 'net::ERR_NETWORK_CHANGED' ) ){
                          log( '#2 - net::ERR_NETWORK_CHANGED was found we reload page in 30 seconds..\n\n' );
                          await new Promise(resolve => setTimeout(resolve, 30000));
-                         await startYoutTube(ytLinks_AR, client, page);
                     }
 
                     if ( e.message.match( 'net::ERR_NAME_NOT_RESOLVED' ) ){
                          log( '#2 - net::ERR_NAME_NOT_RESOLVED was found we reload page in 30 seconds..\n\n' );
                          await new Promise(resolve => setTimeout(resolve, 30000));
-                         await startYoutTube(ytLinks_AR, client, page);
                     }
 
                     if ( e.message.match( 'net::ERR_CONNECTION_CLOSED' ) ){
                          log( '#2 - net::ERR_CONNECTION_CLOSED was found we reload page in 30 seconds..\n\n' );
                          await new Promise(resolve => setTimeout(resolve, 30000));
-                         await startYoutTube(ytLinks_AR, client, page);
                     }
 
 
                     if ( e.message.match( 'net::ERR_PROXY_CONNECTION_FAILED' ) ){
                          log( '#2 - net::ERR_PROXY_CONNECTION_FAILED was found.. Maybe your proxy is offline? Maybe change your proxy.. However we reload page in 30 seconds..\n\n' );
                          await new Promise(resolve => setTimeout(resolve, 30000));
-                         await startYoutTube(ytLinks_AR, client, page);
                     }
 
                     if ( e.message.match( 'net::ERR_CONNECTION_REFUSED' ) ){
                          log( '#2 - net::ERR_CONNECTION_REFUSED was found we reload page in 30 seconds..\n\n' );
                          await new Promise(resolve => setTimeout(resolve, 30000));
-                         await startYoutTube(ytLinks_AR, client, page);
                     }
 
                     if ( e.message.match( 'net::ERR_CONNECTION_TIMED_OUT' ) ){
                          log( '#2 - net::ERR_CONNECTION_TIMED_OUT was found we reload page in 30 seconds..\n\n' );
                          await new Promise(resolve => setTimeout(resolve, 30000));
-                         await startYoutTube(ytLinks_AR, client, page);
                     }
 
 
@@ -714,6 +756,7 @@ log( 'openLink()' );
                                       if( count <= 0 ) {
                                         rainbow.stop();
                                         log( 'countdown done!\n\n' );
+                                        confirmButton = false;
                                         clearInterval( countdownInterval );
                                         return;
                                       } //   if( count <= 0 ) {
@@ -820,6 +863,29 @@ log( 'openLink()' );
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 // check current Video Duration
 async function checkVideoDuration(page, logs){
 log('logs:' + logs );
@@ -855,428 +921,3 @@ log('logs:' + logs );
 
 
 } // async function checkVideoDuration(page, true){
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-async function startYoutTube(ytLinks_AR, client, page){
-confirmButton = false;
-
-
-
-try{
-
-
-  if( !ytLinks_AR[0] ){
-  log( `############ FINISH ##############
-  No more youtube video was found.. we will end the script now..\n\n`);
-
-      await client.close();
-      setTimeout(() => { process.exit() }, 10000);
-
-      return;
-
-  }
-  log( 'startYoutTube() -  Current URL: '  + ytLinks_AR[0] + '\n\n' );
-
-
-
-
-
-// open youtube link..
-if( !await await openLink(ytLinks_AR, client, page) ){ return; }
-log( 'openLink() done..' );
-
-
-
-
-
-
-            try {
-
-                  // dont remove, youtube is loading sometimes even when document is ready..
-                  await page.waitForSelector('.title.style-scope.ytd-video-primary-info-renderer', {visible: true, timeout: 10000});
-
-               } catch(e) {
-
-                   log( '#3a error: ' + e.message );
-                   if( e.message.match('TimeoutError: waiting for selector') ) log( 'As it seems the video title cant be found.. We will check now in more detail whats the problem.. \n\n' );
-
-              } // catch(e) {
-             log( 'Successfully loaded: ' + ytLinks_AR[0] + '\n\n' );
-
-
-
-
-
-
-
-
-
-
-
-
-
-             // check if any youtube error like private video and so on is visible..
-             if(!await youTubeError(ytLinks_AR, client, page)){ return; }
-             log( 'No YouTube Warning was found..' );
-
-
-
-
-
-
-
-
-
-
-
-              // check if signin box is avaible..
-               if( firstRUN ){
-               log( 'We wait now 10 seconds if the sign-in box will come.. Please wait.. We will only do this 1x time at the start..' );
-               firstRUN = false;
-
-                 try {
-
-                     let visible = await page.waitForSelector('paper-button.style-scope.yt-button-renderer.style-text.size-small', {visible: true, timeout:10000});
-                     log( 'Sign-in Box visible: ' + visible );
-                     if ( !await page.$('#dialog[aria-hidden="true"]') && await page.$('#dialog') || visible ) await checkSignBox(client, page);
-
-
-                 } catch(e) {
-                 log( 'wait for visible (paper-button.style-scope.yt-button-renderer.style-text.size-small) error: ' + e.message );
-
-                 }
-
-               }
-               log( 'checkSignBox done..' );
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-              // scrap video details like likes, views, ..
-              await scrapVideoInfo(page);
-              log( 'scrapVideoInfo() done..' + '\n\n' );
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-                var timeValues = await checkVideoDuration(page, true);
-                var countdownValue = timeValues.countdownValue;
-                var videoDuration = timeValues.videoDuration;
-                var currentVideoDuration = timeValues.currentVideoDuration;
-                log( 'checkVideoDuration() done..' );
-
-
-
-
-
-
-                  if( !videoDuration ){
-                  log( 'Cant find video duration.. Maybe video not found? We go to next video..' );
-
-                                                if( await page.$('#captcha-form') ) {
-
-                                                    await page.bringToFront();
-                                                    log( 'Google Captcha was found.. solve it or change ip.. We wait now 60 second and after this we restart bot..\n\n' );
-                                                    await new Promise(resolve => setTimeout(resolve, 60000));
-                                                    await startYoutTube(ytLinks_AR, client, page);
-
-                                                } //   if( googleCaptcha ) {
-                                                else{
-
-                                                    ytLinks_AR.shift();
-                                                    await startYoutTube(ytLinks_AR, client, page);
-
-                                                } // else from   if( googleCaptcha ) {
-
-                      return;
-                   } // if( !videoDuration ){
-
-
-
-
-
-
-
-
-
-
-
-
-                    // check for video ads.. do it 2 times because sometimes 2 ads..
-                    await checkADS(page);
-                    await checkADS(page);
-                    log( 'checkADS() done..' );
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-    let playButton = await page.$('.ytp-large-play-button.ytp-button');
-    if (await playButton.isIntersectingViewport()) {
-    log( 'Large play button was found.. Video did not started itself\n\n' );
-
-
-              await page.click('.ytp-large-play-button.ytp-button');
-              log( 'We wait now until the video was finished.. Countdown: ' + countdownValue + '\n\nTime left: \n\n' );
-
-              countdown(countdownValue, page);
-              await new Promise(resolve => setTimeout(resolve, countdownValue));
-              log( 'It seems that the video was finished.. We go now to next one..\n\n' );
-
-              ytLinks_AR.shift();
-              await startYoutTube(ytLinks_AR, client, page);
-
-
-     } //   if (await playButton.isIntersectingViewport()) {
-     else {
-
-
-
-             // wait now 5 seconds in case that the video gets stopped again.. this happens when you delete css via adblock and ignore the I accept your cookies shit fields
-
-             log( 'We wait now 5 seconds and then check again if the video is playing or not..\n\n' );
-             await page.waitFor(5000);
-
-
-
-             timeValues = await checkVideoDuration(page, true);
-             countdownValue = timeValues.countdownValue;
-             videoDuration = timeValues.videoDuration;
-             currentVideoDuration = timeValues.currentVideoDuration;
-             log( '#3 - checkVideoDuration() done..' );
-
-
-
-
-
-
-             if ( await page.$('.ytp-play-button.ytp-button[aria-label="Play (k)" ]') ){
-
-                  log( 'Small Play button was found.. video did not started itself.. \n\nWe click now play..\n\nTime left:\n\n' );
-                  await page.click('.ytp-play-button.ytp-button');
-
-             }
-            else log( 'Play button not visible.. video started itself.. \n\nWe wait now until the video was finished..\n\nTime left:\n\n' );
-
-
-
-
-
-
-
-
-             countdown( countdownValue, page );
-             await new Promise(resolve => setTimeout(resolve, countdownValue));
-             log( '#2 - It seems that the video was finished.. We go to next one now' );
-
-             ytLinks_AR.shift();
-             await startYoutTube(ytLinks_AR, client, page);
-
-
-
-
-} // else from   if (await example.isIntersectingViewport()) {
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-} catch(e) {
-log('ASYNC - startYoutTube() - error :' + e )
-
-          if ( e.toString().match( "TypeError: Cannot read property 'outerHTML' of null" ) ){
-               log( '#2 - TypeError: Cannot read property outerHTML of null was found we reload page now..' );
-               await startYoutTube(ytLinks_AR, client, page);
-          }
-
-
-          if ( e.toString().match( "Execution context was destroyed" ) ){
-               log( '#2 - Execution context was destroyed was found we reload page now..' );
-               await startYoutTube(ytLinks_AR, client, page);
-          }
-
-}}; // async function startYoutTube(ytLinks_AR, client, page){

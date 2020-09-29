@@ -2,11 +2,25 @@
 "headless":false,
 "browser_profile":"yt-bookmarks-player",
 "windowWidth":800,
-"windowHeight":600,
-  
- 
+"windowHeight":800,
 
-"extensionlist": ""
-  
-  
+
+
+
+
+"extensionlist": {
+
+"extension1": "webrtc_anti_leak_prevent/eiadekoaikejlgdbkbdfeijglgfdalml/1.0.14_0",
+"extension2": "ipfuck/bjgmbpodpcgmnpfjmigcckcjfldcicnd/1.3_0",
+"extension3": "script_safe/oiigbmnaadbkfbmpbfijlflahbdbdgdf/1.0.9.3_0",
+"extension4": "modheader/idgpnmonknjnojddfkpgkljpfnnfcklj/3.0.7_0",
+"extension5": "policycontrol/eekommagmgepaafaaegimeldlnnnolgn/0.3.5_0",
+"extension6": "alertblocker/ofjjanaennfbgpccfpbghnmblpdblbef/1.3_0",
+"extension7": "letmeout/hnfdibcbmlppjlkefinedeffoiomlecc/1.3_0",
+"extension8": "showmyip/pdnildedfbigagjbaigbalnfdfpijhaf/1.2.1_0",
+"extension9": "violentmonkey/jinjaccalgkegednnccohejagnlnfdag/2.12.7_0",
+"extension10": "touchvpn/bihmplhobchoageeokmgbdihknkjbknd/3.1.5_0"
+}
+
+
 }
