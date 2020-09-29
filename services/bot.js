@@ -1,6 +1,7 @@
 'use strict'
 console.log( 'bot.js - Current working directory: ' + __dirname );
 var confirmButton = false;
+var firstRUN = true;
 
 
 
@@ -46,6 +47,8 @@ config_browser_profile = json_config.browser_profile,
           scrapVideoInfo: async function(page) { return await scrapVideoInfo(page); },
           checkVideoDuration: async function(page, logs) { return await checkVideoDuration(page, logs); },
           checkADS: async function(page) { return await checkADS(page); },
+          checkGoogleCaptcha: async function(page, ytLinks_AR) { return await checkGoogleCaptcha(page, ytLinks_AR); },
+          startVideo: async function(page, ytLinks_AR) { return await startVideo(page, ytLinks_AR); },
           countdown: function(countdownValue, page) { countdown(countdownValue, page); }
 
 
@@ -341,31 +344,56 @@ log( 'We will start now your Browser please wait..' );
 
 
 async function checkSignBox(page){
-log( 'checkSignBox()' );
+log( 'checkSignBox() - firstRUN: ' + firstRUN );
 
 
-   if ( await page.$('paper-button.style-scope.yt-button-renderer.style-text.size-small') ){
-   log( 'Sign-in box found' );
+    // check if signin box is avaible..
+     if( firstRUN ){
+     log( 'We wait now 10 seconds if the sign-in box will come.. Please wait.. We will only do this 1x time at the start..' );
+     firstRUN = false;
 
-        await page.click('paper-button.style-scope.yt-button-renderer.style-text.size-small');
 
-   }
 
-   log( 'We wait now 5 seconds to check if the terms box will come after this..' );
-   await new Promise(resolve => setTimeout(resolve, 5000));
 
-   if ( !await page.$('#dialog[aria-hidden="true"]') && await page.$('#dialog') ){
-   log( 'Agree terms box found..' );
+         try {
 
-        const elementHandle = await page.$('#iframe');
-        const frame = await elementHandle.contentFrame();
-        log( 'frame: ' + frame );
-        await frame.click('#introAgreeButton');
+             let visible = await page.waitForSelector('paper-button.style-scope.yt-button-renderer.style-text.size-small', {visible: true, timeout:10000});
+             log( 'Sign-in Box visible: ' + visible );
+             if ( !await page.$('#dialog[aria-hidden="true"]') && await page.$('#dialog') || visible ){
 
-    }
 
-    await new Promise(resolve => setTimeout(resolve, 1000));
+                       if ( await page.$('paper-button.style-scope.yt-button-renderer.style-text.size-small') ){
+                       log( 'Sign-in box found' );
 
+                            await page.click('paper-button.style-scope.yt-button-renderer.style-text.size-small');
+
+                       } //    if ( await page.$('paper-button.style-scope.yt-button-renderer.style-text.size-small') ){
+
+
+                       log( 'We wait now 5 seconds to check if the terms box will come after this..' );
+                       await new Promise(resolve => setTimeout(resolve, 5000));
+
+
+                       if ( !await page.$('#dialog[aria-hidden="true"]') && await page.$('#dialog') ){
+                       log( 'Agree terms box found..' );
+
+                            const elementHandle = await page.$('#iframe');
+                            const frame = await elementHandle.contentFrame();
+                            log( 'frame: ' + frame );
+                            await frame.click('#introAgreeButton');
+
+                        } //    if ( !await page.$('#dialog[aria-hidden="true"]') && await page.$('#dialog') ){
+
+                        await new Promise(resolve => setTimeout(resolve, 1000));
+
+
+             } // if ( !await page.$('#dialog[aria-hidden="true"]') && await page.$('#dialog') || visible ){
+
+        } catch(e) { log( 'Async - checkSignBox() - error: ' + e.message ); }
+
+
+
+    } //   if( firstRUN ){
 
 } // async function checkSignBox(client, page){
 
@@ -787,6 +815,209 @@ log( 'openLink()' );
 
 
   } //function countdown(count){
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+// start youtube video..
+async function startVideo(page, ytLinks_AR){
+log( 'startVideo();' );
+
+
+      let playButton = await page.$('.ytp-large-play-button.ytp-button');
+      if (await playButton.isIntersectingViewport()) {
+      log( 'Large play button was found.. Video did not started itself\n\n' );
+
+
+            const timeValues = await checkVideoDuration(page, true);
+            const countdownValue = timeValues.countdownValue;
+            const videoDuration = timeValues.videoDuration;
+            const currentVideoDuration = timeValues.currentVideoDuration;
+            log( '#1 - checkVideoDuration() done..' );
+
+
+            await page.click('.ytp-large-play-button.ytp-button');
+            log( 'We wait now until the video was finished.. Countdown: ' + countdownValue + '\n\nTime left: \n\n' );
+
+            countdown(countdownValue, page);
+            await new Promise(resolve => setTimeout(resolve, countdownValue));
+            log( 'It seems that the video was finished.. We go now to next one..\n\n' );
+
+            ytLinks_AR.shift();
+            return ytLinks_AR;
+
+
+       } //   if (await playButton.isIntersectingViewport()) {
+       else {
+
+
+
+           // wait now 5 seconds in case that the video gets stopped again.. this happens when you delete css via adblock and ignore the I accept your cookies shit fields
+
+           log( 'We wait now 5 seconds and then check again if the video is playing or not..\n\n' );
+           await page.waitFor(5000);
+
+
+           const timeValues = await checkVideoDuration(page, true);
+           const countdownValue = timeValues.countdownValue;
+           const videoDuration = timeValues.videoDuration;
+           const currentVideoDuration = timeValues.currentVideoDuration;
+           log( '#2 - checkVideoDuration() done..' );
+
+
+
+
+
+           if ( await page.$('.ytp-play-button.ytp-button[aria-label="Play (k)" ]') ){
+
+                log( 'Small Play button was found.. video did not started itself.. \n\nWe click now play..\n\nTime left:\n\n' );
+                await page.click('.ytp-play-button.ytp-button');
+
+           }
+          else log( 'Play button not visible.. video started itself.. \n\nWe wait now until the video was finished..\n\nTime left:\n\n' );
+
+
+
+           countdown( countdownValue, page );
+           await new Promise(resolve => setTimeout(resolve, countdownValue));
+           log( '#2 - It seems that the video was finished.. We go to next one now' );
+
+           ytLinks_AR.shift();
+           return ytLinks_AR;
+
+
+
+  } // else from   if (await example.isIntersectingViewport()) {
+
+
+
+} // async function startVideo(page, ytLinks_AR){
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+// check for google captcha..
+async function checkGoogleCaptcha(page, ytLinks_AR){
+log( 'checkGoogleCaptcha();' );
+
+
+      const timeValues = await checkVideoDuration(page, true);
+      const countdownValue = timeValues.countdownValue;
+      const videoDuration = timeValues.videoDuration;
+      const currentVideoDuration = timeValues.currentVideoDuration;
+      log( 'checkGoogleCaptcha() - checkVideoDuration() done..' );
+
+
+        if( !videoDuration ){
+        log( 'Cant find video duration.. Maybe video not found? We go to next video..' );
+
+            if( await page.$('#captcha-form') ) {
+
+                await page.bringToFront();
+                log( 'Google Captcha was found.. solve it or change ip.. We wait now 60 second and after this we restart bot..\n\n' );
+                await new Promise(resolve => setTimeout(resolve, 60000));
+                return {"ytLinks_AR": ytLinks_AR, "nextVid": true};
+
+            } // if( googleCaptcha ) {
+            else {
+
+                ytLinks_AR.shift();
+                return {"ytLinks_AR": ytLinks_AR, "nextVid": true};
+
+            } // else fromif( googleCaptcha ) {
+
+
+         } // if( !videoDuration ){
+         return {"ytLinks_AR": ytLinks_AR, "nextVid": false};
+
+
+} // async function checkGoogleCaptcha(page){
+
+
+
+
+
+
+
+
+
 
 
 

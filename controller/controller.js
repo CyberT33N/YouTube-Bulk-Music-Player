@@ -12,6 +12,8 @@ const bot = require('../services/bot');
          scrapVideoInfo: async function(page) { return await bot.scrapVideoInfo(page); },
          checkVideoDuration: async function(page, logs) { return await bot.checkVideoDuration(page, logs); },
          checkADS: async function(page) { return await bot.checkADS(page); },
+         checkGoogleCaptcha: async function(page, ytLinks_AR) { return await bot.checkGoogleCaptcha(page, ytLinks_AR); },
+         startVideo: async function(page, ytLinks_AR) { return await bot.startVideo(page, ytLinks_AR); },
          countdown: function(countdownValue, page) { bot.countdown(countdownValue, page); }
 
 
