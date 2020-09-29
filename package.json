@@ -9,7 +9,6 @@
   "dependencies": {
     "chalk": "^4.0.0",
     "chalk-animation": "^1.6.0",
-    "cheerio": "^1.0.0-rc.3",
     "fancy-log": "^1.3.3",
     "gradient-string": "^1.2.0",
     "puppeteer": "^3.3.0",
