@@ -88,7 +88,7 @@ npm install
 - **Detect "Accept Terms" Modal Box and auto accept it (This box was added 2020)**
 - **Detect "Please sign-in" Modal Box and click on "No thanks"  (This box was added 2020)**
 <br /><br />
-- Scrap Video Details (Views, Likes, ..) and display in Terminal.
+- **Scrap Video Details (Views, Likes, ..) and display in Terminal.**
 
 <br />
 <br />
