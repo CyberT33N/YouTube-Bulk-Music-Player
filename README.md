@@ -149,4 +149,4 @@ If you want to disable extensions you use:
 
 
 ## License  
-MIT - Do what you ever you want with this code :) Greets CyberT33N
+MIT - Do whatever you want with this project! :) Greets CyberT33N
