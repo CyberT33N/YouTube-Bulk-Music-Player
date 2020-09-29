@@ -24,7 +24,6 @@
              const fs = require('fs'),
                   log = require('fancy-log'),
                 chalk = require('chalk'),
-              cheerio = require('cheerio'),
             puppeteer = require('puppeteer'),
        chalkAnimation = require('chalk-animation'),
              gradient = require('gradient-string'),
