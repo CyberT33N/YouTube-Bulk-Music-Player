@@ -238,6 +238,7 @@ log( 'We will start now your Browser please wait..' );
                const page = await client.newPage();
                await page.waitFor(5000);
                await page.bringToFront();
+               await page.setViewport({width:windowWidth, height:windowHeight});                                       
                log( 'Browser should be started now..' );
 
                const session = await page.target().createCDPSession();
