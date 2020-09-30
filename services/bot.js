@@ -51,9 +51,6 @@ config_browser_profile = json_config.browser_profile,
           startVideo: async function(page, ytLinks_AR) { return await startVideo(page, ytLinks_AR); },
           countdown: function(countdownValue, page) { countdown(countdownValue, page); }
 
-
-
-
         };
 
         module.exports = BOT;
@@ -1119,10 +1116,18 @@ log( 'checkGoogleCaptcha();' );
 
 // check current Video Duration
 async function checkVideoDuration(page, logs){
-log('logs:' + logs );
+log('checkVideoDuration() - logs:' + logs );
 
         const videoDuration = await page.evaluate(() => document.querySelector('.ytp-time-duration')?.textContent);
         if(logs) log( 'videoDuration: ' + chalk.white.bgGreen.bold( videoDuration ) );
+
+
+        let playButton = await page.$('.ytp-large-play-button.ytp-button');
+        if (await playButton.isIntersectingViewport()) {
+        log( 'checkVideoDuration() - Play button found.. We click the button now and then wait 5 seconds..' );
+            await page.click('.ytp-large-play-button.ytp-button');
+            await new Promise(resolve => setTimeout(resolve, 5000));
+        } //   if (await playButton.isIntersectingViewport()) {
 
 
         await page.hover('.ytp-progress-bar-container');
