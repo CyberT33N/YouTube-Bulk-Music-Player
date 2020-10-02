@@ -94,6 +94,39 @@ log( 'ENTER main async area..' );
 
 
 
+       await startYoutTube(ytLinks_AR, client, page);
+       log( 'finish..' );
+
+
+
+
+
+})().catch((e) => {(async () => {
+     log('ASYNC - MAIN - error :' + e );
+
+
+     if ( e.toString().match( "TypeError: Cannot read property 'outerHTML' of null" ) ){
+          log( '#2 - TypeError: Cannot read property outerHTML of null was found we reload page now..' );
+          await startYoutTube(ytLinks_AR, client, page);
+     }
+
+
+     if ( e.toString().match( "Execution context was destroyed" ) ){
+          log( '#2 - Execution context was destroyed was found we reload page now..' );
+          await startYoutTube(ytLinks_AR, client, page);
+     }
+
+
+})()});
+
+
+
+
+
+
+
+
+
 
 
 
@@ -220,36 +253,3 @@ log( 'app.js - startYoutTube()' );
 
 
 }; // async function startYoutTube(ytLinks_AR, client, page){
-
-await startYoutTube(ytLinks_AR, client, page);
-log( 'finish..' );
-
-
-
-
-
-
-
-
-
-
-
-
-
-})().catch((e) => {(async () => {
-     log('ASYNC - MAIN - error :' + e );
-
-
-     if ( e.toString().match( "TypeError: Cannot read property 'outerHTML' of null" ) ){
-          log( '#2 - TypeError: Cannot read property outerHTML of null was found we reload page now..' );
-          await startYoutTube(ytLinks_AR, client, page);
-     }
-
-
-     if ( e.toString().match( "Execution context was destroyed" ) ){
-          log( '#2 - Execution context was destroyed was found we reload page now..' );
-          await startYoutTube(ytLinks_AR, client, page);
-     }
-
-
-})()});
