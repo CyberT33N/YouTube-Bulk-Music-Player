@@ -20,6 +20,7 @@
 |__|__|_|  /   __/ \____/|__|   |__|   |   __/|____/____/\___  /|__|___|  /____  >
          \/|__|                        |__|             /_____/         \/     \/
 */
+var ytLinks_AR;
 
              const fs = require('fs'),
                   log = require('fancy-log'),
@@ -68,7 +69,7 @@ log( 'ENTER main async area..' );
 
 
         // get youtube links from bookmarks.txt
-        const ytLinks_AR = await controllerLib.parseYoutTubeLinks();
+        ytLinks_AR = await controllerLib.parseYoutTubeLinks();
         if(!ytLinks_AR){
           log( 'No video was able to get parsed..\n\n' );
           return;
@@ -106,16 +107,44 @@ log( 'ENTER main async area..' );
 
 
      if ( e.toString().match( "TypeError: Cannot read property 'outerHTML' of null" ) ){
-          log( '#2 - TypeError: Cannot read property outerHTML of null was found we reload page now..' );
+          log( 'TypeError: Cannot read property outerHTML of null was found we reload page now..' );
           await startYoutTube(ytLinks_AR, client, page);
      }
 
 
      if ( e.toString().match( "Execution context was destroyed" ) ){
-          log( '#2 - Execution context was destroyed was found we reload page now..' );
+          log( 'Execution context was destroyed was found we reload page now..' );
           await startYoutTube(ytLinks_AR, client, page);
      }
 
+
+     if ( e.toString().match( 'net::ERR_EMPTY_RESPONSE' ) ){
+          log( 'net::ERR_EMPTY_RESPONSE was found we reload page..' );
+          await startYoutTube(ytLinks_AR, client, page);
+     } //   if ( e.match( 'net::ERR_EMPTY_RESPONSE' ) ){
+
+     if ( e.toString().match( 'net::ERR_NAME_NOT_RESOLVED' ) ){
+          log( 'net::ERR_NAME_NOT_RESOLVED was found we reload page..' );
+          await startYoutTube(ytLinks_AR, client, page);
+     } //   if ( e.match( 'net::ERR_EMPTY_RESPONSE' ) ){
+
+
+     if ( e.toString().match( 'net::ERR_CONNECTION_CLOSED' ) ){
+          log( 'net::ERR_CONNECTION_CLOSED was found we reload page..' );
+          await startYoutTube(ytLinks_AR, client, page);
+     } //   if ( e.match( 'net::ERR_EMPTY_RESPONSE' ) ){
+
+
+     if ( e.toString().match( "TypeError: Cannot read property 'uploadFile' of null" ) ){
+          log( 'TypeError: Cannot read property uploadFile of null was found we reload page..' );
+          await startYoutTube(ytLinks_AR, client, page);
+     } //   if ( e.match( 'net::ERR_EMPTY_RESPONSE' ) ){
+
+
+     if ( e.toString().match( 'Error: failed to find element matching selector "#titleTmplField_0"' ) ){
+          log( 'Error: failed to find element matching selector "#titleTmplField_0" was found we reload page..' );
+          await startYoutTube(ytLinks_AR, client, page);
+     } //   if ( e.match( 'net::ERR_EMPTY_RESPONSE' ) ){
 
 })()});
 
