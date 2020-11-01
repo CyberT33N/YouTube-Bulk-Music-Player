@@ -238,7 +238,7 @@ log( 'We will start now your Browser please wait..' );
                const page = await client.newPage();
                await page.waitFor(5000);
                await page.bringToFront();
-               await page.setViewport({width:windowWidth, height:windowHeight});                                       
+               await page.setViewport({width:windowWidth, height:windowHeight});
                log( 'Browser should be started now..' );
 
                const session = await page.target().createCDPSession();
@@ -716,7 +716,7 @@ log( 'openLink()' );
                          await new Promise(resolve => setTimeout(resolve, 30000));
                     }
 
-               return;
+
           }; //   } catch(e) {
 
 
@@ -1120,19 +1120,21 @@ async function checkVideoDuration(page, logs){
 log('checkVideoDuration() - logs:' + logs );
 
         const videoDuration = await page.evaluate(() => document.querySelector('.ytp-time-duration')?.textContent);
-        if(logs) log( 'videoDuration: ' + chalk.white.bgGreen.bold( videoDuration ) );
+        if(logs) log( 'checkVideoDuration() - videoDuration: ' + chalk.white.bgGreen.bold( videoDuration ) );
 
 
         let playButton = await page.$('.ytp-large-play-button.ytp-button');
-        if (await playButton.isIntersectingViewport()) {
+        if (await playButton?.isIntersectingViewport()) {
         log( 'checkVideoDuration() - Play button found.. We click the button now and then wait 5 seconds..' );
             await page.click('.ytp-large-play-button.ytp-button');
             await new Promise(resolve => setTimeout(resolve, 5000));
         } //   if (await playButton.isIntersectingViewport()) {
+        log( 'checkVideoDuration() - playButton.isIntersectingViewport() done..' );
 
 
         await page.hover('.ytp-progress-bar-container');
         await new Promise(resolve => setTimeout(resolve, 1000));
+        log( 'checkVideoDuration() - .ytp-progress-bar-container hover done..' );
 
         const currentVideoDuration = await page.evaluate(() => document.querySelector('.ytp-time-current')?.textContent);
         if(logs) log( 'currentVideoDuration: ' + chalk.white.bgGreen.bold( currentVideoDuration ) + '\n\n'  );
