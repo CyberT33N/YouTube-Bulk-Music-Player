@@ -70,10 +70,7 @@ log( 'ENTER main async area..' );
 
         // get youtube links from bookmarks.txt
         ytLinks_AR = await controllerLib.parseYoutTubeLinks();
-        if(!ytLinks_AR){
-          log( 'No video was able to get parsed..\n\n' );
-          return;
-        }
+        if(!ytLinks_AR) throw new Error('No video was able to get parsed..');
         log( 'We successfully parsed all YouTube links.. ytLinks_AR[0]: ' + ytLinks_AR[0] );
 
 
@@ -84,11 +81,7 @@ log( 'ENTER main async area..' );
         const botEngine_AR = await controller.startBROWSER();
         log( 'startBROWSER() done..' );
 
-        if(!botEngine_AR){
-           log( 'Something went wrong we cant find botEngine_AR' );
-           return;
-        }
-
+        if(!botEngine_AR) throw new Error('Something went wrong we cant find botEngine_AR');
         const client = botEngine_AR.client;
         const page = botEngine_AR.page;
 
