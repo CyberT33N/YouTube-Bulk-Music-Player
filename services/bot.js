@@ -46,10 +46,10 @@ config_browser_profile = json_config.browser_profile,
           checkSignBox: async function(page) { return await checkSignBox(page); },
           scrapVideoInfo: async function(page) { return await scrapVideoInfo(page); },
           checkVideoDuration: async function(page, logs, ytLinks_AR) { return await checkVideoDuration(page, logs, ytLinks_AR); },
-          checkADS: async function(page) { return await checkADS(page); },
+          checkADS: async function(page, ytLinks_AR) { return await checkADS(page, ytLinks_AR); },
           checkGoogleCaptcha: async function(page, ytLinks_AR) { return await checkGoogleCaptcha(page, ytLinks_AR); },
           startVideo: async function(page, ytLinks_AR) { return await startVideo(page, ytLinks_AR); },
-          countdown: function(countdownValue, page) { countdown(countdownValue, page); }
+          countdown: function(countdownValue, page, ytLinks_AR) { countdown(countdownValue, page, ytLinks_AR); }
 
         };
 
@@ -767,7 +767,7 @@ log( 'openLink()' );
   const rainbow = chalkAnimation.rainbow( str );
 
 
-  function countdown(count, page){
+  function countdown(count, page, ytLinks_AR){
 
 
       rainbow.replace( str = '' );
@@ -804,8 +804,8 @@ log( 'openLink()' );
                                          } //  if ( await page.$('#confirm-button') ) {
 
 
-                                           await checkADS(page);
-                                           await checkADS(page);
+                                           await checkADS(page, ytLinks_AR);
+                                           await checkADS(page, ytLinks_AR);
 
                     }, 1000); //   let countdownInterval = setInterval(() => {
 
@@ -873,7 +873,7 @@ log( 'startVideo();' );
             await page.click('.ytp-large-play-button.ytp-button');
             log( 'We wait now until the video was finished.. Countdown: ' + countdownValue + '\n\nTime left: \n\n' );
 
-            countdown(countdownValue, page);
+            countdown(countdownValue, page, ytLinks_AR);
             await new Promise(resolve => setTimeout(resolve, countdownValue));
             log( 'It seems that the video was finished.. We go now to next one..\n\n' );
 
@@ -912,7 +912,7 @@ log( 'startVideo();' );
 
 
 
-           countdown( countdownValue, page );
+           countdown( countdownValue, page, ytLinks_AR );
            await new Promise(resolve => setTimeout(resolve, countdownValue));
            log( '#2 - It seems that the video was finished.. We go to next one now' );
 
@@ -1047,7 +1047,7 @@ log( 'checkGoogleCaptcha();' );
 
 
      // check for video ads..
-    async function checkADS(page){
+    async function checkADS(page, ytLinks_AR){
 
          if ( await page.$('.ad-showing') ){
          log( 'Video ADS was found.. We wait now until the AD is finished..\n\n' );

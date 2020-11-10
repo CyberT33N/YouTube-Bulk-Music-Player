@@ -219,8 +219,8 @@ log( 'app.js - startYoutTube()' );
 
 
               // check for video ads.. do it 2 times because sometimes 2 ads..
-              await controller.checkADS(page);
-              await controller.checkADS(page);
+              await controller.checkADS(page, ytLinks_AR);
+              await controller.checkADS(page, ytLinks_AR);
               log( 'checkADS() done..' );
 
 

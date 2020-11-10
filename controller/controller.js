@@ -10,11 +10,11 @@ const bot = require('../services/bot');
          youTubeError: async function(ytLinks_AR, page) { return await bot.youTubeError(ytLinks_AR, page); },
          checkSignBox: async function(page) { return await bot.checkSignBox(page); },
          scrapVideoInfo: async function(page) { return await bot.scrapVideoInfo(page); },
-         checkVideoDuration: async function(page, logs) { return await bot.checkVideoDuration(page, logs); },
+         checkVideoDuration: async function(page, logs, ytLinks_AR) { return await bot.checkVideoDuration(page, logs, ytLinks_AR); },
          checkADS: async function(page) { return await bot.checkADS(page); },
          checkGoogleCaptcha: async function(page, ytLinks_AR) { return await bot.checkGoogleCaptcha(page, ytLinks_AR); },
          startVideo: async function(page, ytLinks_AR) { return await bot.startVideo(page, ytLinks_AR); },
-         countdown: function(countdownValue, page) { bot.countdown(countdownValue, page); }
+         countdown: function(countdownValue, page, ytLinks_AR) { bot.countdown(countdownValue, page, ytLinks_AR); }
 
 
 
