@@ -45,7 +45,7 @@ config_browser_profile = json_config.browser_profile,
           youTubeError: async function(ytLinks_AR, page) { return await youTubeError(ytLinks_AR, page); },
           checkSignBox: async function(page) { return await checkSignBox(page); },
           scrapVideoInfo: async function(page) { return await scrapVideoInfo(page); },
-          checkVideoDuration: async function(page, logs) { return await checkVideoDuration(page, logs); },
+          checkVideoDuration: async function(page, logs, ytLinks_AR) { return await checkVideoDuration(page, logs, ytLinks_AR); },
           checkADS: async function(page) { return await checkADS(page); },
           checkGoogleCaptcha: async function(page, ytLinks_AR) { return await checkGoogleCaptcha(page, ytLinks_AR); },
           startVideo: async function(page, ytLinks_AR) { return await startVideo(page, ytLinks_AR); },
@@ -863,7 +863,7 @@ log( 'startVideo();' );
       log( 'Large play button was found.. Video did not started itself\n\n' );
 
 
-            const timeValues = await checkVideoDuration(page, true);
+            const timeValues = await checkVideoDuration(page, true, ytLinks_AR);
             const countdownValue = timeValues.countdownValue;
             const videoDuration = timeValues.videoDuration;
             const currentVideoDuration = timeValues.currentVideoDuration;
@@ -892,7 +892,7 @@ log( 'startVideo();' );
            await page.waitFor(5000);
 
 
-           const timeValues = await checkVideoDuration(page, true);
+           const timeValues = await checkVideoDuration(page, true, ytLinks_AR);
            const countdownValue = timeValues.countdownValue;
            const videoDuration = timeValues.videoDuration;
            const currentVideoDuration = timeValues.currentVideoDuration;
@@ -976,7 +976,7 @@ async function checkGoogleCaptcha(page, ytLinks_AR){
 log( 'checkGoogleCaptcha();' );
 
 
-      const timeValues = await checkVideoDuration(page, true);
+      const timeValues = await checkVideoDuration(page, true, ytLinks_AR);
       const countdownValue = timeValues.countdownValue;
       const videoDuration = timeValues.videoDuration;
       const currentVideoDuration = timeValues.currentVideoDuration;
@@ -1052,7 +1052,7 @@ log( 'checkGoogleCaptcha();' );
          if ( await page.$('.ad-showing') ){
          log( 'Video ADS was found.. We wait now until the AD is finished..\n\n' );
 
-         const timeValues = await checkVideoDuration(page, false);
+         const timeValues = await checkVideoDuration(page, false, ytLinks_AR);
          const countdownValue = timeValues.countdownValue;
          const videoDuration = timeValues.videoDuration;
          const currentVideoDuration = timeValues.currentVideoDuration;
@@ -1116,7 +1116,7 @@ log( 'checkGoogleCaptcha();' );
 
 
 // check current Video Duration
-async function checkVideoDuration(page, logs){
+async function checkVideoDuration(page, logs, ytLinks_AR){
 log('checkVideoDuration() - logs:' + logs );
 
         const videoDuration = await page.evaluate(() => document.querySelector('.ytp-time-duration')?.textContent);
@@ -1124,17 +1124,22 @@ log('checkVideoDuration() - logs:' + logs );
 
 
         let playButton = await page.$('.ytp-large-play-button.ytp-button');
-        if (await playButton?.isIntersectingViewport()) {
-        log( 'checkVideoDuration() - Play button found.. We click the button now and then wait 5 seconds..' );
-            await page.click('.ytp-large-play-button.ytp-button');
-            await new Promise(resolve => setTimeout(resolve, 5000));
+        if (await playButton?.isIntersectingViewport()) { log( 'checkVideoDuration() - Play button found.. We click the button now and then wait 5 seconds..' );
+          await page.click('.ytp-large-play-button.ytp-button');
+          await new Promise(resolve => setTimeout(resolve, 5000));
         } //   if (await playButton.isIntersectingViewport()) {
         log( 'checkVideoDuration() - playButton.isIntersectingViewport() done..' );
 
 
+        if( !await page.$('.ytp-progress-bar-container') ) { log( 'checkVideoDuration() - Can not find Hover CSS .ytp-progress-bar-container - Reload page..' );
+          await openLink(ytLinks_AR, page);
+          return await checkVideoDuration(page, logs, ytLinks_AR);
+        }
+
         await page.hover('.ytp-progress-bar-container');
         await new Promise(resolve => setTimeout(resolve, 1000));
         log( 'checkVideoDuration() - .ytp-progress-bar-container hover done..' );
+
 
         const currentVideoDuration = await page.evaluate(() => document.querySelector('.ytp-time-current')?.textContent);
         if(logs) log( 'currentVideoDuration: ' + chalk.white.bgGreen.bold( currentVideoDuration ) + '\n\n'  );
